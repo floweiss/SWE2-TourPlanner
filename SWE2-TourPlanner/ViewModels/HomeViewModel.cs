@@ -10,9 +10,9 @@ namespace SWE2_TourPlanner.ViewModels
 {
     public class HomeViewModel : BaseViewModel
     {
-        private String _message;
+        private string _message;
 
-        public String Message
+        public string Message
         {
             get
             {
@@ -35,7 +35,15 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void ChangeText(object sender)
         {
-            Message = "New Text who dis";
+            string newText = "New Text who dis";
+            if (Message == newText)
+            {
+                LoadMessage();
+            }
+            else
+            {
+                Message = newText;
+            }
         }
     }
 }
