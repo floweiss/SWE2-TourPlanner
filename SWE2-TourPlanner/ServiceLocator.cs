@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace SWE2_TourPlanner
 {
+    /// <summary>
+    /// Implements a service locator.
+    /// Inspiration from: https://dzone.com/articles/service-locator-mvvm
+    /// </summary>
     public class ServiceLocator : IServiceProvider
     {
         private readonly Dictionary<Type, object> _services = new Dictionary<Type, object>();
