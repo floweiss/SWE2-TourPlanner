@@ -9,16 +9,51 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HomeView"
       factory:ViewModelCreator.FactoryType="{x:Type factory:HomeViewModelFactory}">
-
+    
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBox
+            Grid.Column="0"
+            Padding="2"></TextBox>
+
+        <Button
+            Grid.Column="1"
+            Padding="2"
+            Margin="2">Search</Button>
+    </Grid>
+
+    <!-- Legacy Layout -->
+    <!--<Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Message}"></TextBlock>
-        <Button Grid.Row="1"  Command="{Binding Path=DataContext.ChangeTextButtonClicked, 
+
+        <ListView ItemsSource="{Binding Tours}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Tours"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Path=.}"></Label>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <TextBlock Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding Message}"></TextBlock>
+        <Button Grid.Column="1" Grid.Row="1"  Command="{Binding Path=DataContext.ChangeTextButtonClicked, 
                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
                 CommandParameter="{Binding .}">Change Text</Button>
-    </Grid>
+    </Grid>-->
 
 </Page>

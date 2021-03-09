@@ -15,6 +15,7 @@ namespace SWE2_TourPlanner.Factory
         {
             HomeViewModel vm = new HomeViewModel();
             vm.ServiceLocator.RegisterService<IGreetService>(new GreetService());
+            vm.ServiceLocator.RegisterService<ITourService>(new TourService());
             return vm;
         }
     }

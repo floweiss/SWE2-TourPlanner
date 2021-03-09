@@ -8,9 +8,49 @@
         mc:Ignorable="d"
         Title="Tour Planner" Height="450" Width="800">
     <Grid>
-        <Frame>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Frame
+            Grid.Column="0"
+            Grid.Row="0"
+            Grid.ColumnSpan="3">
             <Frame.Content>
                 <views:HomeView />
+            </Frame.Content>
+        </Frame>
+
+        <Frame
+            Grid.Column="0"
+            Grid.Row="1"
+            Grid.RowSpan="2">
+            <Frame.Content>
+                <views:TourListView />
+            </Frame.Content>
+        </Frame>
+
+        <Frame
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2">
+            <Frame.Content>
+                <views:TourView />
+            </Frame.Content>
+        </Frame>
+
+        <Frame
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="2">
+            <Frame.Content>
+                <views:LogListView />
             </Frame.Content>
         </Frame>
     </Grid>

@@ -8,7 +8,7 @@ using System.Windows;
 namespace SWE2_TourPlanner.Factory
 {
     /// <summary>
-    /// Inspiration from: https://dzone.com/articles/service-locator-mvvm
+    /// From: https://dzone.com/articles/service-locator-mvvm
     /// </summary>
     public class ViewModelCreator
     {

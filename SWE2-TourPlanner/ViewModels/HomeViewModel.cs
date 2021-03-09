@@ -11,6 +11,7 @@ namespace SWE2_TourPlanner.ViewModels
     public class HomeViewModel : BaseViewModel
     {
         private string _message;
+        private List<string> _tours;
 
         public string Message
         {
@@ -23,12 +24,37 @@ namespace SWE2_TourPlanner.ViewModels
 
                 return _message;
             }
-            set { _message = value; OnPropertyChanged(); }
+            set
+            {
+                _message = value; OnPropertyChanged();
+            }
+        }
+
+        public List<string> Tours
+        {
+            get
+            {
+                if (_tours == null || _tours.Count == 0)
+                {
+                    InitializeTours();
+                }
+
+                return _tours;
+            }
+            set
+            {
+                _tours = value; OnPropertyChanged();
+            }
         }
 
         private void LoadMessage()
         {
             Message = GetService<IGreetService>().Greet();
+        }
+
+        private void InitializeTours()
+        {
+            Tours = GetService<ITourService>().InitializeTours();
         }
 
         public ICommand ChangeTextButtonClicked => new RelayCommand(ChangeText);
