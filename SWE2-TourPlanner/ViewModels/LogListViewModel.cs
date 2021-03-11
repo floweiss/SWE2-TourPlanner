@@ -5,24 +5,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using SWE2_TourPlanner.Factory;
 using SWE2_TourPlanner.Factory.Window;
 
 namespace SWE2_TourPlanner.ViewModels
 {
-    public class TourListViewModel : BaseViewModel
+    public class LogListViewModel : BaseViewModel
     {
         private readonly IWindowFactory _windowFactory;
-        public ICommand AddTourCommand => new RelayCommand(AddTour);
+        public ICommand AddLogCommand => new RelayCommand(AddLog);
 
-        public TourListViewModel(IWindowFactory windowFactory)
+        public LogListViewModel(IWindowFactory windowFactory)
         {
             _windowFactory = windowFactory;
         }
 
-        private void AddTour(object sender)
+        private void AddLog(object sender)
         {
-            Debug.WriteLine("Add Tour clicked");
+            Debug.WriteLine("Add Log clicked");
             _windowFactory.CreateWindow();
         }
     }

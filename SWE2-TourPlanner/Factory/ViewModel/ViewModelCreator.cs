@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
-namespace SWE2_TourPlanner.Factory
+namespace SWE2_TourPlanner.Factory.ViewModel
 {
     /// <summary>
     /// From: https://dzone.com/articles/service-locator-mvvm
