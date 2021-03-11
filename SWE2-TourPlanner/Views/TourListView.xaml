@@ -4,9 +4,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SWE2_TourPlanner.Views"
+      xmlns:factory="clr-namespace:SWE2_TourPlanner.Factory"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="TourListView">
+      Title="TourListView"
+      factory:ViewModelCreator.FactoryType="{x:Type factory:TourListViewModelFactory}">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -21,7 +23,10 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Column="0" Grid.Row="0">Tours</Label>
-        <Button Grid.Column="1" Grid.Row="0">+</Button>
+        <Button Grid.Column="1" Grid.Row="0"
+                Command="{Binding Path=DataContext.AddTourCommand, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                CommandParameter="{Binding .}">+</Button>
         <Button Grid.Column="2" Grid.Row="0">-</Button>
         <Button Grid.Column="3" Grid.Row="0">Test</Button>
 

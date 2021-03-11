@@ -23,7 +23,7 @@
             Grid.Row="0"
             Grid.ColumnSpan="3">
             <Frame.Content>
-                <views:HomeView />
+                <views:SearchView />
             </Frame.Content>
         </Frame>
 
