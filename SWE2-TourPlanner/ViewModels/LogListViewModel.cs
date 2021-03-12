@@ -13,6 +13,8 @@ namespace SWE2_TourPlanner.ViewModels
     {
         private readonly IWindowFactory _windowFactory;
         public ICommand AddLogCommand => new RelayCommand(AddLog);
+        public ICommand DeleteLogCommand => new RelayCommand(DeleteLog);
+        public ICommand ReportLogCommand => new RelayCommand(GenerateLogReport);
 
         public LogListViewModel(IWindowFactory windowFactory)
         {
@@ -23,6 +25,16 @@ namespace SWE2_TourPlanner.ViewModels
         {
             Debug.WriteLine("Add Log clicked");
             _windowFactory.CreateWindow();
+        }
+
+        private void DeleteLog(object sender)
+        {
+            Debug.WriteLine("Delete Log clicked");
+        }
+
+        private void GenerateLogReport(object sender)
+        {
+            Debug.WriteLine("Report Log clicked");
         }
     }
 }

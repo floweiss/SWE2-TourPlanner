@@ -14,6 +14,8 @@ namespace SWE2_TourPlanner.ViewModels
     {
         private readonly IWindowFactory _windowFactory;
         public ICommand AddTourCommand => new RelayCommand(AddTour);
+        public ICommand DeleteTourCommand => new RelayCommand(DeleteTour);
+        public ICommand ReportTourCommand => new RelayCommand(GenerateTourReport);
 
         public TourListViewModel(IWindowFactory windowFactory)
         {
@@ -24,6 +26,16 @@ namespace SWE2_TourPlanner.ViewModels
         {
             Debug.WriteLine("Add Tour clicked");
             _windowFactory.CreateWindow();
+        }
+
+        private void DeleteTour(object sender)
+        {
+            Debug.WriteLine("Delete Tour clicked");
+        }
+
+        private void GenerateTourReport(object sender)
+        {
+            Debug.WriteLine("Report Tour clicked");
         }
     }
 }

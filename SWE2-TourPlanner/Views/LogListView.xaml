@@ -30,8 +30,16 @@
                 Command="{Binding Path=DataContext.AddLogCommand, 
                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
                 CommandParameter="{Binding .}">+</Button>
-        <Button Grid.Row="0" Grid.Column="2">-</Button>
-        <Button Grid.Row="0" Grid.Column="3">Test</Button>
+
+        <Button Grid.Row="0" Grid.Column="2"
+                Command="{Binding Path=DataContext.DeleteLogCommand, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                CommandParameter="{Binding .}">-</Button>
+
+        <Button Grid.Row="0" Grid.Column="3"
+                Command="{Binding Path=DataContext.ReportLogCommand, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                CommandParameter="{Binding .}">Report</Button>
 
         <DataGrid
             Grid.Row="1"
