@@ -39,7 +39,7 @@
                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
                 CommandParameter="{Binding .}">Report</Button>
 
-        <ListView Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1">
+        <ListView Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" ItemsSource="{Binding Tours}">
             <!--<ListView.View>
                 <GridView>
                     <GridViewColumn Header="Tours"></GridViewColumn>
@@ -47,7 +47,7 @@
             </ListView.View>-->
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Label></Label>
+                    <Label Content="{Binding Path=Name}"></Label>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

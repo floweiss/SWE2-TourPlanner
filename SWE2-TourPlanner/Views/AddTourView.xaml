@@ -4,10 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SWE2_TourPlanner.Views"
+        xmlns:factory="clr-namespace:SWE2_TourPlanner.Factory.ViewModel"
         mc:Ignorable="d"
-        Title="Add Tour" Height="225" Width="400">
+        Title="Add Tour" Height="225" Width="400"
+        factory:ViewModelCreator.FactoryType="{x:Type factory:AddTourViewModelFactory}">
+
     <Grid Margin="5">
         <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
@@ -49,5 +53,10 @@
         <TextBox
             Grid.Row="3"
             Grid.Column="1" />
+
+        <Button Grid.Row="4" Grid.Column="1"
+                Command="{Binding Path=DataContext.SaveTourCommand, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                CommandParameter="{Binding .}">Save Tour</Button>
     </Grid>
 </Window>

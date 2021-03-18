@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SWE2_TourPlanner.Models;
 
 namespace SWE2_TourPlanner.Services
 {
     public interface ITourService
     {
-        public List<string> GetTours();
-
-        public List<string> InitializeTours();
+        public List<Tour> GetTours();
+        public List<Tour> InitializeTours();
+        public void AddTour(Tour addedTour);
     }
 }

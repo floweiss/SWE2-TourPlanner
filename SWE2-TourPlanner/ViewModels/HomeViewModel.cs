@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using SWE2_TourPlanner.Models;
 using SWE2_TourPlanner.Services;
 
 namespace SWE2_TourPlanner.ViewModels
@@ -11,7 +12,7 @@ namespace SWE2_TourPlanner.ViewModels
     public class HomeViewModel : BaseViewModel
     {
         private string _message;
-        private List<string> _tours;
+        private List<Tour> _tours;
 
         public string Message
         {
@@ -30,7 +31,7 @@ namespace SWE2_TourPlanner.ViewModels
             }
         }
 
-        public List<string> Tours
+        public List<Tour> Tours
         {
             get
             {
