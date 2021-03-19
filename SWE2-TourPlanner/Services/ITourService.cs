@@ -10,7 +10,6 @@ namespace SWE2_TourPlanner.Services
     public interface ITourService
     {
         public List<Tour> GetTours();
-        public List<Tour> InitializeTours();
         public void AddTour(Tour addedTour);
     }
 }

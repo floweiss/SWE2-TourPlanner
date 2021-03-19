@@ -37,7 +37,7 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 if (_tours == null || _tours.Count == 0)
                 {
-                    InitializeTours();
+                    GetTours();
                 }
 
                 return _tours;
@@ -53,9 +53,9 @@ namespace SWE2_TourPlanner.ViewModels
             Message = GetService<IGreetService>().Greet();
         }
 
-        private void InitializeTours()
+        private void GetTours()
         {
-            Tours = GetService<ITourService>().InitializeTours();
+            Tours = GetService<ITourService>().GetTours();
         }
 
         public ICommand ChangeTextButtonClicked => new RelayCommand(ChangeText);
