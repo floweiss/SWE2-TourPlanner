@@ -27,7 +27,7 @@ namespace SWE2_TourPlanner.ViewModels
             }
             set
             {
-                _message = value; OnPropertyChanged();
+                _message = value; OnPropertyChanged(nameof(Message));
             }
         }
 
@@ -44,7 +44,7 @@ namespace SWE2_TourPlanner.ViewModels
             }
             set
             {
-                _tours = value; OnPropertyChanged();
+                _tours = value; OnPropertyChanged(nameof(Tours));
             }
         }
 

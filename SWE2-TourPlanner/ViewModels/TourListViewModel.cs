@@ -38,7 +38,7 @@ namespace SWE2_TourPlanner.ViewModels
             }
             set
             {
-                _tours = value; OnPropertyChanged();
+                _tours = value; OnPropertyChanged(nameof(Tours));
             }
         }
 

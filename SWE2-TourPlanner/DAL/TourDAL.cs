@@ -19,7 +19,7 @@ namespace SWE2_TourPlanner.DAL
 
         public List<Tour> GetTours()
         {
-            using var con = new NpgsqlConnection(_connectionString);
+            using NpgsqlConnection con = new NpgsqlConnection(_connectionString);
             con.Open();
 
             string sql = "SELECT * FROM tours";
@@ -34,6 +34,23 @@ namespace SWE2_TourPlanner.DAL
             }
 
             return tours;
+        }
+
+        public void AddTour(Tour addedTour)
+        {
+            using NpgsqlConnection con = new NpgsqlConnection(_connectionString);
+            con.Open();
+
+            string sql = "INSERT INTO tours (tourname, description, tourstart, tourend) VALUES (@tourname, @description, @tourstart, @tourend)";
+            using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+            {
+                cmd.Parameters.AddWithValue("tourname", addedTour.Name);
+                cmd.Parameters.AddWithValue("description", addedTour.Description);
+                cmd.Parameters.AddWithValue("tourstart", addedTour.Start);
+                cmd.Parameters.AddWithValue("tourend", addedTour.End);
+                cmd.Prepare();
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }

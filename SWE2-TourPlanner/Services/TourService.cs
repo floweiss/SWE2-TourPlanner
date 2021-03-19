@@ -13,14 +13,14 @@ namespace SWE2_TourPlanner.Services
     {
         public List<Tour> GetTours()
         {
-            
             TourDAL tourDal = new TourDAL(ConfigurationManager.AppSettings["connection_string"]);
             return tourDal.GetTours();
         }
 
         public void AddTour(Tour addedTour)
         {
-            throw new NotImplementedException();
+            TourDAL tourDal = new TourDAL(ConfigurationManager.AppSettings["connection_string"]);
+            tourDal.AddTour(addedTour);
         }
     }
 }

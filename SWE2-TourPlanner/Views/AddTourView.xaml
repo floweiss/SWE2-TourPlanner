@@ -27,6 +27,7 @@
             Grid.Column="0"
             VerticalAlignment="Center">Tour Name</Label>
         <TextBox
+            Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"
             Grid.Row="0"
             Grid.Column="1" />
 
@@ -35,6 +36,7 @@
             Grid.Column="0"
             VerticalAlignment="Center">Tour Description</Label>
         <TextBox
+            Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged}"
             Grid.Row="1"
             Grid.Column="1" />
 
@@ -43,6 +45,7 @@
             Grid.Column="0"
             VerticalAlignment="Center">Start</Label>
         <TextBox
+            Text="{Binding Path=Start, UpdateSourceTrigger=PropertyChanged}"
             Grid.Row="2"
             Grid.Column="1" />
 
@@ -51,12 +54,14 @@
             Grid.Column="0"
             VerticalAlignment="Center">Ziel</Label>
         <TextBox
+            Text="{Binding Path=End, UpdateSourceTrigger=PropertyChanged}"
             Grid.Row="3"
             Grid.Column="1" />
 
         <Button Grid.Row="4" Grid.Column="1"
                 Command="{Binding Path=DataContext.SaveTourCommand, 
                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                CommandParameter="{Binding .}">Save Tour</Button>
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                           AncestorType={x:Type Window}}}">Save Tour</Button>
     </Grid>
 </Window>
