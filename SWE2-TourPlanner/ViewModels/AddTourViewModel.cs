@@ -77,10 +77,17 @@ namespace SWE2_TourPlanner.ViewModels
         private void SaveTour(object sender)
         {
             Tour addedTour = new Tour(_name, _description, _start, _end);
-            ServiceLocator.GetService<ITourService>().AddTour(addedTour);
-            ((Window)sender).Close();
-            ObserverSingleton.GetInstance.TourObservers.ForEach(Attach);
-            Notify();
+            try
+            {
+                ServiceLocator.GetService<ITourService>().AddTour(addedTour);
+                ((Window)sender).Close();
+                ObserverSingleton.GetInstance.TourObservers.ForEach(Attach);
+                Notify();
+            }
+            catch (InvalidOperationException e)
+            {
+                Debug.WriteLine("Specify all params");
+            }
         }
 
         public void Attach(IObserver observer)

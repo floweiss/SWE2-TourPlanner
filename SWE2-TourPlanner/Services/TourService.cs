@@ -20,7 +20,14 @@ namespace SWE2_TourPlanner.Services
         public void AddTour(Tour addedTour)
         {
             TourDAL tourDal = new TourDAL(ConfigurationManager.AppSettings["connection_string"]);
-            tourDal.AddTour(addedTour);
+            try
+            {
+                tourDal.AddTour(addedTour);
+            }
+            catch (InvalidOperationException e)
+            {
+                throw;
+            }
         }
     }
 }

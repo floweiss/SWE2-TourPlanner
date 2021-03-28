@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,15 @@ namespace SWE2_TourPlanner.DAL
         public List<Tour> GetTours()
         {
             using NpgsqlConnection con = new NpgsqlConnection(_connectionString);
-            con.Open();
+            try
+            {
+                con.Open();
+            }
+            catch (NpgsqlException e)
+            {
+                Debug.WriteLine("No DB connection");
+                return new List<Tour>();
+            }
 
             string sql = "SELECT * FROM tours";
             using var cmd = new NpgsqlCommand(sql, con);
@@ -39,17 +48,31 @@ namespace SWE2_TourPlanner.DAL
         public void AddTour(Tour addedTour)
         {
             using NpgsqlConnection con = new NpgsqlConnection(_connectionString);
-            con.Open();
-
-            string sql = "INSERT INTO tours (tourname, description, tourstart, tourend) VALUES (@tourname, @description, @tourstart, @tourend)";
-            using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+            try
             {
-                cmd.Parameters.AddWithValue("tourname", addedTour.Name);
-                cmd.Parameters.AddWithValue("description", addedTour.Description);
-                cmd.Parameters.AddWithValue("tourstart", addedTour.Start);
-                cmd.Parameters.AddWithValue("tourend", addedTour.End);
-                cmd.Prepare();
-                cmd.ExecuteNonQuery();
+                con.Open();
+            }
+            catch (NpgsqlException e)
+            {
+                Debug.WriteLine("No DB connection");
+            }
+
+            try
+            {
+                string sql = "INSERT INTO tours (tourname, description, tourstart, tourend) VALUES (@tourname, @description, @tourstart, @tourend)";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("tourname", addedTour.Name);
+                    cmd.Parameters.AddWithValue("description", addedTour.Description);
+                    cmd.Parameters.AddWithValue("tourstart", addedTour.Start);
+                    cmd.Parameters.AddWithValue("tourend", addedTour.End);
+                    cmd.Prepare();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (InvalidOperationException e)
+            {
+                throw;
             }
         }
     }
