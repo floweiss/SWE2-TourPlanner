@@ -12,6 +12,7 @@ namespace SWE2_TourPlanner.Factory.ViewModel
             IWindowFactory windowFactory = new AddTourWindowFactory();
             TourListViewModel vm = new TourListViewModel(windowFactory);
             vm.ServiceLocator.RegisterService<ITourService>(new TourService());
+            ObserverSingleton.GetInstance.TourObservers.Add(vm);
             return vm;
         }
     }

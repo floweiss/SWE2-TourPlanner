@@ -9,10 +9,10 @@ namespace SWE2_TourPlanner.Factory.Window
 {
     public class AddLogWindowFactory : IWindowFactory
     {
-        public void CreateWindow()
+        public System.Windows.Window GetWindow()
         {
             AddLogView view = new AddLogView();
-            view.Show();
+            return view;
         }
     }
 }

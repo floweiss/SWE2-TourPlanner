@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using SWE2_TourPlanner.Factory;
 using SWE2_TourPlanner.Factory.Window;
@@ -12,7 +13,7 @@ using SWE2_TourPlanner.Services;
 
 namespace SWE2_TourPlanner.ViewModels
 {
-    public class TourListViewModel : BaseViewModel
+    public class TourListViewModel : BaseViewModel, IObserver
     {
         private readonly IWindowFactory _windowFactory;
         private List<Tour> _tours;
@@ -50,7 +51,8 @@ namespace SWE2_TourPlanner.ViewModels
         private void AddTour(object sender)
         {
             Debug.WriteLine("Add Tour clicked");
-            _windowFactory.CreateWindow();
+            Window view = _windowFactory.GetWindow();
+            view.Show();
         }
 
         private void DeleteTour(object sender)
@@ -61,6 +63,11 @@ namespace SWE2_TourPlanner.ViewModels
         private void GenerateTourReport(object sender)
         {
             Debug.WriteLine("Report Tour clicked");
+        }
+
+        public void Update(ISubject subject)
+        {
+            GetTours();
         }
     }
 }

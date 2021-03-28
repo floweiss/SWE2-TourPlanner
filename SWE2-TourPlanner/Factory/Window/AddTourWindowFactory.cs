@@ -4,10 +4,10 @@ namespace SWE2_TourPlanner.Factory.Window
 {
     public class AddTourWindowFactory : IWindowFactory
     {
-        public void CreateWindow()
+        public System.Windows.Window GetWindow()
         {
             AddTourView view = new AddTourView();
-            view.Show();
+            return view;
         }
     }
 }

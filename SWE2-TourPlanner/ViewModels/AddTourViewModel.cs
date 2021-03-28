@@ -8,15 +8,18 @@ using System.Windows;
 using System.Windows.Input;
 using SWE2_TourPlanner.Models;
 using SWE2_TourPlanner.Services;
+using SWE2_TourPlanner.Views;
 
 namespace SWE2_TourPlanner.ViewModels
 {
-    public class AddTourViewModel : BaseViewModel
+    public class AddTourViewModel : BaseViewModel, ISubject
     {
         private string _name;
         private string _description;
         private string _start;
         private string _end;
+
+        private List<IObserver> _observers = new List<IObserver>();
 
         public ICommand SaveTourCommand => new RelayCommand(SaveTour);
 
@@ -76,6 +79,23 @@ namespace SWE2_TourPlanner.ViewModels
             Tour addedTour = new Tour(_name, _description, _start, _end);
             ServiceLocator.GetService<ITourService>().AddTour(addedTour);
             ((Window)sender).Close();
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Attach);
+            Notify();
+        }
+
+        public void Attach(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Detach(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void Notify()
+        {
+            _observers.ForEach(o => o.Update(this));
         }
     }
 }

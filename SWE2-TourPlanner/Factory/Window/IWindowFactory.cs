@@ -2,6 +2,6 @@
 {
     public interface IWindowFactory
     {
-        public void CreateWindow();
+        public System.Windows.Window GetWindow();
     }
 }

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using SWE2_TourPlanner.Factory.Window;
 
@@ -24,7 +25,8 @@ namespace SWE2_TourPlanner.ViewModels
         private void AddLog(object sender)
         {
             Debug.WriteLine("Add Log clicked");
-            _windowFactory.CreateWindow();
+            Window view = _windowFactory.GetWindow();
+            view.Show();
         }
 
         private void DeleteLog(object sender)
