@@ -39,7 +39,7 @@ namespace SWE2_TourPlanner.DAL
             List<Tour> tours = new List<Tour>();
             while (rdr.Read())
             {
-                tours.Add(new Tour(rdr.GetString(0), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3)));
+                tours.Add(new Tour(Guid.Parse(rdr.GetString(0)), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4)));
             }
 
             return tours;
@@ -59,9 +59,10 @@ namespace SWE2_TourPlanner.DAL
 
             try
             {
-                string sql = "INSERT INTO tours (tourname, description, tourstart, tourend) VALUES (@tourname, @description, @tourstart, @tourend)";
+                string sql = "INSERT INTO tours (tourid, tourname, description, tourstart, tourend) VALUES (@tourid, @tourname, @description, @tourstart, @tourend)";
                 using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
                 {
+                    cmd.Parameters.AddWithValue("tourid", addedTour.Id.ToString());
                     cmd.Parameters.AddWithValue("tourname", addedTour.Name);
                     cmd.Parameters.AddWithValue("description", addedTour.Description);
                     cmd.Parameters.AddWithValue("tourstart", addedTour.Start);
