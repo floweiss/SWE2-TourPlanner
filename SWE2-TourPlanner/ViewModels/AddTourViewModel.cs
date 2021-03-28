@@ -76,7 +76,7 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void SaveTour(object sender)
         {
-            Tour addedTour = new Tour(_name, _description, _start, _end);
+            Tour addedTour = new Tour(new Guid(), _name, _description, _start, _end);
             try
             {
                 ServiceLocator.GetService<ITourService>().AddTour(addedTour);
