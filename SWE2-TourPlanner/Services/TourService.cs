@@ -29,5 +29,18 @@ namespace SWE2_TourPlanner.Services
                 throw;
             }
         }
+
+        public void EditTour(Tour editedTour)
+        {
+            TourDAL tourDal = new TourDAL(ConfigurationManager.AppSettings["connection_string"]);
+            try
+            {
+                tourDal.EditTour(editedTour);
+            }
+            catch (InvalidOperationException e)
+            {
+                throw;
+            }
+        }
     }
 }

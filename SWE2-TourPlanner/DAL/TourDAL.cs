@@ -76,5 +76,37 @@ namespace SWE2_TourPlanner.DAL
                 throw;
             }
         }
+
+        public void EditTour(Tour editedTour)
+        {
+            using NpgsqlConnection con = new NpgsqlConnection(_connectionString);
+            try
+            {
+                con.Open();
+            }
+            catch (NpgsqlException e)
+            {
+                Debug.WriteLine("No DB connection");
+            }
+
+            try
+            {
+                string sql = "UPDATE tours SET tourid = @tourid, tourname = @tourname, description = @description, tourstart = @tourstart, tourend = @tourend WHERE tourid = @tourid";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("tourid", editedTour.Id.ToString());
+                    cmd.Parameters.AddWithValue("tourname", editedTour.Name);
+                    cmd.Parameters.AddWithValue("description", editedTour.Description);
+                    cmd.Parameters.AddWithValue("tourstart", editedTour.Start);
+                    cmd.Parameters.AddWithValue("tourend", editedTour.End);
+                    cmd.Prepare();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (InvalidOperationException e)
+            {
+                throw;
+            }
+        }
     }
 }

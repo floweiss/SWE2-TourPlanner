@@ -15,16 +15,18 @@ namespace SWE2_TourPlanner.ViewModels
 {
     public class TourListViewModel : BaseViewModel, IObserver
     {
-        private readonly IWindowFactory _windowFactory;
+        private readonly IWindowFactory _windowFactorySave;
+        private readonly IWindowFactory _windowFactoryEdit;
         private List<Tour> _tours;
         public ICommand AddTourCommand => new RelayCommand(AddTour);
         public ICommand DeleteTourCommand => new RelayCommand(DeleteTour);
         public ICommand ReportTourCommand => new RelayCommand(GenerateTourReport);
         public ICommand RightClickTourCommand => new RelayCommand(EditTour);
 
-        public TourListViewModel(IWindowFactory windowFactory)
+        public TourListViewModel(IWindowFactory windowFactorySave, IWindowFactory windowFactoryEdit)
         {
-            _windowFactory = windowFactory;
+            _windowFactorySave = windowFactorySave;
+            _windowFactoryEdit = windowFactoryEdit;
         }
 
         public List<Tour> Tours
@@ -52,7 +54,7 @@ namespace SWE2_TourPlanner.ViewModels
         private void AddTour(object sender)
         {
             Debug.WriteLine("Add Tour clicked");
-            Window view = _windowFactory.GetWindow();
+            Window view = _windowFactorySave.GetWindow();
             view.Show();
         }
 
@@ -69,7 +71,9 @@ namespace SWE2_TourPlanner.ViewModels
         private void EditTour(object sender)
         {
             Debug.WriteLine("Edit Tour clicked");
-            Debug.WriteLine(sender);
+            TourSingleton.GetInstance.ActualTour = (Tour) sender;
+            Window view = _windowFactoryEdit.GetWindow();
+            view.Show();
         }
 
 
