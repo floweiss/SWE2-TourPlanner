@@ -42,12 +42,22 @@
         <ListView Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" ItemsSource="{Binding Tours}">
             <!--<ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Tours"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
                 </GridView>
             </ListView.View>-->
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding Path=Name}"></Label>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" Content="{Binding Path=Name}"></Label>
+                        <Button Grid.Column="1" Command="{Binding Path=DataContext.RightClickTourCommand, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                                CommandParameter="{Binding .}">Edit</Button>
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
