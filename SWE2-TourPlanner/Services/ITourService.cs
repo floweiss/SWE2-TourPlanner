@@ -11,6 +11,7 @@ namespace SWE2_TourPlanner.Services
     {
         public List<Tour> GetTours();
         public void AddTour(Tour addedTour);
+        public void DeleteTour(Tour deletedTour);
         public void EditTour(Tour editedTour);
     }
 }

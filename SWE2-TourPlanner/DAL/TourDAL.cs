@@ -34,9 +34,10 @@ namespace SWE2_TourPlanner.DAL
             string sql = "SELECT * FROM tours";
             using var cmd = new NpgsqlCommand(sql, con);
 
+            List<Tour> tours = new List<Tour>();
+            
             using NpgsqlDataReader rdr = cmd.ExecuteReader();
 
-            List<Tour> tours = new List<Tour>();
             while (rdr.Read())
             {
                 tours.Add(new Tour(Guid.Parse(rdr.GetString(0)), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4)));
@@ -67,6 +68,34 @@ namespace SWE2_TourPlanner.DAL
                     cmd.Parameters.AddWithValue("description", addedTour.Description);
                     cmd.Parameters.AddWithValue("tourstart", addedTour.Start);
                     cmd.Parameters.AddWithValue("tourend", addedTour.End);
+                    cmd.Prepare();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (InvalidOperationException e)
+            {
+                throw;
+            }
+        }
+
+        public void DeleteTour(Tour deletedTour)
+        {
+            using NpgsqlConnection con = new NpgsqlConnection(_connectionString);
+            try
+            {
+                con.Open();
+            }
+            catch (NpgsqlException e)
+            {
+                Debug.WriteLine("No DB connection");
+            }
+
+            try
+            {
+                string sql = "DELETE FROM tours WHERE tourid = @tourid";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("tourid", deletedTour.Id.ToString());
                     cmd.Prepare();
                     cmd.ExecuteNonQuery();
                 }

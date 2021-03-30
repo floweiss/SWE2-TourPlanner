@@ -73,7 +73,7 @@ namespace SWE2_TourPlanner.ViewModels
             TourImageVisibility = Visibility.Hidden;
             TourDescriptionVisibility = Visibility.Visible;
             TourTitle = "No Tour chosen!";
-            TourContent = "Click Show to show Tour";
+            TourContent = "Click SHOW to show Tour.";
         }
 
         public ICommand ShowTourRouteCommand => new RelayCommand(ShowTourRoute);
@@ -95,10 +95,26 @@ namespace SWE2_TourPlanner.ViewModels
 
         public void Update(ISubject subject)
         {
-            TourTitle = TourSingleton.GetInstance.ActualTour.Name;
-            TourContent = $"Description:\t{TourSingleton.GetInstance.ActualTour.Description}\n" +
-                          $"Start:\t\t{TourSingleton.GetInstance.ActualTour.Start}\n" +
-                          $"End:\t\t{TourSingleton.GetInstance.ActualTour.End}";
+            try
+            {
+                if (TourSingleton.GetInstance.ActualTour != null)
+                {
+                    TourTitle = TourSingleton.GetInstance.ActualTour.Name;
+                    TourContent = $"Description:\t{TourSingleton.GetInstance.ActualTour.Description}\n" +
+                                  $"Start:\t\t{TourSingleton.GetInstance.ActualTour.Start}\n" +
+                                  $"End:\t\t{TourSingleton.GetInstance.ActualTour.End}";
+                }
+                else
+                {
+                    TourTitle = "Chosen tour deleted!";
+                    TourContent = "Chose another Tour to display.";
+                }
+            }
+            catch (NullReferenceException e)
+            {
+                TourTitle = "Chosen tour deleted!";
+                TourContent = "Chose another Tour to display.";
+            }
         }
     }
 }

@@ -13,8 +13,17 @@ namespace SWE2_TourPlanner.Services
     {
         public List<Tour> GetTours()
         {
-            TourDAL tourDal = new TourDAL(ConfigurationManager.AppSettings["connection_string"]);
-            return tourDal.GetTours();
+            try
+            {
+                TourDAL tourDal = new TourDAL(ConfigurationManager.AppSettings["connection_string"]);
+                return tourDal.GetTours();
+            }
+            catch (StackOverflowException e)
+            {
+                Console.WriteLine(e);
+                return new List<Tour>();
+            }
+            
         }
 
         public void AddTour(Tour addedTour)
@@ -23,6 +32,19 @@ namespace SWE2_TourPlanner.Services
             try
             {
                 tourDal.AddTour(addedTour);
+            }
+            catch (InvalidOperationException e)
+            {
+                throw;
+            }
+        }
+
+        public void DeleteTour(Tour deletedTour)
+        {
+            TourDAL tourDal = new TourDAL(ConfigurationManager.AppSettings["connection_string"]);
+            try
+            {
+                tourDal.DeleteTour(deletedTour);
             }
             catch (InvalidOperationException e)
             {
