@@ -96,9 +96,9 @@ namespace SWE2_TourPlanner.ViewModels
         public void Update(ISubject subject)
         {
             TourTitle = TourSingleton.GetInstance.ActualTour.Name;
-            TourContent = $"Description: {TourSingleton.GetInstance.ActualTour.Description}\n" +
-                          $"Start: {TourSingleton.GetInstance.ActualTour.Start}\n" +
-                          $"End: {TourSingleton.GetInstance.ActualTour.End}";
+            TourContent = $"Description:\t{TourSingleton.GetInstance.ActualTour.Description}\n" +
+                          $"Start:\t\t{TourSingleton.GetInstance.ActualTour.Start}\n" +
+                          $"End:\t\t{TourSingleton.GetInstance.ActualTour.End}";
         }
     }
 }
