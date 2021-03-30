@@ -25,7 +25,8 @@
         <Label
             Grid.Row="0"
             Grid.Column="0"
-            Grid.ColumnSpan="3">Tourtitle</Label>
+            Grid.ColumnSpan="3"
+            Content="{Binding Path=TourTitle, UpdateSourceTrigger=PropertyChanged}"></Label>
 
         <Button
             Grid.Row="1"
@@ -42,8 +43,16 @@
         
         <Image
             Grid.Row="2"
-            Grid.Column="2"
-            Grid.ColumnSpan="3"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Visibility="{Binding TourImageVisibility}"
             Source="https://images.unsplash.com/photo-1494783367193-149034c05e8f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80"></Image>
+
+        <Label
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="2"
+            Visibility="{Binding TourDescriptionVisibility}"
+            Content="{Binding Path=TourContent, UpdateSourceTrigger=PropertyChanged}"></Label>
     </Grid>
 </Page>

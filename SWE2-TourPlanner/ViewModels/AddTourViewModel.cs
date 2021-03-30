@@ -23,7 +23,7 @@ namespace SWE2_TourPlanner.ViewModels
 
         public AddTourViewModel()
         {
-            ObserverSingleton.GetInstance.TourObservers.ForEach(Attach);
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach when created because all observers are already created
         }
 
         public ICommand SaveTourCommand => new RelayCommand(SaveTour);
@@ -85,6 +85,7 @@ namespace SWE2_TourPlanner.ViewModels
             try
             {
                 ServiceLocator.GetService<ITourService>().AddTour(addedTour);
+                TourSingleton.GetInstance.ActualTour = addedTour;
                 ((Window)sender).Close();
                 Notify();
             }

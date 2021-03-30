@@ -29,7 +29,7 @@ namespace SWE2_TourPlanner.ViewModels
             _description = actualTour.Description;
             _start = actualTour.Start;
             _end = actualTour.End;
-            ObserverSingleton.GetInstance.TourObservers.ForEach(Attach);
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach when created because all observers are already created
         }
 
         public ICommand SaveTourCommand => new RelayCommand(SaveTour);
@@ -95,6 +95,7 @@ namespace SWE2_TourPlanner.ViewModels
                     throw new InvalidOperationException();
                 }
                 ServiceLocator.GetService<ITourService>().EditTour(editedTour);
+                TourSingleton.GetInstance.ActualTour = editedTour;
                 ((Window)sender).Close();
                 Notify();
             }

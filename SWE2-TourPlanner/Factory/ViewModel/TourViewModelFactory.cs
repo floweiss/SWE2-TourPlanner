@@ -13,6 +13,7 @@ namespace SWE2_TourPlanner.Factory.ViewModel
         public object CreateViewModel(DependencyObject sender)
         {
             TourViewModel vm = new TourViewModel();
+            ObserverSingleton.GetInstance.TourObservers.Add(vm);
             return vm;
         }
     }

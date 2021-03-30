@@ -51,12 +51,16 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="4*"></ColumnDefinition>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Column="0" Content="{Binding Path=Name}"></Label>
-                        <Button Grid.Column="1" Command="{Binding Path=DataContext.RightClickTourCommand, 
+                        <Button Grid.Column="1" Command="{Binding Path=DataContext.EditTourCommand, 
                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
                                 CommandParameter="{Binding .}">Edit</Button>
+                        <Button Grid.Column="2" Command="{Binding Path=DataContext.ShowTourCommand, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                                CommandParameter="{Binding .}">Show</Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

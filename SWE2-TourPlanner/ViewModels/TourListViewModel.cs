@@ -13,15 +13,18 @@ using SWE2_TourPlanner.Services;
 
 namespace SWE2_TourPlanner.ViewModels
 {
-    public class TourListViewModel : BaseViewModel, IObserver
+    public class TourListViewModel : BaseViewModel, IObserver, ISubject
     {
         private readonly IWindowFactory _windowFactorySave;
         private readonly IWindowFactory _windowFactoryEdit;
         private List<Tour> _tours;
+        private List<IObserver> _observers = new List<IObserver>();
+
         public ICommand AddTourCommand => new RelayCommand(AddTour);
         public ICommand DeleteTourCommand => new RelayCommand(DeleteTour);
         public ICommand ReportTourCommand => new RelayCommand(GenerateTourReport);
-        public ICommand RightClickTourCommand => new RelayCommand(EditTour);
+        public ICommand EditTourCommand => new RelayCommand(EditTour);
+        public ICommand ShowTourCommand => new RelayCommand(ShowTour);
 
         public TourListViewModel(IWindowFactory windowFactorySave, IWindowFactory windowFactoryEdit)
         {
@@ -76,10 +79,32 @@ namespace SWE2_TourPlanner.ViewModels
             view.Show();
         }
 
+        private void ShowTour(object sender)
+        {
+            Debug.WriteLine("Show Tour clicked");
+            TourSingleton.GetInstance.ActualTour = (Tour) sender;
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created
+            Notify();
+        }
 
         public void Update(ISubject subject)
         {
             GetTours();
+        }
+
+        public void Attach(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Detach(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void Notify()
+        {
+            _observers.ForEach(o => o.Update(this));
         }
     }
 }
