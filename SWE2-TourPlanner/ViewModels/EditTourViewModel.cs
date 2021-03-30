@@ -29,6 +29,7 @@ namespace SWE2_TourPlanner.ViewModels
             _description = actualTour.Description;
             _start = actualTour.Start;
             _end = actualTour.End;
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Attach);
         }
 
         public ICommand SaveTourCommand => new RelayCommand(SaveTour);
@@ -95,7 +96,6 @@ namespace SWE2_TourPlanner.ViewModels
                 }
                 ServiceLocator.GetService<ITourService>().EditTour(editedTour);
                 ((Window)sender).Close();
-                ObserverSingleton.GetInstance.TourObservers.ForEach(Attach);
                 Notify();
             }
             catch (InvalidOperationException e)

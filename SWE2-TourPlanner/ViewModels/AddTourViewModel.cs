@@ -21,6 +21,11 @@ namespace SWE2_TourPlanner.ViewModels
 
         private List<IObserver> _observers = new List<IObserver>();
 
+        public AddTourViewModel()
+        {
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Attach);
+        }
+
         public ICommand SaveTourCommand => new RelayCommand(SaveTour);
 
         public string Name
@@ -76,12 +81,11 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void SaveTour(object sender)
         {
-            Tour addedTour = new Tour(new Guid(), _name, _description, _start, _end);
+            Tour addedTour = new Tour(Guid.NewGuid(), _name, _description, _start, _end);
             try
             {
                 ServiceLocator.GetService<ITourService>().AddTour(addedTour);
                 ((Window)sender).Close();
-                ObserverSingleton.GetInstance.TourObservers.ForEach(Attach);
                 Notify();
             }
             catch (InvalidOperationException e)
