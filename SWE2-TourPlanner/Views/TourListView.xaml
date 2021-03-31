@@ -12,8 +12,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"></ColumnDefinition>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -39,7 +38,7 @@
                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
                 CommandParameter="{Binding .}">Report</Button>
 
-        <ListView Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1" ItemsSource="{Binding Tours}">
+        <ListView Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" ItemsSource="{Binding Tours}">
             <!--<ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
