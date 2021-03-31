@@ -36,7 +36,7 @@ namespace SWE2_TourPlanner.ViewModels
         {
             get
             {
-                if (_tours == null || _tours.Count == 0)
+                if (_tours == null)
                 {
                     GetTours();
                 }
@@ -66,7 +66,7 @@ namespace SWE2_TourPlanner.ViewModels
             Debug.WriteLine("Delete Tour clicked");
             ServiceLocator.GetService<ITourService>().DeleteTour((Tour) sender);
             Tours = ServiceLocator.GetService<ITourService>().GetTours();
-            if (((Tour)sender).Id == TourSingleton.GetInstance.ActualTour.Id)
+            if (TourSingleton.GetInstance.ActualTour != null && ((Tour)sender).Id == TourSingleton.GetInstance.ActualTour.Id)
             {
                 TourSingleton.GetInstance.ActualTour = null;
                 ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created

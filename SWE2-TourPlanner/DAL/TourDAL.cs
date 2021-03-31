@@ -32,23 +32,16 @@ namespace SWE2_TourPlanner.DAL
             }
 
             string sql = "SELECT * FROM tours";
-            using var cmd = new NpgsqlCommand(sql, con);
+            using NpgsqlCommand cmd = new NpgsqlCommand(sql, con);
 
             List<Tour> tours = new List<Tour>();
-            try
-            {
-                using NpgsqlDataReader rdr = cmd.ExecuteReader();
+            using NpgsqlDataReader rdr = cmd.ExecuteReader();
 
-                while (rdr.Read())
-                {
-                    tours.Add(new Tour(Guid.Parse(rdr.GetString(0)), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4)));
-                }
+            while (rdr.Read())
+            { 
+                tours.Add(new Tour(Guid.Parse(rdr.GetString(0)), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4)));
             }
-            catch (StackOverflowException e)
-            {
-                Debug.WriteLine(e);
-            }
-
+            rdr.Close();
             return tours;
         }
 

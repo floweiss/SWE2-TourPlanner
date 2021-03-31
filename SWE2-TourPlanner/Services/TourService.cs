@@ -11,27 +11,22 @@ namespace SWE2_TourPlanner.Services
 {
     public class TourService : ITourService
     {
+        private ITourDal _tourDal;
+        public TourService()
+        {
+            _tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
+        }
+
         public List<Tour> GetTours()
         {
-            try
-            {
-                ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
-                return tourDal.GetTours();
-            }
-            catch (StackOverflowException e)
-            {
-                Console.WriteLine(e);
-                return new List<Tour>();
-            }
-            
+            return _tourDal.GetTours();
         }
 
         public void AddTour(Tour addedTour)
         {
-            ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
             try
             {
-                tourDal.AddTour(addedTour);
+                _tourDal.AddTour(addedTour);
             }
             catch (InvalidOperationException e)
             {
@@ -41,23 +36,14 @@ namespace SWE2_TourPlanner.Services
 
         public void DeleteTour(Tour deletedTour)
         {
-            ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
-            try
-            {
-                tourDal.DeleteTour(deletedTour);
-            }
-            catch (InvalidOperationException e)
-            {
-                throw;
-            }
+            _tourDal.DeleteTour(deletedTour);
         }
 
         public void EditTour(Tour editedTour)
         {
-            ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
             try
             {
-                tourDal.EditTour(editedTour);
+                _tourDal.EditTour(editedTour);
             }
             catch (InvalidOperationException e)
             {
