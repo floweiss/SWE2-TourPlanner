@@ -15,7 +15,7 @@ namespace SWE2_TourPlanner.Services
         {
             try
             {
-                TourDAL tourDal = new TourDAL(ConfigurationManager.AppSettings["connection_string"]);
+                ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
                 return tourDal.GetTours();
             }
             catch (StackOverflowException e)
@@ -28,7 +28,7 @@ namespace SWE2_TourPlanner.Services
 
         public void AddTour(Tour addedTour)
         {
-            TourDAL tourDal = new TourDAL(ConfigurationManager.AppSettings["connection_string"]);
+            ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
             try
             {
                 tourDal.AddTour(addedTour);
@@ -41,7 +41,7 @@ namespace SWE2_TourPlanner.Services
 
         public void DeleteTour(Tour deletedTour)
         {
-            TourDAL tourDal = new TourDAL(ConfigurationManager.AppSettings["connection_string"]);
+            ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
             try
             {
                 tourDal.DeleteTour(deletedTour);
@@ -54,7 +54,7 @@ namespace SWE2_TourPlanner.Services
 
         public void EditTour(Tour editedTour)
         {
-            TourDAL tourDal = new TourDAL(ConfigurationManager.AppSettings["connection_string"]);
+            ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
             try
             {
                 tourDal.EditTour(editedTour);

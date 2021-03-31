@@ -9,11 +9,11 @@ using SWE2_TourPlanner.Models;
 
 namespace SWE2_TourPlanner.DAL
 {
-    public class TourDAL
+    public class TourDal : ITourDal
     {
         private string _connectionString;
 
-        public TourDAL(string connectionString)
+        public TourDal(string connectionString)
         {
             _connectionString = connectionString;
         }
@@ -35,12 +35,18 @@ namespace SWE2_TourPlanner.DAL
             using var cmd = new NpgsqlCommand(sql, con);
 
             List<Tour> tours = new List<Tour>();
-            
-            using NpgsqlDataReader rdr = cmd.ExecuteReader();
-
-            while (rdr.Read())
+            try
             {
-                tours.Add(new Tour(Guid.Parse(rdr.GetString(0)), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4)));
+                using NpgsqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    tours.Add(new Tour(Guid.Parse(rdr.GetString(0)), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4)));
+                }
+            }
+            catch (StackOverflowException e)
+            {
+                Debug.WriteLine(e);
             }
 
             return tours;

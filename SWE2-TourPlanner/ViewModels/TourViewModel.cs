@@ -97,18 +97,10 @@ namespace SWE2_TourPlanner.ViewModels
         {
             try
             {
-                if (TourSingleton.GetInstance.ActualTour != null)
-                {
-                    TourTitle = TourSingleton.GetInstance.ActualTour.Name;
-                    TourContent = $"Description:\t{TourSingleton.GetInstance.ActualTour.Description}\n" +
-                                  $"Start:\t\t{TourSingleton.GetInstance.ActualTour.Start}\n" +
-                                  $"End:\t\t{TourSingleton.GetInstance.ActualTour.End}";
-                }
-                else
-                {
-                    TourTitle = "Chosen tour deleted!";
-                    TourContent = "Chose another Tour to display.";
-                }
+                TourTitle = TourSingleton.GetInstance.ActualTour.Name;
+                TourContent = $"Description:\t{TourSingleton.GetInstance.ActualTour.Description}\n" +
+                              $"Start:\t\t{TourSingleton.GetInstance.ActualTour.Start}\n" +
+                              $"End:\t\t{TourSingleton.GetInstance.ActualTour.End}";
             }
             catch (NullReferenceException e)
             {
