@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Configuration;
+using System.Windows;
+using SWE2_TourPlanner.DAL;
 using SWE2_TourPlanner.Services;
 using SWE2_TourPlanner.ViewModels;
 
@@ -10,7 +12,8 @@ namespace SWE2_TourPlanner.Factory.ViewModel
         {
             HomeViewModel vm = new HomeViewModel();
             vm.ServiceLocator.RegisterService<IGreetService>(new GreetService());
-            vm.ServiceLocator.RegisterService<ITourService>(new TourService());
+            ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
+            vm.ServiceLocator.RegisterService<ITourService>(new TourService(tourDal));
             return vm;
         }
     }

@@ -12,9 +12,9 @@ namespace SWE2_TourPlanner.Services
     public class TourService : ITourService
     {
         private ITourDal _tourDal;
-        public TourService()
+        public TourService(ITourDal tourDal)
         {
-            _tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
+            _tourDal = tourDal;
         }
 
         public List<Tour> GetTours()

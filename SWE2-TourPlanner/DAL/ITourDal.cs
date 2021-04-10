@@ -7,7 +7,7 @@ using SWE2_TourPlanner.Models;
 
 namespace SWE2_TourPlanner.DAL
 {
-    interface ITourDal
+    public interface ITourDal
     {
         List<Tour> GetTours();
         void AddTour(Tour addedTour);
