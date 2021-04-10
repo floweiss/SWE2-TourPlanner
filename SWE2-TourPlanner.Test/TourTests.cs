@@ -12,25 +12,29 @@ namespace SWE2_TourPlanner.Test
     {
         private TourService _tourService;
         private Mock<ITourDal> _tourDalMock;
+        private List<Tour> _tourList;
 
         [SetUp]
         public void Setup()
         {
             _tourDalMock = new Mock<ITourDal>();
             _tourService = new TourService(_tourDalMock.Object);
+            _tourList = new List<Tour>
+            {
+                new Tour(Guid.NewGuid(), "Tour1", "Desc", "Start", "End"),
+                new Tour(Guid.NewGuid(), "Tour2", "Description", "Hell", "Heaven"),
+                new Tour(Guid.NewGuid(), "Tour3", "BESCHREIBUNG", "BEGINN", "ENDE")
+            };
         }
 
         [Test]
         public void Test_GetTours()
         {
-            _tourDalMock.Setup(s => s.GetTours()).Returns(new List<Tour>
-            {
-                new Tour(Guid.NewGuid(), "Test", "Desc", "Start", "End")
-            });
+            _tourDalMock.Setup(s => s.GetTours()).Returns(_tourList);
 
             List<Tour> tours = _tourService.GetTours();
 
-            Assert.AreEqual("Test", tours[0].Name);
+            Assert.AreEqual(3, tours.Count);
         }
     }
 }
