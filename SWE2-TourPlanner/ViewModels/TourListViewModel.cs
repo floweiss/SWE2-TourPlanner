@@ -65,12 +65,13 @@ namespace SWE2_TourPlanner.ViewModels
         {
             Debug.WriteLine("Delete Tour clicked");
             ServiceLocator.GetService<ITourService>().DeleteTour((Tour) sender);
-            Tours = ServiceLocator.GetService<ITourService>().GetTours();
+            GetTours();
             if (TourSingleton.GetInstance.ActualTour != null && ((Tour)sender).Id == TourSingleton.GetInstance.ActualTour.Id)
             {
                 TourSingleton.GetInstance.ActualTour = null;
                 ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created
                 Notify();
+                ObserverSingleton.GetInstance.TourObservers.ForEach(Detach);
             }
         }
 
@@ -93,6 +94,7 @@ namespace SWE2_TourPlanner.ViewModels
             TourSingleton.GetInstance.ActualTour = (Tour) sender;
             ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created
             Notify();
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Detach);
         }
 
         public void Update(ISubject subject)
