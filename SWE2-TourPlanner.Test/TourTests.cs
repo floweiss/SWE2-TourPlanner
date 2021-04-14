@@ -36,5 +36,14 @@ namespace SWE2_TourPlanner.Test
 
             Assert.AreEqual(3, tours.Count);
         }
+
+        [Test]
+        public void Test_CopyTour()
+        {
+            Tour copiedTour = _tourList[0].Copy();
+
+            Assert.AreEqual($"{_tourList[0].Name} - Copy", copiedTour.Name);
+            Assert.AreNotEqual(_tourList[0].Id, copiedTour.Id);
+        }
     }
 }
