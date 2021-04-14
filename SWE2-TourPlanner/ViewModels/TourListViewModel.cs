@@ -25,6 +25,7 @@ namespace SWE2_TourPlanner.ViewModels
         public ICommand ReportTourCommand => new RelayCommand(GenerateTourReport);
         public ICommand EditTourCommand => new RelayCommand(EditTour);
         public ICommand ShowTourCommand => new RelayCommand(ShowTour);
+        public ICommand CopyTourCommand => new RelayCommand(CopyTour);
 
         public TourListViewModel(IWindowFactory windowFactorySave, IWindowFactory windowFactoryEdit)
         {
@@ -56,14 +57,12 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void AddTour(object sender)
         {
-            Debug.WriteLine("Add Tour clicked");
             Window view = _windowFactorySave.GetWindow();
             view.Show();
         }
 
         private void DeleteTour(object sender)
         {
-            Debug.WriteLine("Delete Tour clicked");
             ServiceLocator.GetService<ITourService>().DeleteTour((Tour) sender);
             GetTours();
             if (TourSingleton.GetInstance.ActualTour != null && ((Tour)sender).Id == TourSingleton.GetInstance.ActualTour.Id)
@@ -82,7 +81,6 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void EditTour(object sender)
         {
-            Debug.WriteLine("Edit Tour clicked");
             TourSingleton.GetInstance.ActualTour = (Tour) sender;
             Window view = _windowFactoryEdit.GetWindow();
             view.Show();
@@ -90,8 +88,17 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void ShowTour(object sender)
         {
-            Debug.WriteLine("Show Tour clicked");
             TourSingleton.GetInstance.ActualTour = (Tour) sender;
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created
+            Notify();
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Detach);
+        }
+
+        private void CopyTour(object sender)
+        {
+            Tour copiedTour = ((Tour) sender).Copy(); 
+            ServiceLocator.GetService<ITourService>().AddTour(copiedTour);
+            TourSingleton.GetInstance.ActualTour = copiedTour;
             ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created
             Notify();
             ObserverSingleton.GetInstance.TourObservers.ForEach(Detach);

@@ -22,5 +22,13 @@ namespace SWE2_TourPlanner.Models
             Start = start;
             End = end;
         }
+
+        public Tour Copy()
+        {
+            Tour other = (Tour)this.MemberwiseClone();
+            other.Id = Guid.NewGuid();
+            other.Name = this.Name + " - Copy";
+            return other;
+        }
     }
 }
