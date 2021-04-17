@@ -44,14 +44,16 @@
         <DataGrid
             Grid.Row="1"
             Grid.Column="0"
-            Grid.ColumnSpan="4">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Tour" Width="1*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Date" Width="1*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Duration" Width="1*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Distance" Width="1*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Speed" Width="1*"></DataGridTextColumn>
-            </DataGrid.Columns>
+            Grid.ColumnSpan="4"
+            ItemsSource="{Binding Logs}">
+            <!--<DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Log" Width="1*"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding TourName}" Header="Tour" Width="1*"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding DateTime}" Header="Date" Width="1*"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Duration}" Header="Duration" Width="1*"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Distance}" Header="Distance" Width="1*"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Speed}" Header="Speed" Width="1*"></DataGridTextColumn>
+            </DataGrid.Columns>-->
         </DataGrid>
     </Grid>
 </Page>
