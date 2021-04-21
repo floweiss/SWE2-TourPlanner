@@ -67,5 +67,43 @@ namespace SWE2_TourPlanner.DAL
             rdr.Close();
             return logs;
         }
+
+        public void AddLog(Log addedLog)
+        {
+            using NpgsqlConnection con = new NpgsqlConnection(_connectionString);
+            try
+            {
+                con.Open();
+            }
+            catch (NpgsqlException e)
+            {
+                Debug.WriteLine("No DB connection");
+            }
+
+            try
+            {
+                string sql = "INSERT INTO logs (logid, logname, description, report, vehicle, datetime, tourid, distance, totaltime, rating)" +
+                             "VALUES (@logid, @logname, @description, @report, @vehicle, @datetime, @tourid, @distance, @totaltime, @rating)";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("logid", addedLog.Id.ToString());
+                    cmd.Parameters.AddWithValue("logname", addedLog.Name);
+                    cmd.Parameters.AddWithValue("description", addedLog.Description);
+                    cmd.Parameters.AddWithValue("report", addedLog.Report);
+                    cmd.Parameters.AddWithValue("vehicle", addedLog.Vehicle);
+                    cmd.Parameters.AddWithValue("datetime", addedLog.DateTime);
+                    cmd.Parameters.AddWithValue("tourId", addedLog.TourId);
+                    cmd.Parameters.AddWithValue("distance", addedLog.Distance);
+                    cmd.Parameters.AddWithValue("totaltime", addedLog.TotalTime);
+                    cmd.Parameters.AddWithValue("rating", addedLog.Rating.ToString());
+                    cmd.Prepare();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (InvalidOperationException e)
+            {
+                throw;
+            }
+        }
     }
 }

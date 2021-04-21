@@ -10,5 +10,6 @@ namespace SWE2_TourPlanner.DAL
     public interface ILogDal
     {
         List<Log> GetLogs();
+        void AddLog(Log addedLog);
     }
 }

@@ -24,7 +24,7 @@ namespace SWE2_TourPlanner.Services
 
         public void AddLog(Log addedLog)
         {
-            throw new NotImplementedException();
+            _logDal.AddLog(addedLog);
         }
 
         public void DeleteLog(Log deletedLog)

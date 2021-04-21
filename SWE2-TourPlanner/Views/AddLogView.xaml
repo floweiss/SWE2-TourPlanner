@@ -4,10 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SWE2_TourPlanner.Views"
+        xmlns:factory="clr-namespace:SWE2_TourPlanner.Factory.ViewModel"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="Add Log" Height="225" Width="400">
+        Title="Add Log" Height="400" Width="400"
+        factory:ViewModelCreator.FactoryType="{x:Type factory:AddLogViewModelFactory}">
+
     <Grid Margin="5">
         <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
@@ -22,41 +31,92 @@
         <Label
             Grid.Row="0"
             Grid.Column="0"
-            VerticalAlignment="Center">Tour</Label>
+            VerticalAlignment="Center">Log Name</Label>
         <TextBox
             Grid.Row="0"
-            Grid.Column="1" />
+            Grid.Column="1"
+            Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Label
             Grid.Row="1"
             Grid.Column="0"
-            VerticalAlignment="Center">Date</Label>
+            VerticalAlignment="Center">Description</Label>
         <TextBox
             Grid.Row="1"
-            Grid.Column="1" />
+            Grid.Column="1"
+            Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Label
             Grid.Row="2"
             Grid.Column="0"
-            VerticalAlignment="Center">TotalTime</Label>
+            VerticalAlignment="Center">Report</Label>
         <TextBox
             Grid.Row="2"
-            Grid.Column="1" />
+            Grid.Column="1"
+            Text="{Binding Path=Report, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Label
             Grid.Row="3"
+            Grid.Column="0"
+            VerticalAlignment="Center">Vehicle</Label>
+        <TextBox
+            Grid.Row="3"
+            Grid.Column="1"
+            Text="{Binding Path=Vehicle, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label
+            Grid.Row="4"
+            Grid.Column="0"
+            VerticalAlignment="Center">Date/Time</Label>
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="1"
+            Text="{Binding Path=DateTime, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Label
+            Grid.Row="5"
+            Grid.Column="0"
+            VerticalAlignment="Center">Tour</Label>
+        <ComboBox
+            Grid.Row="5"
+            Grid.Column="1"
+            SelectedValue="{Binding TourId, UpdateSourceTrigger=PropertyChanged}" 
+            ItemsSource="{Binding PossibleTours}"
+            DisplayMemberPath="Name"
+            SelectedValuePath="Id"/>
+
+        <Label
+            Grid.Row="6"
             Grid.Column="0"
             VerticalAlignment="Center">Distance</Label>
         <TextBox
-            Grid.Row="3"
-            Grid.Column="1" />
+            Grid.Row="6"
+            Grid.Column="1"
+            Text="{Binding Path=Distance, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
 
         <Label
-            Grid.Row="4"
+            Grid.Row="7"
             Grid.Column="0"
-            VerticalAlignment="Center">Speed</Label>
+            VerticalAlignment="Center">Total Time</Label>
         <TextBox
-            Grid.Row="4"
-            Grid.Column="1" />
-    </Grid>
+            Grid.Row="7"
+            Grid.Column="1"
+            Text="{Binding Path=TotalTime, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+        <Label
+            Grid.Row="8"
+            Grid.Column="0"
+            VerticalAlignment="Center">Rating</Label>
+        <ComboBox
+            Grid.Row="8"
+            Grid.Column="1"
+            SelectedValue="{Binding Rating, UpdateSourceTrigger=PropertyChanged}" 
+            ItemsSource="{Binding PossibleRatings}"/>
+
+        <Button Grid.Row="9" Grid.Column="1"
+                Command="{Binding Path=DataContext.SaveLogCommand, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                           AncestorType={x:Type Window}}}">Save Log</Button>
+</Grid>
 </Window>
