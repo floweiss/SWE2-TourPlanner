@@ -45,6 +45,7 @@
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="4"
+            IsReadOnly="True"
             ItemsSource="{Binding Logs}">
             <!--<DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Name}" Header="Log" Width="1*"></DataGridTextColumn>

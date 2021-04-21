@@ -11,25 +11,29 @@ namespace SWE2_TourPlanner.Models
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Report { get; set; }
+        public string Vehicle { get; set; }
         public DateTime DateTime { get; set; }
         public Guid TourId { get; set; }
         public string TourName { get; set; }
         public double Distance { get; set; }
-        public double Duration { get; set; }
+        public double TotalTime { get; set; }
         public double Speed { get; set; }
         public Rating Rating { get; set; }
 
-        public Log(Guid id, string name, string description, DateTime dateTime, Guid tourId, string tourName, double distance, double duration, Rating rating)
+        public Log(Guid id, string name, string description, string report, string vehicle, DateTime dateTime, Guid tourId, string tourName, double distance, double totalTime, Rating rating)
         {
             Id = id;
             Name = name;
             Description = description;
+            Report = report;
+            Vehicle = vehicle;
             DateTime = dateTime;
             TourId = tourId;
             TourName = tourName;
             Distance = distance;
-            Duration = duration;
-            Speed = distance / duration;
+            TotalTime = totalTime;
+            Speed = distance / totalTime;
             Rating = rating;
         }
     }

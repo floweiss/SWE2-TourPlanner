@@ -56,12 +56,13 @@ namespace SWE2_TourPlanner.DAL
 
             while (rdr.Read())
             {
-                tourId = rdr.GetString(4);
+                tourId = rdr.GetString(6);
                 tourIdName.TryGetValue(tourId, out tourName);
-                Enum.TryParse(rdr.GetString(7), out rating);
-                logs.Add(new Log(Guid.Parse(rdr.GetString(0)), rdr.GetString(1), rdr.GetString(2), rdr.GetTimeStamp(3).ToDateTime(),
+                Enum.TryParse(rdr.GetString(9), out rating);
+                logs.Add(new Log(Guid.Parse(rdr.GetString(0)), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4),
+                    rdr.GetTimeStamp(5).ToDateTime(),
                     Guid.Parse(tourId), tourName,
-                    rdr.GetDouble(5), rdr.GetDouble(6), rating));
+                    rdr.GetDouble(7), rdr.GetDouble(8), rating));
             }
             rdr.Close();
             return logs;
