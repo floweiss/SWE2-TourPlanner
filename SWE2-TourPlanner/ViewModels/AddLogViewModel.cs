@@ -13,7 +13,7 @@ using SWE2_TourPlanner.Views;
 
 namespace SWE2_TourPlanner.ViewModels
 {
-    public class AddLogViewModel : BaseViewModel
+    public class AddLogViewModel : BaseViewModel, ISubject
     {
         private string _name;
         private string _description;
@@ -24,10 +24,12 @@ namespace SWE2_TourPlanner.ViewModels
         private double _distance;
         private double _totalTime;
         private Rating _rating;
+        private List<IObserver> _observers = new List<IObserver>();
 
         public AddLogViewModel()
         {
             DateTime = DateTime.Now;
+            ObserverSingleton.GetInstance.LogObservers.ForEach(Attach); // attach when created because all observers are already created
         }
 
         public ICommand SaveLogCommand => new RelayCommand(SaveLog);
@@ -172,11 +174,26 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 ServiceLocator.GetService<ILogService>().AddLog(addedLog);
                 ((Window)sender).Close();
+                Notify();
             }
             catch (InvalidOperationException e)
             {
                 Debug.WriteLine("Specify all params");
             }
+        }
+        public void Attach(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Detach(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void Notify()
+        {
+            _observers.ForEach(o => o.Update(this));
         }
     }
 }

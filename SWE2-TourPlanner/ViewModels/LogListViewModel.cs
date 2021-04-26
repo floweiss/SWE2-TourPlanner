@@ -12,7 +12,7 @@ using SWE2_TourPlanner.Services;
 
 namespace SWE2_TourPlanner.ViewModels
 {
-    public class LogListViewModel : BaseViewModel
+    public class LogListViewModel : BaseViewModel, IObserver
     {
         private List<Log> _logs;
         private readonly IWindowFactory _windowFactory;
@@ -61,6 +61,11 @@ namespace SWE2_TourPlanner.ViewModels
         private void GenerateLogReport(object sender)
         {
             Debug.WriteLine("Report Log clicked");
+        }
+
+        public void Update(ISubject subject)
+        {
+            GetLogs();
         }
     }
 }

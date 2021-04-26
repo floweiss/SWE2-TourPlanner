@@ -21,6 +21,7 @@ namespace SWE2_TourPlanner.Factory.ViewModel
             LogListViewModel vm = new LogListViewModel(windowFactory);
             ILogDal logDal = new LogDal(ConfigurationManager.AppSettings["connection_string"]);
             vm.ServiceLocator.RegisterService<ILogService>(new LogService(logDal));
+            ObserverSingleton.GetInstance.LogObservers.Add(vm);
             return vm;
         }
     }
