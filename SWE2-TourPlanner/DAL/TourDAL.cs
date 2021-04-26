@@ -98,6 +98,14 @@ namespace SWE2_TourPlanner.DAL
                     cmd.Prepare();
                     cmd.ExecuteNonQuery();
                 }
+
+                sql = "DELETE FROM logs WHERE tourid = @tourid";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("tourid", deletedTour.Id.ToString());
+                    cmd.Prepare();
+                    cmd.ExecuteNonQuery();
+                }
             }
             catch (InvalidOperationException e)
             {
