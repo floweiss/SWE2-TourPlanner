@@ -58,10 +58,11 @@
             Grid.Row="3"
             Grid.Column="1" />
 
+        
         <Button Grid.Row="4" Grid.Column="1"
                 Command="{Binding Path=DataContext.SaveTourCommand, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                 CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
-                           AncestorType={x:Type Window}}}">Save Tour</Button>
+                       AncestorType={x:Type Window}}}">Save Tour</Button>
     </Grid>
 </Window>

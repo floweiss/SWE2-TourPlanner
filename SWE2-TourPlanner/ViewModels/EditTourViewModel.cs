@@ -94,7 +94,13 @@ namespace SWE2_TourPlanner.ViewModels
                 {
                     throw new InvalidOperationException();
                 }
+
+                TourSingleton.GetInstance.ActualTour = null;
+                Notify();
                 ServiceLocator.GetService<ITourService>().EditTour(editedTour);
+                // TODO: edit map
+                //ServiceLocator.GetService<IMapService>().DeleteMap(editedTour);
+                //ServiceLocator.GetService<IMapService>().CreateMap(editedTour);
                 TourSingleton.GetInstance.ActualTour = editedTour;
                 ((Window)sender).Close();
                 Notify();

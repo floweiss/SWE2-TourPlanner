@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -85,6 +87,7 @@ namespace SWE2_TourPlanner.ViewModels
             try
             {
                 ServiceLocator.GetService<ITourService>().AddTour(addedTour);
+                ServiceLocator.GetService<IMapService>().CreateMap(addedTour);
                 TourSingleton.GetInstance.ActualTour = addedTour;
                 ((Window)sender).Close();
                 Notify();

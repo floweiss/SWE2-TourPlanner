@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -72,6 +73,8 @@ namespace SWE2_TourPlanner.ViewModels
                 Notify();
                 ObserverSingleton.GetInstance.TourObservers.ForEach(Detach);
             }
+            // TODO: delete map => Delete not working because TourView uses jpg
+            //ServiceLocator.GetService<IMapService>().DeleteMap((Tour)sender);
         }
 
         private void GenerateTourReport(object sender)
@@ -98,6 +101,7 @@ namespace SWE2_TourPlanner.ViewModels
         {
             Tour copiedTour = ((Tour) sender).Copy(); 
             ServiceLocator.GetService<ITourService>().AddTour(copiedTour);
+            ServiceLocator.GetService<IMapService>().CopyMap(((Tour)sender), copiedTour);
             TourSingleton.GetInstance.ActualTour = copiedTour;
             ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created
             Notify();

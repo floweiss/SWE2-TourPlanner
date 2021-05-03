@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace SWE2_TourPlanner.ViewModels
         private Visibility _tourDescriptionVisibility;
         private string _tourTitle;
         private string _tourContent;
+        private string _imageSource;
 
         public Visibility TourImageVisibility
         {
@@ -28,7 +30,6 @@ namespace SWE2_TourPlanner.ViewModels
                 OnPropertyChanged(nameof(TourImageVisibility));
             }
         }
-
         public Visibility TourDescriptionVisibility
         {
             get
@@ -41,7 +42,6 @@ namespace SWE2_TourPlanner.ViewModels
                 OnPropertyChanged(nameof(TourDescriptionVisibility));
             }
         }
-
         public string TourTitle
         {
             get
@@ -54,7 +54,6 @@ namespace SWE2_TourPlanner.ViewModels
                 OnPropertyChanged(nameof(TourTitle));
             }
         }
-
         public string TourContent
         {
             get
@@ -67,6 +66,18 @@ namespace SWE2_TourPlanner.ViewModels
                 OnPropertyChanged(nameof(TourContent));
             }
         }
+        public string ImageSource
+        {
+            get
+            {
+                return _imageSource;
+            }
+            set
+            {
+                _imageSource = value;
+                OnPropertyChanged(nameof(ImageSource));
+            }
+        }
 
         public TourViewModel()
         {
@@ -74,6 +85,7 @@ namespace SWE2_TourPlanner.ViewModels
             TourDescriptionVisibility = Visibility.Visible;
             TourTitle = "No Tour chosen!";
             TourContent = "Click SHOW to show Tour.";
+            ImageSource = $"{ConfigurationManager.AppSettings["base_directory"]}sample_pic.jpg";
         }
 
         public ICommand ShowTourRouteCommand => new RelayCommand(ShowTourRoute);
@@ -101,11 +113,13 @@ namespace SWE2_TourPlanner.ViewModels
                 TourContent = $"Description:\t{TourSingleton.GetInstance.ActualTour.Description}\n" +
                               $"Start:\t\t{TourSingleton.GetInstance.ActualTour.Start}\n" +
                               $"End:\t\t{TourSingleton.GetInstance.ActualTour.End}";
+                ImageSource = $"{ConfigurationManager.AppSettings["base_directory"]}{TourSingleton.GetInstance.ActualTour.Id}.jpg";
             }
             catch (NullReferenceException e)
             {
                 TourTitle = "Chosen tour deleted!";
                 TourContent = "Chose another Tour to display.";
+                ImageSource = $"{ConfigurationManager.AppSettings["base_directory"]}sample_pic.jpg";
             }
         }
     }
