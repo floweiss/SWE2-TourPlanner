@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using SWE2_TourPlanner.Factory.Window;
 using SWE2_TourPlanner.Models;
 using SWE2_TourPlanner.Services;
 using SWE2_TourPlanner.Views;
@@ -19,10 +20,11 @@ namespace SWE2_TourPlanner.ViewModels
         private string _description;
         private string _start;
         private string _end;
+        private IWindowFactory _errorWindowFactory;
 
         private List<IObserver> _observers = new List<IObserver>();
 
-        public EditTourViewModel(Tour actualTour)
+        public EditTourViewModel(Tour actualTour, IWindowFactory errorWindowFactory)
         {
             _id = actualTour.Id;
             _name = actualTour.Name;
@@ -30,6 +32,7 @@ namespace SWE2_TourPlanner.ViewModels
             _start = actualTour.Start;
             _end = actualTour.End;
             ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach when created because all observers are already created
+            _errorWindowFactory = errorWindowFactory;
         }
 
         public ICommand SaveTourCommand => new RelayCommand(SaveTour);
@@ -90,7 +93,8 @@ namespace SWE2_TourPlanner.ViewModels
             Tour editedTour = new Tour(_id, _name, _description, _start, _end);
             try
             {
-                if (String.IsNullOrWhiteSpace(_name) || String.IsNullOrWhiteSpace(_description) || String.IsNullOrWhiteSpace(_start) || String.IsNullOrWhiteSpace(_end))
+                if (String.IsNullOrWhiteSpace(_name) || String.IsNullOrWhiteSpace(_description) ||
+                    String.IsNullOrWhiteSpace(_start) || String.IsNullOrWhiteSpace(_end))
                 {
                     throw new InvalidOperationException();
                 }
@@ -100,12 +104,19 @@ namespace SWE2_TourPlanner.ViewModels
                 ServiceLocator.GetService<ITourService>().EditTour(editedTour);
                 //ServiceLocator.GetService<IMapService>().DeleteMap(editedTour); // mao is deleted afterwards
                 ServiceLocator.GetService<IMapService>().CreateMap(editedTour);
-                ((Window)sender).Close();
+                ((Window) sender).Close();
                 Notify();
+            }
+            catch (System.Net.WebException e)
+            {
+                ErrorSingleton.GetInstance.ErrorText = "Please check your internet connection and the Mapquest API Key!";
+                _errorWindowFactory.GetWindow().Show();
             }
             catch (InvalidOperationException e)
             {
                 Debug.WriteLine("Specify all params");
+                ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Tour!";
+                _errorWindowFactory.GetWindow().Show();
             }
         }
 

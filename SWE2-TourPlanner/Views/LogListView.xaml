@@ -24,7 +24,9 @@
         
         <Label
             Grid.Row="0"
-            Grid.Column="0">Logs</Label>
+            Grid.Column="0"
+            FontWeight="SemiBold"
+            FontSize="16">Logs</Label>
 
         <Button Grid.Column="1" Grid.Row="0"
                 Command="{Binding Path=DataContext.AddLogCommand, 

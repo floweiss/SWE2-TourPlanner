@@ -28,7 +28,7 @@ namespace SWE2_TourPlanner.DAL
             catch (NpgsqlException e)
             {
                 Debug.WriteLine("No DB connection");
-                return new List<Tour>();
+                return null;
             }
 
             string sql = "SELECT * FROM tours";

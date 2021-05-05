@@ -21,7 +21,10 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label Grid.Column="0" Grid.Row="0">Tours</Label>
+        <Label Grid.Column="0"
+               Grid.Row="0"
+               FontWeight="SemiBold"
+               FontSize="16">Tours</Label>
 
         <Button Grid.Column="1" Grid.Row="0"
                 Command="{Binding Path=DataContext.AddTourCommand, 
@@ -38,7 +41,9 @@
                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
                 CommandParameter="{Binding .}">Report</Button>
 
-        <ListView Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" ItemsSource="{Binding Tours}">
+        <ListView Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1"
+                  HorizontalContentAlignment="Stretch"
+                  ItemsSource="{Binding Tours}">
             <!--<ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
@@ -48,11 +53,11 @@
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="4*"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Column="0" Content="{Binding Path=Name}"></Label>

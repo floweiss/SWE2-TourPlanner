@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -50,7 +51,14 @@ namespace SWE2_TourPlanner.Services
 
                 if (deleteFile)
                 {
-                    File.Delete(fileName);
+                    try
+                    {
+                        File.Delete(fileName);
+                    }
+                    catch (IOException e)
+                    {
+                        Debug.WriteLine("could not delete file");
+                    }
                 }
             }
         }

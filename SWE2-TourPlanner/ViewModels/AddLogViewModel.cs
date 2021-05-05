@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using SWE2_TourPlanner.Factory.Window;
 using SWE2_TourPlanner.Models;
 using SWE2_TourPlanner.Services;
 using SWE2_TourPlanner.Views;
@@ -24,12 +25,14 @@ namespace SWE2_TourPlanner.ViewModels
         private double _distance;
         private double _totalTime;
         private Rating _rating;
+        private IWindowFactory _errorWindowFactory;
         private List<IObserver> _observers = new List<IObserver>();
 
-        public AddLogViewModel()
+        public AddLogViewModel(IWindowFactory errorWindowFactory)
         {
             DateTime = DateTime.Now;
             ObserverSingleton.GetInstance.LogObservers.ForEach(Attach); // attach when created because all observers are already created
+            _errorWindowFactory = errorWindowFactory;
         }
 
         public ICommand SaveLogCommand => new RelayCommand(SaveLog);
@@ -179,10 +182,14 @@ namespace SWE2_TourPlanner.ViewModels
             catch (InvalidOperationException e)
             {
                 Debug.WriteLine("Specify all params");
+                ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Log!";
+                _errorWindowFactory.GetWindow().Show();
             }
             catch (ArgumentNullException e)
             {
                 Debug.WriteLine("Specify all params");
+                ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Log!";
+                _errorWindowFactory.GetWindow().Show();
             }
         }
         public void Attach(IObserver observer)
