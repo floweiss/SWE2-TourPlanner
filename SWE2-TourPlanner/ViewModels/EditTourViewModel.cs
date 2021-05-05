@@ -98,10 +98,8 @@ namespace SWE2_TourPlanner.ViewModels
                 TourSingleton.GetInstance.ActualTour = null;
                 Notify();
                 ServiceLocator.GetService<ITourService>().EditTour(editedTour);
-                // TODO: edit map
-                //ServiceLocator.GetService<IMapService>().DeleteMap(editedTour);
-                //ServiceLocator.GetService<IMapService>().CreateMap(editedTour);
-                TourSingleton.GetInstance.ActualTour = editedTour;
+                //ServiceLocator.GetService<IMapService>().DeleteMap(editedTour); // mao is deleted afterwards
+                ServiceLocator.GetService<IMapService>().CreateMap(editedTour);
                 ((Window)sender).Close();
                 Notify();
             }

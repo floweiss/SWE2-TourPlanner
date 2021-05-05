@@ -18,6 +18,7 @@ namespace SWE2_TourPlanner.ViewModels
     {
         private readonly IWindowFactory _windowFactorySave;
         private readonly IWindowFactory _windowFactoryEdit;
+        private readonly IWindowFactory _windowFactoryDelete;
         private List<Tour> _tours;
         private List<IObserver> _observers = new List<IObserver>();
 
@@ -28,10 +29,11 @@ namespace SWE2_TourPlanner.ViewModels
         public ICommand ShowTourCommand => new RelayCommand(ShowTour);
         public ICommand CopyTourCommand => new RelayCommand(CopyTour);
 
-        public TourListViewModel(IWindowFactory windowFactorySave, IWindowFactory windowFactoryEdit)
+        public TourListViewModel(IWindowFactory windowFactorySave, IWindowFactory windowFactoryEdit, IWindowFactory windowFactoryDelete)
         {
             _windowFactorySave = windowFactorySave;
             _windowFactoryEdit = windowFactoryEdit;
+            _windowFactoryDelete = windowFactoryDelete;
         }
 
         public List<Tour> Tours
@@ -64,17 +66,27 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void DeleteTour(object sender)
         {
-            ServiceLocator.GetService<ITourService>().DeleteTour((Tour) sender);
-            GetTours();
-            if (TourSingleton.GetInstance.ActualTour != null && ((Tour)sender).Id == TourSingleton.GetInstance.ActualTour.Id)
+            /*if (TourSingleton.GetInstance.ActualTour != null && ((Tour)sender).Id == TourSingleton.GetInstance.ActualTour.Id)
             {
-                TourSingleton.GetInstance.ActualTour = null;
+                *//*TourSingleton.GetInstance.ActualTour = null;
                 ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created
                 Notify();
-                ObserverSingleton.GetInstance.TourObservers.ForEach(Detach);
+                ObserverSingleton.GetInstance.TourObservers.ForEach(Detach);*//*
+                Debug.WriteLine("cant delete actual tour!");
             }
-            // TODO: delete map => Delete not working because TourView uses jpg
-            //ServiceLocator.GetService<IMapService>().DeleteMap((Tour)sender);
+            else
+            {
+                ServiceLocator.GetService<ITourService>().DeleteTour((Tour)sender);
+                GetTours();
+                ServiceLocator.GetService<IMapService>().DeleteMap((Tour)sender);
+            }*/
+            TourSingleton.GetInstance.EditTour = (Tour)sender;
+            TourSingleton.GetInstance.ActualTour = null;
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created
+            Notify();
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Detach);
+            Window view = _windowFactoryDelete.GetWindow();
+            view.Show();
         }
 
         private void GenerateTourReport(object sender)
@@ -84,7 +96,11 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void EditTour(object sender)
         {
-            TourSingleton.GetInstance.ActualTour = (Tour) sender;
+            TourSingleton.GetInstance.EditTour = (Tour) sender;
+            TourSingleton.GetInstance.ActualTour = null;
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created
+            Notify();
+            ObserverSingleton.GetInstance.TourObservers.ForEach(Detach);
             Window view = _windowFactoryEdit.GetWindow();
             view.Show();
         }
@@ -111,6 +127,7 @@ namespace SWE2_TourPlanner.ViewModels
         public void Update(ISubject subject)
         {
             GetTours();
+            ServiceLocator.GetService<IMapService>().DeleteUnusedMaps(Tours);
         }
 
         public void Attach(IObserver observer)

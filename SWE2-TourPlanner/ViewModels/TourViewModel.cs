@@ -85,7 +85,7 @@ namespace SWE2_TourPlanner.ViewModels
             TourDescriptionVisibility = Visibility.Visible;
             TourTitle = "No Tour chosen!";
             TourContent = "Click SHOW to show Tour.";
-            ImageSource = $"{ConfigurationManager.AppSettings["base_directory"]}sample_pic.jpg";
+            ImageSource = ConfigurationManager.AppSettings["placeholder_pic"];
         }
 
         public ICommand ShowTourRouteCommand => new RelayCommand(ShowTourRoute);
@@ -117,9 +117,9 @@ namespace SWE2_TourPlanner.ViewModels
             }
             catch (NullReferenceException e)
             {
-                TourTitle = "Chosen tour deleted!";
+                TourTitle = "No Tour to display!";
                 TourContent = "Chose another Tour to display.";
-                ImageSource = $"{ConfigurationManager.AppSettings["base_directory"]}sample_pic.jpg";
+                ImageSource = ConfigurationManager.AppSettings["placeholder_pic"];
             }
         }
     }

@@ -168,15 +168,19 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void SaveLog(object sender)
         {
-            Log addedLog = new Log(Guid.NewGuid(), _name, _description, _report, _vehicle, _dateTime,
-                Guid.Parse(_tourId), "name", _distance, _totalTime, _rating);
             try
             {
+                Log addedLog = new Log(Guid.NewGuid(), _name, _description, _report, _vehicle, _dateTime,
+                    Guid.Parse(_tourId), "name", _distance, _totalTime, _rating);
                 ServiceLocator.GetService<ILogService>().AddLog(addedLog);
                 ((Window)sender).Close();
                 Notify();
             }
             catch (InvalidOperationException e)
+            {
+                Debug.WriteLine("Specify all params");
+            }
+            catch (ArgumentNullException e)
             {
                 Debug.WriteLine("Specify all params");
             }

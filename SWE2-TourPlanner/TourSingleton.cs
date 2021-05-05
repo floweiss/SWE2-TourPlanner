@@ -15,10 +15,12 @@ namespace SWE2_TourPlanner
         private static readonly object _lock = new object();
         private static TourSingleton _instance = null;
         public Tour ActualTour;
+        public Tour EditTour;
 
         private TourSingleton()
         {
             ActualTour = null;
+            EditTour = null;
         }
 
         public static TourSingleton GetInstance

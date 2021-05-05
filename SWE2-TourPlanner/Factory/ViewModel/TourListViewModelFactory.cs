@@ -13,7 +13,8 @@ namespace SWE2_TourPlanner.Factory.ViewModel
         {
             IWindowFactory windowFactorySave = new AddTourWindowFactory();
             IWindowFactory windowFactoryEdit = new EditTourWindowFactory();
-            TourListViewModel vm = new TourListViewModel(windowFactorySave, windowFactoryEdit);
+            IWindowFactory windowFactoryDelete = new DeleteTourWindowFactory();
+            TourListViewModel vm = new TourListViewModel(windowFactorySave, windowFactoryEdit, windowFactoryDelete);
             ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
             vm.ServiceLocator.RegisterService<ITourService>(new TourService(tourDal));
             vm.ServiceLocator.RegisterService<IMapService>(new MapquestService());

@@ -27,29 +27,32 @@ namespace SWE2_TourPlanner.Services
             File.Copy($"{ConfigurationManager.AppSettings["base_directory"]}{tour.Id}.jpg", $"{ConfigurationManager.AppSettings["base_directory"]}{copiedTour.Id}.jpg");
         }
 
-        public void DeleteMap(Tour deletedTour)
+        /*public void DeleteMap(Tour deletedTour)
         {
             File.Delete($"{ConfigurationManager.AppSettings["base_directory"]}{deletedTour.Id}.jpg");
-        }
+        }*/
 
-
-        /*public void CreateMap(Tour tour)
+        public void DeleteUnusedMaps(List<Tour> currentTours)
         {
-            HttpWebRequest mapRequest = (HttpWebRequest)WebRequest.Create(ConfigurationManager.AppSettings["mapquest_base_url"] +
-                                                                          $"staticmap/v5/map?start={HttpUtility.UrlEncode(start)}&end={HttpUtility.UrlEncode(end)}&key=" +
-                                                                          ConfigurationManager.AppSettings["mapquest_key"]);
-
-            using (HttpWebResponse mapResponse = (HttpWebResponse)mapRequest.GetResponse())
+            string[] fileNames = Directory.GetFiles(ConfigurationManager.AppSettings["base_directory"]);
+            bool deleteFile;
+            foreach (string fileName in fileNames)
             {
-                using (BinaryReader reader = new BinaryReader(mapResponse.GetResponseStream()))
+                deleteFile = true;
+                foreach (Tour currentTour in currentTours)
                 {
-                    Byte[] lnByte = reader.ReadBytes(1 * 1024 * 1024 * 10);
-                    using (FileStream fileStream = new FileStream("preview.jpg", FileMode.Create))
+                    if ($"{ConfigurationManager.AppSettings["base_directory"]}{currentTour.Id}.jpg" == fileName)
                     {
-                        fileStream.Write(lnByte, 0, lnByte.Length);
+                        deleteFile = false;
+                        break;
                     }
                 }
+
+                if (deleteFile)
+                {
+                    File.Delete(fileName);
+                }
             }
-        }*/
+        }
     }
 }

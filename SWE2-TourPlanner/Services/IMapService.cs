@@ -11,6 +11,7 @@ namespace SWE2_TourPlanner.Services
     {
         void CreateMap(Tour tour);
         void CopyMap(Tour tour, Tour copiedTour);
-        void DeleteMap(Tour deletedTour);
+        //void DeleteMap(Tour deletedTour);
+        void DeleteUnusedMaps(List<Tour> currentTours);
     }
 }
