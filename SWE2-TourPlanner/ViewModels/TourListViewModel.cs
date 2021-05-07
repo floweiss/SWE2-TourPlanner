@@ -24,6 +24,7 @@ namespace SWE2_TourPlanner.ViewModels
 
         public ICommand AddTourCommand => new RelayCommand(AddTour);
         public ICommand DeleteTourCommand => new RelayCommand(DeleteTour);
+        public ICommand TotalReportCommand => new RelayCommand(GenerateTotalReport);
         public ICommand ReportTourCommand => new RelayCommand(GenerateTourReport);
         public ICommand EditTourCommand => new RelayCommand(EditTour);
         public ICommand ShowTourCommand => new RelayCommand(ShowTour);
@@ -89,9 +90,14 @@ namespace SWE2_TourPlanner.ViewModels
             view.Show();
         }
 
+        private void GenerateTotalReport(object sender)
+        {
+            Debug.WriteLine("Total Report clicked");
+        }
+
         private void GenerateTourReport(object sender)
         {
-            Debug.WriteLine("Report Tour clicked");
+            Debug.WriteLine($"Report Tour: {((Tour)sender).Name} clicked");
         }
 
         private void EditTour(object sender)
