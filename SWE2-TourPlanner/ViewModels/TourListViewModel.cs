@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace SWE2_TourPlanner.ViewModels
         private readonly IWindowFactory _windowFactorySave;
         private readonly IWindowFactory _windowFactoryEdit;
         private readonly IWindowFactory _windowFactoryDelete;
+        private readonly IWindowFactory _windowFactoryError;
         private List<Tour> _tours;
         private List<IObserver> _observers = new List<IObserver>();
 
@@ -29,12 +31,15 @@ namespace SWE2_TourPlanner.ViewModels
         public ICommand EditTourCommand => new RelayCommand(EditTour);
         public ICommand ShowTourCommand => new RelayCommand(ShowTour);
         public ICommand CopyTourCommand => new RelayCommand(CopyTour);
+        public ICommand ExportCommand => new RelayCommand(ExportTours);
+        public ICommand ImportCommand => new RelayCommand(ImportTours);
 
-        public TourListViewModel(IWindowFactory windowFactorySave, IWindowFactory windowFactoryEdit, IWindowFactory windowFactoryDelete)
+        public TourListViewModel(IWindowFactory windowFactorySave, IWindowFactory windowFactoryEdit, IWindowFactory windowFactoryDelete, IWindowFactory windowFactoryError)
         {
             _windowFactorySave = windowFactorySave;
             _windowFactoryEdit = windowFactoryEdit;
             _windowFactoryDelete = windowFactoryDelete;
+            _windowFactoryError = windowFactoryError;
         }
 
         public List<Tour> Tours
@@ -90,16 +95,6 @@ namespace SWE2_TourPlanner.ViewModels
             view.Show();
         }
 
-        private void GenerateTotalReport(object sender)
-        {
-            Debug.WriteLine("Total Report clicked");
-        }
-
-        private void GenerateTourReport(object sender)
-        {
-            Debug.WriteLine($"Report Tour: {((Tour)sender).Name} clicked");
-        }
-
         private void EditTour(object sender)
         {
             TourSingleton.GetInstance.EditTour = (Tour) sender;
@@ -128,6 +123,30 @@ namespace SWE2_TourPlanner.ViewModels
             ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created
             Notify();
             ObserverSingleton.GetInstance.TourObservers.ForEach(Detach);
+        }
+
+        private void GenerateTotalReport(object sender)
+        {
+            Debug.WriteLine("Total Report clicked");
+        }
+
+        private void GenerateTourReport(object sender)
+        {
+            Debug.WriteLine($"Report Tour: {((Tour)sender).Name} clicked");
+        }
+
+        private void ExportTours(object sender)
+        {
+            Debug.WriteLine("Export clicked");
+            string filename = $"{ConfigurationManager.AppSettings["download_directory"]}{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.json";
+            ServiceLocator.GetService<ITourService>().ExportTours(filename);
+            ErrorSingleton.GetInstance.ErrorText = $"All Tours exported and saved to file:\n{filename}";
+            _windowFactoryError.GetWindow().Show();
+        }
+
+        private void ImportTours(object sender)
+        {
+            Debug.WriteLine("Import clicked");
         }
 
         public void Update(ISubject subject)

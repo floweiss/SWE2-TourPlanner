@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using SWE2_TourPlanner.DAL;
 using SWE2_TourPlanner.Models;
 
@@ -49,6 +52,17 @@ namespace SWE2_TourPlanner.Services
             {
                 throw;
             }
+        }
+
+        public void ExportTours(string filename)
+        {
+            List<Tour> tours = _tourDal.GetTours();
+            JsonSerializerOptions options = new JsonSerializerOptions()
+            {
+                WriteIndented = true
+            };
+            string json = JsonSerializer.Serialize(tours, options);
+            File.WriteAllText(filename, json);
         }
     }
 }

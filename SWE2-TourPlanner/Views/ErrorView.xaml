@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SWE2_TourPlanner.Views"
         xmlns:factory="clr-namespace:SWE2_TourPlanner.Factory.ViewModel"
         mc:Ignorable="d"
-        Title="Error" Height="150" Width="300"
+        Title="Information" Height="150" Width="350"
         factory:ViewModelCreator.FactoryType="{x:Type factory:ErrorViewModelFactory}">
     <Grid>
         <Grid.RowDefinitions>

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SWE2_TourPlanner"
         xmlns:views="clr-namespace:SWE2_TourPlanner.Views"
         mc:Ignorable="d"
-        Title="Tour Planner" Height="650" Width="1200">
+        Title="Tour Planner" Height="700" Width="1400">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
