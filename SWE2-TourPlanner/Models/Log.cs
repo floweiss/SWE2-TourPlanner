@@ -33,7 +33,7 @@ namespace SWE2_TourPlanner.Models
             TourName = tourName;
             Distance = distance;
             TotalTime = totalTime;
-            Speed = distance / totalTime;
+            Speed = Math.Round(distance / totalTime, 2);
             Rating = rating;
         }
     }

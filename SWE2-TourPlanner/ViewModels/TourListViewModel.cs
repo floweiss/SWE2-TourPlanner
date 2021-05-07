@@ -21,6 +21,7 @@ namespace SWE2_TourPlanner.ViewModels
         private readonly IWindowFactory _windowFactoryEdit;
         private readonly IWindowFactory _windowFactoryDelete;
         private readonly IWindowFactory _windowFactoryError;
+        private readonly IWindowFactory _windowFactoryImport;
         private List<Tour> _tours;
         private List<IObserver> _observers = new List<IObserver>();
 
@@ -34,12 +35,13 @@ namespace SWE2_TourPlanner.ViewModels
         public ICommand ExportCommand => new RelayCommand(ExportTours);
         public ICommand ImportCommand => new RelayCommand(ImportTours);
 
-        public TourListViewModel(IWindowFactory windowFactorySave, IWindowFactory windowFactoryEdit, IWindowFactory windowFactoryDelete, IWindowFactory windowFactoryError)
+        public TourListViewModel(IWindowFactory windowFactorySave, IWindowFactory windowFactoryEdit, IWindowFactory windowFactoryDelete, IWindowFactory windowFactoryError, IWindowFactory windowFactoryImport)
         {
             _windowFactorySave = windowFactorySave;
             _windowFactoryEdit = windowFactoryEdit;
             _windowFactoryDelete = windowFactoryDelete;
             _windowFactoryError = windowFactoryError;
+            _windowFactoryImport = windowFactoryImport;
         }
 
         public List<Tour> Tours
@@ -66,8 +68,7 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void AddTour(object sender)
         {
-            Window view = _windowFactorySave.GetWindow();
-            view.Show();
+            _windowFactorySave.GetWindow().Show();
         }
 
         private void DeleteTour(object sender)
@@ -146,7 +147,7 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void ImportTours(object sender)
         {
-            Debug.WriteLine("Import clicked");
+            _windowFactoryImport.GetWindow().Show();
         }
 
         public void Update(ISubject subject)

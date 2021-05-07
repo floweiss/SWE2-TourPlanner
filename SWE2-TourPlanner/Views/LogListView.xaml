@@ -51,9 +51,9 @@
                 <DataGridTextColumn Binding="{Binding Vehicle}" Header="Vehicle" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding DateTime}" Header="Date/Time" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding TourName}" Header="Tour" Width="Auto"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Distance}" Header="Distance" Width="Auto"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding TotalTime}" Header="Total Time" Width="Auto"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Speed}" Header="Speed" Width="Auto"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Distance}" Header="Distance (km)" Width="Auto"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding TotalTime}" Header="Total Time (hours)" Width="Auto"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Speed}" Header="Speed (km/h)" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding Rating}" Header="Rating" Width="Auto"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
