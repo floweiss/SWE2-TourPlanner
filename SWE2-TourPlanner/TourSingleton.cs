@@ -16,6 +16,7 @@ namespace SWE2_TourPlanner
         private static TourSingleton _instance = null;
         public Tour ActualTour;
         public Tour EditTour;
+        public Log EditLog;
 
         private TourSingleton()
         {

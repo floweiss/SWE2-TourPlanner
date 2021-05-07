@@ -14,29 +14,51 @@ using SWE2_TourPlanner.Views;
 
 namespace SWE2_TourPlanner.ViewModels
 {
-    public class AddLogViewModel : BaseViewModel, ISubject
+    public class EditLogViewModel : BaseViewModel, ISubject
     {
+        private Guid _id;
         private string _name;
         private string _description;
         private string _report;
         private string _vehicle;
         private DateTime _dateTime;
-        private string _tourId;
+        private Guid _tourId;
         private double _distance;
         private double _totalTime;
         private Rating _rating;
         private IWindowFactory _errorWindowFactory;
         private List<IObserver> _observers = new List<IObserver>();
 
-        public AddLogViewModel(IWindowFactory errorWindowFactory)
+        public EditLogViewModel(IWindowFactory errorWindowFactory)
         {
-            DateTime = DateTime.Now;
+            _id = TourSingleton.GetInstance.EditLog.Id;
+            _name = TourSingleton.GetInstance.EditLog.Name;
+            _description = TourSingleton.GetInstance.EditLog.Description;
+            _report = TourSingleton.GetInstance.EditLog.Report;
+            _vehicle = TourSingleton.GetInstance.EditLog.Vehicle;
+            _dateTime = TourSingleton.GetInstance.EditLog.DateTime;
+            _tourId = TourSingleton.GetInstance.EditLog.TourId;
+            _distance = TourSingleton.GetInstance.EditLog.Distance;
+            _totalTime = TourSingleton.GetInstance.EditLog.TotalTime;
+            _rating = TourSingleton.GetInstance.EditLog.Rating;
             ObserverSingleton.GetInstance.LogObservers.ForEach(Attach); // attach when created because all observers are already created
             _errorWindowFactory = errorWindowFactory;
         }
 
         public ICommand SaveLogCommand => new RelayCommand(SaveLog);
 
+        public Guid Id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                _id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
         public string Name
         {
             get
@@ -97,7 +119,7 @@ namespace SWE2_TourPlanner.ViewModels
                 OnPropertyChanged(nameof(DateTime));
             }
         }
-        public string TourId
+        public Guid TourId
         {
             get
             {
@@ -162,13 +184,17 @@ namespace SWE2_TourPlanner.ViewModels
         {
             try
             {
+                if (String.IsNullOrWhiteSpace(_name) || String.IsNullOrWhiteSpace(_description) || String.IsNullOrWhiteSpace(_report) || String.IsNullOrWhiteSpace(_vehicle))
+                {
+                    throw new InvalidOperationException();
+                }
                 if (_distance <= 0 || _totalTime <= 0)
                 {
                     throw new DivideByZeroException();
                 }
-                Log addedLog = new Log(Guid.NewGuid(), _name, _description, _report, _vehicle, _dateTime,
-                    Guid.Parse(_tourId), "name", _distance, _totalTime, _rating);
-                ServiceLocator.GetService<ILogService>().AddLog(addedLog);
+                Log editedLog = new Log(_id, _name, _description, _report, _vehicle, _dateTime,
+                    _tourId, "name", _distance, _totalTime, _rating);
+                ServiceLocator.GetService<ILogService>().EditLog(editedLog);
                 ((Window)sender).Close();
                 Notify();
             }
@@ -182,12 +208,6 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 Debug.WriteLine("Specify all params");
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Log!";
-                _errorWindowFactory.GetWindow().Show();
-            }
-            catch (DivideByZeroException e)
-            {
-                Debug.WriteLine("Distance or Time 0");
-                ErrorSingleton.GetInstance.ErrorText = "The Distance and Total Time must be above 0!";
                 _errorWindowFactory.GetWindow().Show();
             }
         }

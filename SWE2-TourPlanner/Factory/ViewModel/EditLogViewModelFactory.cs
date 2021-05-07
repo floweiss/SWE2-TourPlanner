@@ -12,15 +12,16 @@ using SWE2_TourPlanner.ViewModels;
 
 namespace SWE2_TourPlanner.Factory.ViewModel
 {
-    public class EditDeleteLogViewModelFactory : IViewModelFactory
+    class EditLogViewModelFactory : IViewModelFactory
     {
         public object CreateViewModel(DependencyObject sender)
         {
-            IWindowFactory windowFactoryError = new ErrorWindowFactory();
-            IWindowFactory windowFactoryEdit = new EditLogWindowFactory();
-            EditDeleteLogViewModel vm = new EditDeleteLogViewModel(windowFactoryError, windowFactoryEdit);
+            IWindowFactory errorWindowFactory = new ErrorWindowFactory();
+            EditLogViewModel vm = new EditLogViewModel(errorWindowFactory);
             ILogDal logDal = new LogDal(ConfigurationManager.AppSettings["connection_string"]);
             vm.ServiceLocator.RegisterService<ILogService>(new LogService(logDal));
+            ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
+            vm.ServiceLocator.RegisterService<ITourService>(new TourService(tourDal));
             return vm;
         }
     }

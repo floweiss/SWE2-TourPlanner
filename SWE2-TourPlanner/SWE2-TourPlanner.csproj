@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Views\EditLogView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Views\SearchView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

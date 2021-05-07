@@ -22,6 +22,15 @@ namespace SWE2_TourPlanner.Services
             return _logDal.GetLogs();
         }
 
+        public Log GetLogById(string logId)
+        {
+            if (logId == null)
+            {
+                throw new InvalidOperationException();
+            }
+            return _logDal.GetLogById(logId);
+        }
+
         public void AddLog(Log addedLog)
         {
             _logDal.AddLog(addedLog);
@@ -34,7 +43,7 @@ namespace SWE2_TourPlanner.Services
 
         public void EditLog(Log editedLog)
         {
-            throw new NotImplementedException();
+            _logDal.EditLog(editedLog);
         }
     }
 }

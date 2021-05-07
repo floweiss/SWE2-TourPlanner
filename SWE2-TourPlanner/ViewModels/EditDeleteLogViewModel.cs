@@ -16,15 +16,18 @@ namespace SWE2_TourPlanner.ViewModels
     {
         private List<IObserver> _observers = new List<IObserver>();
         private IWindowFactory _windowFactoryError;
+        private IWindowFactory _windowFactoryEdit;
         private string _logId;
 
-        public EditDeleteLogViewModel(IWindowFactory windowFactoryError)
+        public EditDeleteLogViewModel(IWindowFactory windowFactoryError, IWindowFactory windowFactoryEdit)
         {
             _windowFactoryError = windowFactoryError;
+            _windowFactoryEdit = windowFactoryEdit;
             ObserverSingleton.GetInstance.LogObservers.ForEach(Attach);
         }
 
         public ICommand DeleteLogCommand => new RelayCommand(DeleteLog);
+        public ICommand EditLogCommand => new RelayCommand(EditLog);
 
         public string LogId
         {
@@ -52,6 +55,26 @@ namespace SWE2_TourPlanner.ViewModels
             catch (InvalidOperationException e)
             {
                 ErrorSingleton.GetInstance.ErrorText = "No Log chosen!";
+                _windowFactoryError.GetWindow().Show();
+            }
+        }
+
+        private void EditLog(object sender)
+        {
+            try
+            {
+                TourSingleton.GetInstance.EditLog = ServiceLocator.GetService<ILogService>().GetLogById(_logId);
+                _windowFactoryEdit.GetWindow().Show();
+                ((Window)sender).Close();
+            }
+            catch (InvalidOperationException e)
+            {
+                ErrorSingleton.GetInstance.ErrorText = "No Log chosen!";
+                _windowFactoryError.GetWindow().Show();
+            }
+            catch (DivideByZeroException e)
+            {
+                ErrorSingleton.GetInstance.ErrorText = "The Distance and Total Time must be above 0!";
                 _windowFactoryError.GetWindow().Show();
             }
         }
