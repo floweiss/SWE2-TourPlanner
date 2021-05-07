@@ -31,7 +31,7 @@
         <Button Grid.Column="1" Grid.Row="0"
                 Command="{Binding Path=DataContext.AddLogCommand, 
                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
-                CommandParameter="{Binding .}">+</Button>
+                CommandParameter="{Binding .}">Add</Button>
 
         <Button Grid.Row="0" Grid.Column="2"
                 Command="{Binding Path=DataContext.EditDeleteLogCommand, 
