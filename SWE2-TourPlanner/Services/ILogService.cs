@@ -11,7 +11,7 @@ namespace SWE2_TourPlanner.Services
     {
         List<Log> GetLogs();
         void AddLog(Log addedLog);
-        void DeleteLog(Log deletedLog);
+        void DeleteLog(string logId);
         void EditLog(Log editedLog);
     }
 }

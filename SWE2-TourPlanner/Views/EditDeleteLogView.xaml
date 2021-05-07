@@ -1,0 +1,52 @@
+﻿<Window x:Class="SWE2_TourPlanner.Views.EditDeleteLogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SWE2_TourPlanner.Views"
+        xmlns:factory="clr-namespace:SWE2_TourPlanner.Factory.ViewModel"
+        mc:Ignorable="d"
+        Title="Edit/Delete Log" Height="150" Width="300"
+        factory:ViewModelCreator.FactoryType="{x:Type factory:EditDeleteLogViewModelFactory}">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            VerticalAlignment="Center">Choose Log</Label>
+        <ComboBox
+            Grid.Row="0"
+            Grid.Column="2"
+            Grid.ColumnSpan="3"
+            SelectedValue="{Binding LogId, UpdateSourceTrigger=PropertyChanged}" 
+            ItemsSource="{Binding PossibleLogs}"
+            DisplayMemberPath="Name"
+            SelectedValuePath="Id"/>
+
+        <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                Command="{Binding Path=DataContext.DeleteLogCommand, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                           AncestorType={x:Type Window}}}">Delete Log</Button>
+
+        <Button Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
+                Command="{Binding Path=DataContext.EditLogCommand, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                           AncestorType={x:Type Window}}}">Edit Log</Button>
+        
+    </Grid>
+</Window>

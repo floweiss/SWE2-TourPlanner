@@ -11,5 +11,6 @@ namespace SWE2_TourPlanner.DAL
     {
         List<Log> GetLogs();
         void AddLog(Log addedLog);
+        void DeleteLog(string logId);
     }
 }

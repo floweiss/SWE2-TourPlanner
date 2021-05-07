@@ -152,22 +152,11 @@ namespace SWE2_TourPlanner.ViewModels
             }
         }
 
-        public IEnumerable<Rating> PossibleRatings
-        {
-            get
-            {
-                return Enum.GetValues(typeof(Rating))
-                    .Cast<Rating>();
-            }
-        }
+        public IEnumerable<Rating> PossibleRatings =>
+            Enum.GetValues(typeof(Rating))
+                .Cast<Rating>();
 
-        public List<Tour> PossibleTours
-        {
-            get
-            {
-                return ServiceLocator.GetService<ITourService>().GetTours();
-            }
-        }
+        public List<Tour> PossibleTours => ServiceLocator.GetService<ITourService>().GetTours();
 
         private void SaveLog(object sender)
         {

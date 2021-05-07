@@ -105,5 +105,33 @@ namespace SWE2_TourPlanner.DAL
                 throw;
             }
         }
+
+        public void DeleteLog(string logId)
+        {
+            using NpgsqlConnection con = new NpgsqlConnection(_connectionString);
+            try
+            {
+                con.Open();
+            }
+            catch (NpgsqlException e)
+            {
+                Debug.WriteLine("No DB connection");
+            }
+
+            try
+            {
+                string sql = "DELETE FROM logs WHERE logid = @logid";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("logId", logId);
+                    cmd.Prepare();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (InvalidOperationException e)
+            {
+                throw;
+            }
+        }
     }
 }

@@ -15,14 +15,16 @@ namespace SWE2_TourPlanner.ViewModels
     public class LogListViewModel : BaseViewModel, IObserver
     {
         private List<Log> _logs;
-        private readonly IWindowFactory _windowFactory;
+        private readonly IWindowFactory _windowFactoryAdd;
+        private readonly IWindowFactory _windowFactoryEditDelete;
         public ICommand AddLogCommand => new RelayCommand(AddLog);
-        public ICommand DeleteLogCommand => new RelayCommand(DeleteLog);
+        public ICommand EditDeleteLogCommand => new RelayCommand(EditDeleteLog);
         public ICommand ReportLogCommand => new RelayCommand(GenerateLogReport);
 
-        public LogListViewModel(IWindowFactory windowFactory)
+        public LogListViewModel(IWindowFactory windowFactoryAdd, IWindowFactory windowFactoryEditDelete)
         {
-            _windowFactory = windowFactory;
+            _windowFactoryAdd = windowFactoryAdd;
+            _windowFactoryEditDelete = windowFactoryEditDelete;
         }
 
         public List<Log> Logs
@@ -49,13 +51,13 @@ namespace SWE2_TourPlanner.ViewModels
         private void AddLog(object sender)
         {
             Debug.WriteLine("Add Log clicked");
-            Window view = _windowFactory.GetWindow();
+            Window view = _windowFactoryAdd.GetWindow();
             view.Show();
         }
 
-        private void DeleteLog(object sender)
+        private void EditDeleteLog(object sender)
         {
-            Debug.WriteLine("Delete Log clicked");
+            _windowFactoryEditDelete.GetWindow().Show();
         }
 
         private void GenerateLogReport(object sender)
