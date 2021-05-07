@@ -81,8 +81,8 @@ namespace SWE2_TourPlanner.ViewModels
 
         public TourViewModel()
         {
-            TourImageVisibility = Visibility.Hidden;
-            TourDescriptionVisibility = Visibility.Visible;
+            TourImageVisibility = Visibility.Visible;
+            TourDescriptionVisibility = Visibility.Hidden;
             TourTitle = "No Tour chosen!";
             TourContent = "Click SHOW to show Tour.";
             ImageSource = ConfigurationManager.AppSettings["placeholder_pic"];

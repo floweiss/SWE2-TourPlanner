@@ -4,6 +4,9 @@
              xmlns:local="clr-namespace:SWE2_TourPlanner"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="Margin" Value="1.5"/>
+        </Style>
     </Application.Resources>
 </Application>

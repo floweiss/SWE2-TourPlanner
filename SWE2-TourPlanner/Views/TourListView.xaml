@@ -10,13 +10,6 @@
       Title="TourListView"
       factory:ViewModelCreator.FactoryType="{x:Type factory:TourListViewModelFactory}">
 
-    <Page.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Padding" Value="3"/>
-            <Setter Property="Margin" Value="1"/>
-        </Style>
-    </Page.Resources>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"></ColumnDefinition>

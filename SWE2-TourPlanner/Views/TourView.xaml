@@ -39,7 +39,7 @@
             Grid.Column="2"
             Command="{Binding Path=DataContext.ShowTourDescriptionCommand, 
                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
-            CommandParameter="{Binding .}">Description</Button>
+            CommandParameter="{Binding .}">Information</Button>
         
         <Image
             Grid.Row="1"
