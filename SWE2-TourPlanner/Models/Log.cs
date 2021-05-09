@@ -39,7 +39,10 @@ namespace SWE2_TourPlanner.Models
 
         public IElement Copy()
         {
-            throw new NotImplementedException();
+            Log other = (Log)this.MemberwiseClone();
+            other.Id = Guid.NewGuid();
+            other.Name = this.Name + " - Copy";
+            return other;
         }
     }
 }

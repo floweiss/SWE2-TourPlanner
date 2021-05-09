@@ -48,7 +48,6 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void ShowElement(object sender)
         {
-            IElement element;
             try
             {
                 TourSingleton.GetInstance.ActualTour = (Tour)sender;
