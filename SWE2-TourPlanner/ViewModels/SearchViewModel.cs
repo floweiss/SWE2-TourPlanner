@@ -16,10 +16,13 @@ namespace SWE2_TourPlanner.ViewModels
     {
         private string _searchText;
         private IWindowFactory _windowFactoryResult;
+        private IWindowFactory _windowFactoryError;
 
-        public SearchViewModel(IWindowFactory windowFactoryResult)
+        public SearchViewModel(IWindowFactory windowFactoryResult, IWindowFactory windowFactoryError)
         {
             _windowFactoryResult = windowFactoryResult;
+            _windowFactoryError = windowFactoryError;
+            _searchText = "Search...";
         }
 
         public ICommand SearchCommand => new RelayCommand(SearchTourRoute);
@@ -39,23 +42,31 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void SearchTourRoute(object sender)
         {
-            TourSingleton.GetInstance.SearchResults.Clear();
-            ServiceLocator.GetService<ITourService>().GetTours()
-                .ForEach((tour) =>
-                {
-                    if (tour.Name.ToLower().Contains(_searchText.ToLower()))
+            if (String.IsNullOrWhiteSpace(_searchText))
+            {
+                ErrorSingleton.GetInstance.ErrorText = "Type in some text to search!";
+                _windowFactoryError.GetWindow().Show();
+            }
+            else
+            {
+                TourSingleton.GetInstance.SearchResults.Clear();
+                ServiceLocator.GetService<ITourService>().GetTours()
+                    .ForEach((tour) =>
                     {
-                        TourSingleton.GetInstance.SearchResults.Add(tour);
+                        if (tour.Name.ToLower().Contains(_searchText.ToLower()))
+                        {
+                            TourSingleton.GetInstance.SearchResults.Add(tour);
+                        }
+                    });
+                ServiceLocator.GetService<ILogService>().GetLogs().ForEach((log) =>
+                {
+                    if (log.Name.ToLower().Contains(_searchText.ToLower()))
+                    {
+                        TourSingleton.GetInstance.SearchResults.Add(log);
                     }
                 });
-            ServiceLocator.GetService<ILogService>().GetLogs().ForEach((log) =>
-            {
-                if (log.Name.ToLower().Contains(_searchText.ToLower()))
-                {
-                    TourSingleton.GetInstance.SearchResults.Add(log);
-                }
-            });
-            _windowFactoryResult.GetWindow().Show();
+                _windowFactoryResult.GetWindow().Show();
+            }
         }
     }
 }
