@@ -42,7 +42,7 @@ namespace SWE2_TourPlanner.ViewModels
             }
         }
 
-        public List<Log> PossibleLogs => ServiceLocator.GetService<ILogService>().GetLogs();
+        public List<IElement> PossibleLogs => ServiceLocator.GetService<ILogService>().GetLogs();
 
         private void DeleteLog(object sender)
         {

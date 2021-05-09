@@ -12,7 +12,7 @@ namespace SWE2_TourPlanner.ViewModels
     public class HomeViewModel : BaseViewModel
     {
         private string _message;
-        private List<Tour> _tours;
+        private List<IElement> _tours;
 
         public string Message
         {
@@ -31,7 +31,7 @@ namespace SWE2_TourPlanner.ViewModels
             }
         }
 
-        public List<Tour> Tours
+        public List<IElement> Tours
         {
             get
             {

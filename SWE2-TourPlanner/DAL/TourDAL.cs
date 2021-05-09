@@ -18,7 +18,7 @@ namespace SWE2_TourPlanner.DAL
             _connectionString = connectionString;
         }
 
-        public List<Tour> GetTours()
+        public List<IElement> GetTours()
         {
             using NpgsqlConnection con = new NpgsqlConnection(_connectionString);
             try
@@ -34,7 +34,7 @@ namespace SWE2_TourPlanner.DAL
             string sql = "SELECT * FROM tours";
             using NpgsqlCommand cmd = new NpgsqlCommand(sql, con);
 
-            List<Tour> tours = new List<Tour>();
+            List<IElement> tours = new List<IElement>();
             using NpgsqlDataReader rdr = cmd.ExecuteReader();
 
             while (rdr.Read())

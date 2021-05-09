@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SWE2_TourPlanner.Models
 {
-    public class Tour
+    public class Tour : IElement
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -23,7 +23,7 @@ namespace SWE2_TourPlanner.Models
             End = end;
         }
 
-        public Tour Copy()
+        public IElement Copy()
         {
             Tour other = (Tour)this.MemberwiseClone();
             other.Id = Guid.NewGuid();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SWE2_TourPlanner.Models
 {
-    public class Log
+    public class Log : IElement
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -35,6 +35,11 @@ namespace SWE2_TourPlanner.Models
             TotalTime = totalTime;
             Speed = Math.Round(distance / totalTime, 2);
             Rating = rating;
+        }
+
+        public IElement Copy()
+        {
+            throw new NotImplementedException();
         }
     }
 }

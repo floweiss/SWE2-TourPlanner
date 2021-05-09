@@ -18,7 +18,7 @@ namespace SWE2_TourPlanner.DAL
             _connectionString = connectionString;
         }
 
-        public List<Log> GetLogs()
+        public List<IElement> GetLogs()
         {
             using NpgsqlConnection con = new NpgsqlConnection(_connectionString);
             try
@@ -28,7 +28,7 @@ namespace SWE2_TourPlanner.DAL
             catch (NpgsqlException e)
             {
                 Debug.WriteLine("No DB connection");
-                return new List<Log>();
+                return null;
             }
 
             // get tour names
@@ -49,7 +49,7 @@ namespace SWE2_TourPlanner.DAL
             string sql = "SELECT * FROM logs";
             using NpgsqlCommand cmd = new NpgsqlCommand(sql, con);
 
-            List<Log> logs = new List<Log>();
+            List<IElement> logs = new List<IElement>();
             string tourId, tourName;
             Rating rating;
             using NpgsqlDataReader rdr = cmd.ExecuteReader();

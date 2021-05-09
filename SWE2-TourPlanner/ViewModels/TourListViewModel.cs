@@ -22,7 +22,7 @@ namespace SWE2_TourPlanner.ViewModels
         private readonly IWindowFactory _windowFactoryDelete;
         private readonly IWindowFactory _windowFactoryError;
         private readonly IWindowFactory _windowFactoryImport;
-        private List<Tour> _tours;
+        private List<IElement> _tours;
         private List<IObserver> _observers = new List<IObserver>();
 
         public ICommand AddTourCommand => new RelayCommand(AddTour);
@@ -44,7 +44,7 @@ namespace SWE2_TourPlanner.ViewModels
             _windowFactoryImport = windowFactoryImport;
         }
 
-        public List<Tour> Tours
+        public List<IElement> Tours
         {
             get
             {
@@ -117,7 +117,7 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void CopyTour(object sender)
         {
-            Tour copiedTour = ((Tour) sender).Copy(); 
+            Tour copiedTour = ((Tour) ((Tour) sender).Copy()); 
             ServiceLocator.GetService<ITourService>().AddTour(copiedTour);
             ServiceLocator.GetService<IMapService>().CopyMap(((Tour)sender), copiedTour);
             TourSingleton.GetInstance.ActualTour = copiedTour;

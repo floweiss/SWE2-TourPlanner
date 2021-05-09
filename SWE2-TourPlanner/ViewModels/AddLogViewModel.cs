@@ -156,7 +156,7 @@ namespace SWE2_TourPlanner.ViewModels
             Enum.GetValues(typeof(Rating))
                 .Cast<Rating>();
 
-        public List<Tour> PossibleTours => ServiceLocator.GetService<ITourService>().GetTours();
+        public List<IElement> PossibleTours => ServiceLocator.GetService<ITourService>().GetTours();
 
         private void SaveLog(object sender)
         {

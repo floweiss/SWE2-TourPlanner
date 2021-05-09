@@ -9,7 +9,7 @@ namespace SWE2_TourPlanner.Services
 {
     public interface ITourService
     {
-        public List<Tour> GetTours();
+        public List<IElement> GetTours();
         public void AddTour(Tour addedTour);
         public void DeleteTour(Tour deletedTour);
         public void EditTour(Tour editedTour);

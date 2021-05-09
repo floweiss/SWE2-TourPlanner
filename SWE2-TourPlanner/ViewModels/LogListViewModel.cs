@@ -14,7 +14,7 @@ namespace SWE2_TourPlanner.ViewModels
 {
     public class LogListViewModel : BaseViewModel, IObserver
     {
-        private List<Log> _logs;
+        private List<IElement> _logs;
         private readonly IWindowFactory _windowFactoryAdd;
         private readonly IWindowFactory _windowFactoryEditDelete;
         public ICommand AddLogCommand => new RelayCommand(AddLog);
@@ -27,7 +27,7 @@ namespace SWE2_TourPlanner.ViewModels
             _windowFactoryEditDelete = windowFactoryEditDelete;
         }
 
-        public List<Log> Logs
+        public List<IElement> Logs
         {
             get
             {

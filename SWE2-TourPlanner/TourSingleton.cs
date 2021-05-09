@@ -17,11 +17,14 @@ namespace SWE2_TourPlanner
         public Tour ActualTour;
         public Tour EditTour;
         public Log EditLog;
+        public List<IElement> SearchResults;
 
         private TourSingleton()
         {
             ActualTour = null;
             EditTour = null;
+            EditLog = null;
+            SearchResults = new List<IElement>();
         }
 
         public static TourSingleton GetInstance

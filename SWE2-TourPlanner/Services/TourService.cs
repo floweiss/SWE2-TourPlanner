@@ -20,7 +20,7 @@ namespace SWE2_TourPlanner.Services
             _tourDal = tourDal;
         }
 
-        public List<Tour> GetTours()
+        public List<IElement> GetTours()
         {
             return _tourDal.GetTours();
         }
@@ -56,7 +56,7 @@ namespace SWE2_TourPlanner.Services
 
         public void ExportTours(string filename)
         {
-            List<Tour> tours = _tourDal.GetTours();
+            List<IElement> tours = _tourDal.GetTours();
             JsonSerializerOptions options = new JsonSerializerOptions()
             {
                 WriteIndented = true

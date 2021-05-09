@@ -33,7 +33,7 @@ namespace SWE2_TourPlanner.Services
             File.Delete($"{ConfigurationManager.AppSettings["base_directory"]}{deletedTour.Id}.jpg");
         }*/
 
-        public void DeleteUnusedMaps(List<Tour> currentTours)
+        public void DeleteUnusedMaps(List<IElement> currentTours)
         {
             string[] fileNames = Directory.GetFiles(ConfigurationManager.AppSettings["base_directory"]);
             bool deleteFile;

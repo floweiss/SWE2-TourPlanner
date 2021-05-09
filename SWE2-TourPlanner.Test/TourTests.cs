@@ -12,14 +12,14 @@ namespace SWE2_TourPlanner.Test
     {
         private TourService _tourService;
         private Mock<ITourDal> _tourDalMock;
-        private List<Tour> _tourList;
+        private List<IElement> _tourList;
 
         [SetUp]
         public void Setup()
         {
             _tourDalMock = new Mock<ITourDal>();
             _tourService = new TourService(_tourDalMock.Object);
-            _tourList = new List<Tour>
+            _tourList = new List<IElement>
             {
                 new Tour(Guid.NewGuid(), "Tour1", "Desc", "Start", "End"),
                 new Tour(Guid.NewGuid(), "Tour2", "Description", "Hell", "Heaven"),
@@ -32,7 +32,7 @@ namespace SWE2_TourPlanner.Test
         {
             _tourDalMock.Setup(s => s.GetTours()).Returns(_tourList);
 
-            List<Tour> tours = _tourService.GetTours();
+            List<IElement> tours = _tourService.GetTours();
 
             Assert.AreEqual(3, tours.Count);
         }
@@ -40,7 +40,7 @@ namespace SWE2_TourPlanner.Test
         [Test]
         public void Test_CopyTour()
         {
-            Tour copiedTour = _tourList[0].Copy();
+            IElement copiedTour = _tourList[0].Copy();
 
             Assert.AreEqual($"{_tourList[0].Name} - Copy", copiedTour.Name);
             Assert.AreNotEqual(_tourList[0].Id, copiedTour.Id);

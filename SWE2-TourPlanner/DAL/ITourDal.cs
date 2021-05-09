@@ -9,7 +9,7 @@ namespace SWE2_TourPlanner.DAL
 {
     public interface ITourDal
     {
-        List<Tour> GetTours();
+        List<IElement> GetTours();
         void AddTour(Tour addedTour);
         void DeleteTour(Tour deletedTour);
         void EditTour(Tour editedTour);

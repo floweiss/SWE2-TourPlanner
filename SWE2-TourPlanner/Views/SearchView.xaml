@@ -18,7 +18,13 @@
 
         <TextBox
             Grid.Column="0"
-            Padding="2"></TextBox>
+            Padding="2"
+            Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.InputBindings>
+                <KeyBinding Command="{Binding Path=DataContext.SearchCommand, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}" Key="Enter" />
+            </TextBox.InputBindings>
+        </TextBox>
 
         <Button
             Grid.Column="1"

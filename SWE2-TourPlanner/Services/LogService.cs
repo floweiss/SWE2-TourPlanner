@@ -17,7 +17,7 @@ namespace SWE2_TourPlanner.Services
             _logDal = logDal;
         }
 
-        public List<Log> GetLogs()
+        public List<IElement> GetLogs()
         {
             return _logDal.GetLogs();
         }
