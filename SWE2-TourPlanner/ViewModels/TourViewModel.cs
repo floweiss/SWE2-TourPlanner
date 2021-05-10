@@ -112,7 +112,8 @@ namespace SWE2_TourPlanner.ViewModels
                 TourTitle = TourSingleton.GetInstance.ActualTour.Name;
                 TourContent = $"Description:\t{TourSingleton.GetInstance.ActualTour.Description}\n" +
                               $"Start:\t\t{TourSingleton.GetInstance.ActualTour.Start}\n" +
-                              $"End:\t\t{TourSingleton.GetInstance.ActualTour.End}";
+                              $"End:\t\t{TourSingleton.GetInstance.ActualTour.End}\n" +
+                              $"Distance:\t\t{TourSingleton.GetInstance.ActualTour.Distance} km";
                 ImageSource = $"{ConfigurationManager.AppSettings["base_directory"]}{TourSingleton.GetInstance.ActualTour.Id}.jpg";
             }
             catch (NullReferenceException e)

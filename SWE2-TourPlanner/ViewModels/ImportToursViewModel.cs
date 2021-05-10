@@ -26,7 +26,7 @@ namespace SWE2_TourPlanner.ViewModels
             _errorWindowFactory = errorWindowFactory;
             _isNotImporting = true;
             _tours =
-                "[\r\n  {\r\n    \"Name\": \"Kentucky to NY\",\r\n    \"Description\": \"Awesome Tour\",\r\n    \"Start\": \"Kentucky\",\r\n    \"End\": \"New York\"\r\n  },\r\n  {\r\n    \"Name\": \"Dallas to New Jersey\",\r\n    \"Description\": \"Super\",\r\n    \"Start\": \"Dallas\",\r\n    \"End\": \"New Jersey\"\r\n  }\r\n]";
+                "[\r\n  {\r\n    \"Name\": \"Kentucky to NY\",\r\n    \"Description\": \"Awesome Tour\",\r\n    \"Start\": \"Kentucky\",\r\n    \"End\": \"New York\",\r\n    \"Distance\": 200\r\n  },\r\n  {\r\n    \"Name\": \"Dallas to New Jersey\",\r\n    \"Description\": \"Super\",\r\n    \"Start\": \"Dallas\",\r\n    \"End\": \"New Jersey\",\r\n    \"Distance\": 400\r\n  }\r\n]\r\n";
         }
 
         public ICommand ImportToursCommand => new RelayCommand(ImportTours);

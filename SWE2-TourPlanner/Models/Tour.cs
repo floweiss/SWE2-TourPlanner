@@ -13,14 +13,16 @@ namespace SWE2_TourPlanner.Models
         public string Description { get; set; }
         public string Start { get; set; }
         public string End { get; set; }
+        public double Distance { get; set; }
 
-        public Tour(Guid id, string name, string description, string start, string end)
+        public Tour(Guid id, string name, string description, string start, string end, double distance)
         {
             Id = id;
             Name = name;
             Description = description;
             Start = start;
             End = end;
+            Distance = distance;
         }
 
         public IElement Copy()

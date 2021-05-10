@@ -20,6 +20,7 @@ namespace SWE2_TourPlanner.ViewModels
         private string _description;
         private string _start;
         private string _end;
+        private double _distance;
         private IWindowFactory _errorWindowFactory;
 
         private List<IObserver> _observers = new List<IObserver>();
@@ -31,6 +32,7 @@ namespace SWE2_TourPlanner.ViewModels
             _description = actualTour.Description;
             _start = actualTour.Start;
             _end = actualTour.End;
+            _distance = actualTour.Distance;
             ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach when created because all observers are already created
             _errorWindowFactory = errorWindowFactory;
         }
@@ -88,13 +90,26 @@ namespace SWE2_TourPlanner.ViewModels
             }
         }
 
+        public double Distance
+        {
+            get
+            {
+                return _distance;
+            }
+            set
+            {
+                _distance = value;
+                OnPropertyChanged(nameof(Distance));
+            }
+        }
+
         private void SaveTour(object sender)
         {
-            Tour editedTour = new Tour(_id, _name, _description, _start, _end);
+            Tour editedTour = new Tour(_id, _name, _description, _start, _end, _distance);
             try
             {
                 if (String.IsNullOrWhiteSpace(_name) || String.IsNullOrWhiteSpace(_description) ||
-                    String.IsNullOrWhiteSpace(_start) || String.IsNullOrWhiteSpace(_end))
+                    String.IsNullOrWhiteSpace(_start) || String.IsNullOrWhiteSpace(_end) || _distance <= 0)
                 {
                     throw new InvalidOperationException();
                 }
@@ -115,7 +130,7 @@ namespace SWE2_TourPlanner.ViewModels
             catch (InvalidOperationException e)
             {
                 Debug.WriteLine("Specify all params");
-                ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Tour!";
+                ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Tour!\nDistance must be more than 0!";
                 _errorWindowFactory.GetWindow().Show();
             }
         }

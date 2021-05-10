@@ -21,6 +21,7 @@ namespace SWE2_TourPlanner.ViewModels
         private string _description;
         private string _start;
         private string _end;
+        private double _distance;
         private IWindowFactory _errorWindowFactory;
 
         private List<IObserver> _observers = new List<IObserver>();
@@ -84,11 +85,28 @@ namespace SWE2_TourPlanner.ViewModels
             }
         }
 
+        public double Distance
+        {
+            get
+            {
+                return _distance;
+            }
+            set
+            {
+                _distance = value;
+                OnPropertyChanged(nameof(Distance));
+            }
+        }
+
         private void SaveTour(object sender)
         {
-            Tour addedTour = new Tour(Guid.NewGuid(), _name, _description, _start, _end);
+            Tour addedTour = new Tour(Guid.NewGuid(), _name, _description, _start, _end, _distance);
             try
             {
+                if (_distance <= 0)
+                {
+                    throw new InvalidOperationException();
+                }
                 ServiceLocator.GetService<ITourService>().AddTour(addedTour);
                 ServiceLocator.GetService<IMapService>().CreateMap(addedTour);
                 TourSingleton.GetInstance.ActualTour = addedTour;
@@ -103,7 +121,7 @@ namespace SWE2_TourPlanner.ViewModels
             catch (InvalidOperationException e)
             {
                 Debug.WriteLine("Specify all params");
-                ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Tour!";
+                ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Tour!\nDistance must be more than 0!";
                 _errorWindowFactory.GetWindow().Show();
             }
         }

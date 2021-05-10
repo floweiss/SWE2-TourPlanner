@@ -56,7 +56,11 @@ namespace SWE2_TourPlanner.Services
 
         public void ExportTours(string filename)
         {
-            List<IElement> tours = _tourDal.GetTours();
+            List<Tour> tours = new List<Tour>();
+            _tourDal.GetTours().ForEach((tour) =>
+            {
+                tours.Add((Tour)tour);
+            });
             JsonSerializerOptions options = new JsonSerializerOptions()
             {
                 WriteIndented = true

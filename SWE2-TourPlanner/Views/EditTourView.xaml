@@ -16,6 +16,7 @@
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -58,7 +59,16 @@
             Grid.Row="3"
             Grid.Column="1" />
 
-        <Button Grid.Row="4" Grid.Column="1"
+        <Label
+            Grid.Row="4"
+            Grid.Column="0"
+            VerticalAlignment="Center">Distance</Label>
+        <TextBox
+            Grid.Row="4"
+            Grid.Column="1"
+            Text="{Binding Path=Distance, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}"/>
+
+        <Button Grid.Row="5" Grid.Column="1"
                 Command="{Binding Path=DataContext.SaveTourCommand, 
                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                 CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 

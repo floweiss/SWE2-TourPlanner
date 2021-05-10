@@ -39,7 +39,7 @@ namespace SWE2_TourPlanner.DAL
 
             while (rdr.Read())
             { 
-                tours.Add(new Tour(Guid.Parse(rdr.GetString(0)), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4)));
+                tours.Add(new Tour(Guid.Parse(rdr.GetString(0)), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4), rdr.GetDouble(5)));
             }
             rdr.Close();
             return tours;
@@ -59,7 +59,7 @@ namespace SWE2_TourPlanner.DAL
 
             try
             {
-                string sql = "INSERT INTO tours (tourid, tourname, description, tourstart, tourend) VALUES (@tourid, @tourname, @description, @tourstart, @tourend)";
+                string sql = "INSERT INTO tours (tourid, tourname, description, tourstart, tourend, distance) VALUES (@tourid, @tourname, @description, @tourstart, @tourend, @distance)";
                 using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
                 {
                     cmd.Parameters.AddWithValue("tourid", addedTour.Id.ToString());
@@ -67,6 +67,7 @@ namespace SWE2_TourPlanner.DAL
                     cmd.Parameters.AddWithValue("description", addedTour.Description);
                     cmd.Parameters.AddWithValue("tourstart", addedTour.Start);
                     cmd.Parameters.AddWithValue("tourend", addedTour.End);
+                    cmd.Parameters.AddWithValue("distance", addedTour.Distance);
                     cmd.Prepare();
                     cmd.ExecuteNonQuery();
                 }
@@ -127,7 +128,7 @@ namespace SWE2_TourPlanner.DAL
 
             try
             {
-                string sql = "UPDATE tours SET tourid = @tourid, tourname = @tourname, description = @description, tourstart = @tourstart, tourend = @tourend WHERE tourid = @tourid";
+                string sql = "UPDATE tours SET tourid = @tourid, tourname = @tourname, description = @description, tourstart = @tourstart, tourend = @tourend, distance = @distance WHERE tourid = @tourid";
                 using (NpgsqlCommand cmd = new NpgsqlCommand(sql, con))
                 {
                     cmd.Parameters.AddWithValue("tourid", editedTour.Id.ToString());
@@ -135,6 +136,7 @@ namespace SWE2_TourPlanner.DAL
                     cmd.Parameters.AddWithValue("description", editedTour.Description);
                     cmd.Parameters.AddWithValue("tourstart", editedTour.Start);
                     cmd.Parameters.AddWithValue("tourend", editedTour.End);
+                    cmd.Parameters.AddWithValue("distance", editedTour.Distance);
                     cmd.Prepare();
                     cmd.ExecuteNonQuery();
                 }
