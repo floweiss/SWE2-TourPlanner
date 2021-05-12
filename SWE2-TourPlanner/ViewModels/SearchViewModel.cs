@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using log4net;
 using SWE2_TourPlanner.Factory.Window;
 using SWE2_TourPlanner.Models;
 using SWE2_TourPlanner.Services;
@@ -17,12 +18,14 @@ namespace SWE2_TourPlanner.ViewModels
         private string _searchText;
         private IWindowFactory _windowFactoryResult;
         private IWindowFactory _windowFactoryError;
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public SearchViewModel(IWindowFactory windowFactoryResult, IWindowFactory windowFactoryError)
         {
             _windowFactoryResult = windowFactoryResult;
             _windowFactoryError = windowFactoryError;
             _searchText = "Search...";
+            log4net.Config.XmlConfigurator.Configure();
         }
 
         public ICommand SearchCommand => new RelayCommand(SearchTourRoute);
@@ -44,6 +47,7 @@ namespace SWE2_TourPlanner.ViewModels
         {
             if (String.IsNullOrWhiteSpace(_searchText))
             {
+                _log.Error("Tried to look up empty text or null");
                 ErrorSingleton.GetInstance.ErrorText = "Type in some text to search!";
                 _windowFactoryError.GetWindow().Show();
             }

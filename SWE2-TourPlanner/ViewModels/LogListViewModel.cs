@@ -50,7 +50,6 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void AddLog(object sender)
         {
-            Debug.WriteLine("Add Log clicked");
             Window view = _windowFactoryAdd.GetWindow();
             view.Show();
         }

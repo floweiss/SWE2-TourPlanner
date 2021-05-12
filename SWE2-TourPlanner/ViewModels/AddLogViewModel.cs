@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using log4net;
 using SWE2_TourPlanner.Factory.Window;
 using SWE2_TourPlanner.Models;
 using SWE2_TourPlanner.Services;
@@ -27,12 +28,14 @@ namespace SWE2_TourPlanner.ViewModels
         private Rating _rating;
         private IWindowFactory _errorWindowFactory;
         private List<IObserver> _observers = new List<IObserver>();
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public AddLogViewModel(IWindowFactory errorWindowFactory)
         {
             DateTime = DateTime.Now;
             ObserverSingleton.GetInstance.LogObservers.ForEach(Attach); // attach when created because all observers are already created
             _errorWindowFactory = errorWindowFactory;
+            log4net.Config.XmlConfigurator.Configure();
         }
 
         public ICommand SaveLogCommand => new RelayCommand(SaveLog);
@@ -174,19 +177,19 @@ namespace SWE2_TourPlanner.ViewModels
             }
             catch (InvalidOperationException e)
             {
-                Debug.WriteLine("Specify all params");
+                _log.Error("Not all parameters specified");
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Log!";
                 _errorWindowFactory.GetWindow().Show();
             }
             catch (ArgumentNullException e)
             {
-                Debug.WriteLine("Specify all params");
+                _log.Error("Not all parameters specified");
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Log!";
                 _errorWindowFactory.GetWindow().Show();
             }
             catch (DivideByZeroException e)
             {
-                Debug.WriteLine("Distance or Time 0");
+                _log.Error("Distance or Time below or equal 0");
                 ErrorSingleton.GetInstance.ErrorText = "The Distance and Total Time must be above 0!";
                 _errorWindowFactory.GetWindow().Show();
             }

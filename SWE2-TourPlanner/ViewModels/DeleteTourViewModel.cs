@@ -25,7 +25,6 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void DeleteTour(object sender)
         {
-            Debug.WriteLine("Delete tour");
             ServiceLocator.GetService<ITourService>().DeleteTour(TourSingleton.GetInstance.EditTour);
             //ServiceLocator.GetService<IMapService>().DeleteMap(TourSingleton.GetInstance.EditTour); // map is deleted afterwards
             Notify();

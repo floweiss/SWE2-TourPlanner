@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using log4net;
 
 namespace SWE2_TourPlanner.ViewModels
 {
@@ -17,6 +18,7 @@ namespace SWE2_TourPlanner.ViewModels
         private string _tourTitle;
         private string _tourContent;
         private string _imageSource;
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public Visibility TourImageVisibility
         {
@@ -86,6 +88,7 @@ namespace SWE2_TourPlanner.ViewModels
             TourTitle = "No Tour chosen!";
             TourContent = "Click SHOW to show Tour.";
             ImageSource = ConfigurationManager.AppSettings["placeholder_pic"];
+            log4net.Config.XmlConfigurator.Configure();
         }
 
         public ICommand ShowTourRouteCommand => new RelayCommand(ShowTourRoute);
@@ -93,14 +96,12 @@ namespace SWE2_TourPlanner.ViewModels
 
         public void ShowTourRoute(Object sender)
         {
-            Debug.WriteLine("ShowTourRoute clicked");
             TourImageVisibility = Visibility.Visible;
             TourDescriptionVisibility = Visibility.Hidden;
         }
 
         public void ShowTourDescription(Object sender)
         {
-            Debug.WriteLine("ShowTourDescription clicked");
             TourImageVisibility = Visibility.Hidden;
             TourDescriptionVisibility = Visibility.Visible;
         }
@@ -118,6 +119,7 @@ namespace SWE2_TourPlanner.ViewModels
             }
             catch (NullReferenceException e)
             {
+                _log.Error("No tour chosen, displaying placeholder");
                 TourTitle = "No Tour to display!";
                 TourContent = "Chose another Tour to display.";
                 ImageSource = ConfigurationManager.AppSettings["placeholder_pic"];

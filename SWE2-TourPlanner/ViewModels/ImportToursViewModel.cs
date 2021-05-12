@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using log4net;
 using SWE2_TourPlanner.Factory.Window;
 using SWE2_TourPlanner.Models;
 using SWE2_TourPlanner.Services;
@@ -19,9 +20,11 @@ namespace SWE2_TourPlanner.ViewModels
         private bool _isNotImporting;
         private IWindowFactory _errorWindowFactory;
         private List<IObserver> _observers = new List<IObserver>();
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ImportToursViewModel(IWindowFactory errorWindowFactory)
         {
+            log4net.Config.XmlConfigurator.Configure();
             ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach when created because all observers are already created
             _errorWindowFactory = errorWindowFactory;
             _isNotImporting = true;
@@ -82,12 +85,14 @@ namespace SWE2_TourPlanner.ViewModels
             }
             catch (JsonException e)
             {
+                _log.Error("Invalid JSON for import");
                 ErrorSingleton.GetInstance.ErrorText = "JSON needs to be an array of Tours and\nevery Tour must include Name, Description, Start and End";
                 _errorWindowFactory.GetWindow().Show();
                 IsNotImporting = true;
             }
             catch (System.Net.WebException e)
             {
+                _log.Error("No internet connection or missing/invalid Maquest key");
                 ErrorSingleton.GetInstance.ErrorText = "Please check your internet connection and the Mapquest API Key!";
                 _errorWindowFactory.GetWindow().Show();
                 IsNotImporting = true;

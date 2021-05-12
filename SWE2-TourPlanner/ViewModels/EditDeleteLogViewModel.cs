@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using log4net;
 using SWE2_TourPlanner.Factory.Window;
 using SWE2_TourPlanner.Models;
 using SWE2_TourPlanner.Services;
@@ -18,12 +19,14 @@ namespace SWE2_TourPlanner.ViewModels
         private IWindowFactory _windowFactoryError;
         private IWindowFactory _windowFactoryEdit;
         private string _logId;
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public EditDeleteLogViewModel(IWindowFactory windowFactoryError, IWindowFactory windowFactoryEdit)
         {
             _windowFactoryError = windowFactoryError;
             _windowFactoryEdit = windowFactoryEdit;
             ObserverSingleton.GetInstance.LogObservers.ForEach(Attach);
+            log4net.Config.XmlConfigurator.Configure();
         }
 
         public ICommand DeleteLogCommand => new RelayCommand(DeleteLog);
@@ -69,11 +72,13 @@ namespace SWE2_TourPlanner.ViewModels
             }
             catch (InvalidOperationException e)
             {
+                _log.Error("No log chosen to edit");
                 ErrorSingleton.GetInstance.ErrorText = "No Log chosen!";
                 _windowFactoryError.GetWindow().Show();
             }
             catch (DivideByZeroException e)
             {
+                _log.Error("Invalid parameters");
                 ErrorSingleton.GetInstance.ErrorText = "The Distance and Total Time must be above 0!";
                 _windowFactoryError.GetWindow().Show();
             }

@@ -138,7 +138,6 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void ExportTours(object sender)
         {
-            Debug.WriteLine("Export clicked");
             string filename = $"{ConfigurationManager.AppSettings["download_directory"]}{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.json";
             ServiceLocator.GetService<ITourService>().ExportTours(filename);
             ErrorSingleton.GetInstance.ErrorText = $"All Tours exported and saved to file:\n{filename}";

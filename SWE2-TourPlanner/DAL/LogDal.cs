@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using log4net;
 using Npgsql;
 using SWE2_TourPlanner.Models;
 
@@ -12,10 +13,12 @@ namespace SWE2_TourPlanner.DAL
     public class LogDal : ILogDal
     {
         private string _connectionString;
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public LogDal(string connectionString)
         {
             _connectionString = connectionString;
+            log4net.Config.XmlConfigurator.Configure();
         }
 
         public List<IElement> GetLogs()
@@ -27,7 +30,7 @@ namespace SWE2_TourPlanner.DAL
             }
             catch (NpgsqlException e)
             {
-                Debug.WriteLine("No DB connection");
+                _log.Error("No DB connection");
                 return null;
             }
 
@@ -77,7 +80,7 @@ namespace SWE2_TourPlanner.DAL
             }
             catch (NpgsqlException e)
             {
-                Debug.WriteLine("No DB connection");
+                _log.Error("No DB connection");
                 return null;
             }
 
@@ -131,7 +134,7 @@ namespace SWE2_TourPlanner.DAL
             }
             catch (NpgsqlException e)
             {
-                Debug.WriteLine("No DB connection");
+                _log.Error("No DB connection");
             }
 
             try
@@ -169,7 +172,7 @@ namespace SWE2_TourPlanner.DAL
             }
             catch (NpgsqlException e)
             {
-                Debug.WriteLine("No DB connection");
+                _log.Error("No DB connection");
             }
 
             try
@@ -197,7 +200,7 @@ namespace SWE2_TourPlanner.DAL
             }
             catch (NpgsqlException e)
             {
-                Debug.WriteLine("No DB connection");
+                _log.Error("No DB connection");
             }
 
             try

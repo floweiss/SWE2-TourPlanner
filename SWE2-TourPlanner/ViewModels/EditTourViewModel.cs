@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using log4net;
 using SWE2_TourPlanner.Factory.Window;
 using SWE2_TourPlanner.Models;
 using SWE2_TourPlanner.Services;
@@ -22,6 +23,7 @@ namespace SWE2_TourPlanner.ViewModels
         private string _end;
         private double _distance;
         private IWindowFactory _errorWindowFactory;
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private List<IObserver> _observers = new List<IObserver>();
 
@@ -35,6 +37,7 @@ namespace SWE2_TourPlanner.ViewModels
             _distance = actualTour.Distance;
             ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach when created because all observers are already created
             _errorWindowFactory = errorWindowFactory;
+            log4net.Config.XmlConfigurator.Configure();
         }
 
         public ICommand SaveTourCommand => new RelayCommand(SaveTour);
@@ -124,12 +127,13 @@ namespace SWE2_TourPlanner.ViewModels
             }
             catch (System.Net.WebException e)
             {
+                _log.Error("No internet connection or missing/invalid Maquest key");
                 ErrorSingleton.GetInstance.ErrorText = "Please check your internet connection and the Mapquest API Key!";
                 _errorWindowFactory.GetWindow().Show();
             }
             catch (InvalidOperationException e)
             {
-                Debug.WriteLine("Specify all params");
+                _log.Error("Not all parameters specified");
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Tour!\nDistance must be more than 0!";
                 _errorWindowFactory.GetWindow().Show();
             }

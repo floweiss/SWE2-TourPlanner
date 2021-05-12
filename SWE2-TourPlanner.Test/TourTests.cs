@@ -21,9 +21,9 @@ namespace SWE2_TourPlanner.Test
             _tourService = new TourService(_tourDalMock.Object);
             _tourList = new List<IElement>
             {
-                new Tour(Guid.NewGuid(), "Tour1", "Desc", "Start", "End"),
-                new Tour(Guid.NewGuid(), "Tour2", "Description", "Hell", "Heaven"),
-                new Tour(Guid.NewGuid(), "Tour3", "BESCHREIBUNG", "BEGINN", "ENDE")
+                new Tour(Guid.NewGuid(), "Tour1", "Desc", "Start", "End", 100),
+                new Tour(Guid.NewGuid(), "Tour2", "Description", "Hell", "Heaven", 666),
+                new Tour(Guid.NewGuid(), "Tour3", "BESCHREIBUNG", "BEGINN", "ENDE", 300)
             };
         }
 

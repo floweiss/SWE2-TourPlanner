@@ -8,12 +8,20 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using log4net;
 using SWE2_TourPlanner.Models;
 
 namespace SWE2_TourPlanner.Services
 {
     public class MapquestService : IMapService
     {
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        public MapquestService()
+        {
+            log4net.Config.XmlConfigurator.Configure();
+        }
+
         public void CreateMap(Tour tour)
         {
             WebClient webClient = new WebClient();
@@ -57,7 +65,7 @@ namespace SWE2_TourPlanner.Services
                     }
                     catch (IOException e)
                     {
-                        Debug.WriteLine("could not delete file");
+                        _log.Error("could not delete file, still in use");
                     }
                 }
             }
