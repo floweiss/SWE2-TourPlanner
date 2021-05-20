@@ -19,6 +19,7 @@
             <ColumnDefinition Width="7*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <Label
@@ -40,18 +41,24 @@
             Command="{Binding Path=DataContext.ShowTourDescriptionCommand, 
                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
             CommandParameter="{Binding .}">Information</Button>
+        <Button
+            Grid.Row="0"
+            Grid.Column="3"
+            Command="{Binding Path=DataContext.StartTourCommand, 
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+            CommandParameter="{Binding .}">Start</Button>
         
         <Image
             Grid.Row="1"
             Grid.Column="0"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="4"
             Visibility="{Binding TourImageVisibility}"
             Source="{Binding ImageSource}"></Image>
 
         <Label
             Grid.Row="1"
             Grid.Column="0"
-            Grid.ColumnSpan="3"
+            Grid.ColumnSpan="4"
             Margin="10,0,0,0"
             Visibility="{Binding TourDescriptionVisibility}"
             Content="{Binding Path=TourContent, UpdateSourceTrigger=PropertyChanged}"></Label>

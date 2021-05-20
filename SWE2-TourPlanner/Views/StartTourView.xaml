@@ -1,0 +1,51 @@
+﻿<Window x:Class="SWE2_TourPlanner.Views.StartTourView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SWE2_TourPlanner.Views"
+        xmlns:factory="clr-namespace:SWE2_TourPlanner.Factory.ViewModel"
+        mc:Ignorable="d"
+        Title="Start Tour" Height="450" Width="800"
+        factory:ViewModelCreator.FactoryType="{x:Type factory:StartTourViewModelFactory}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <ListView
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.Row="0"
+            HorizontalContentAlignment="Stretch"
+            ItemsSource="{Binding Maneuvers}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="14*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0" Source="{Binding Path=IconUrl}"></Image>
+                        <Label Grid.Column="1" Content="{Binding Path=Narrative}"></Label>
+                        
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Grid.Row="1" Grid.Column="1"
+                Command="{Binding Path=DataContext.CloseCommand, 
+                            RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                       AncestorType={x:Type Window}}}">Close</Button>
+    </Grid>
+</Window>

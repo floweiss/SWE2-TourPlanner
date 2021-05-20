@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using log4net;
+using SWE2_TourPlanner.Factory.Window;
 
 namespace SWE2_TourPlanner.ViewModels
 {
@@ -18,6 +19,8 @@ namespace SWE2_TourPlanner.ViewModels
         private string _tourTitle;
         private string _tourContent;
         private string _imageSource;
+        private IWindowFactory _windowFactoryStart;
+        private IWindowFactory _windowFactoryError;
         private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public Visibility TourImageVisibility
@@ -81,18 +84,21 @@ namespace SWE2_TourPlanner.ViewModels
             }
         }
 
-        public TourViewModel()
+        public TourViewModel(IWindowFactory windowFactoryStart, IWindowFactory windowFactoryError)
         {
             TourImageVisibility = Visibility.Visible;
             TourDescriptionVisibility = Visibility.Hidden;
             TourTitle = "No Tour chosen!";
             TourContent = "Click SHOW to show Tour.";
             ImageSource = ConfigurationManager.AppSettings["placeholder_pic"];
+            _windowFactoryStart = windowFactoryStart;
+            _windowFactoryError = windowFactoryError;
             log4net.Config.XmlConfigurator.Configure();
         }
 
         public ICommand ShowTourRouteCommand => new RelayCommand(ShowTourRoute);
         public ICommand ShowTourDescriptionCommand => new RelayCommand(ShowTourDescription);
+        public ICommand StartTourCommand => new RelayCommand(StartTour);
 
         public void ShowTourRoute(Object sender)
         {
@@ -104,6 +110,24 @@ namespace SWE2_TourPlanner.ViewModels
         {
             TourImageVisibility = Visibility.Hidden;
             TourDescriptionVisibility = Visibility.Visible;
+        }
+
+        public void StartTour(Object sender)
+        {
+            try
+            {
+                if (TourSingleton.GetInstance.ActualTour == null)
+                {
+                    throw new NullReferenceException();
+                }
+                _windowFactoryStart.GetWindow().Show();
+            }
+            catch (NullReferenceException e)
+            {
+                _log.Error("No Tour chosen");
+                ErrorSingleton.GetInstance.ErrorText = "No Tour chosen!";
+                _windowFactoryError.GetWindow().Show();
+            }
         }
 
         public void Update(ISubject subject)
