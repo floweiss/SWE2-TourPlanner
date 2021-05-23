@@ -49,5 +49,38 @@ namespace SWE2_TourPlanner.Test
 
             Assert.AreEqual("0b489c3c-93d6-4a95-9d85-84391052cc97", log.Id.ToString());
         }
+
+        [Test]
+        public void Test_AddLog()
+        {
+            Log log = (Log)_logList[0];
+            _logDalMock.Setup(s => s.AddLog(log));
+
+            _logService.AddLog(log);
+
+            _logDalMock.Verify(s => s.AddLog(log), Times.Once);
+        }
+
+        [Test]
+        public void Test_EditLog()
+        {
+            Log log = (Log)_logList[0];
+            _logDalMock.Setup(s => s.EditLog(log));
+
+            _logService.EditLog(log);
+
+            _logDalMock.Verify(s => s.EditLog(log), Times.Once);
+        }
+
+        [Test]
+        public void Test_DeleteTour()
+        {
+            Log log = (Log)_logList[0];
+            _logDalMock.Setup(s => s.DeleteLog(log.Id.ToString()));
+
+            _logService.DeleteLog(log.Id.ToString());
+
+            _logDalMock.Verify(s => s.DeleteLog(log.Id.ToString()), Times.Once);
+        }
     }
 }

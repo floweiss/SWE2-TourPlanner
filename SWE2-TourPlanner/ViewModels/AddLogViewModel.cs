@@ -28,13 +28,14 @@ namespace SWE2_TourPlanner.ViewModels
         private Rating _rating;
         private IWindowFactory _errorWindowFactory;
         private List<IObserver> _observers = new List<IObserver>();
-        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private ILog _log;
 
-        public AddLogViewModel(IWindowFactory errorWindowFactory)
+        public AddLogViewModel(IWindowFactory errorWindowFactory, ILog log)
         {
             DateTime = DateTime.Now;
             ObserverSingleton.GetInstance.LogObservers.ForEach(Attach); // attach when created because all observers are already created
             _errorWindowFactory = errorWindowFactory;
+            _log = log;
             log4net.Config.XmlConfigurator.Configure();
         }
 
@@ -161,13 +162,18 @@ namespace SWE2_TourPlanner.ViewModels
 
         public List<IElement> PossibleTours => ServiceLocator.GetService<ITourService>().GetTours();
 
-        private void SaveLog(object sender)
+        public void SaveLog(object sender)
         {
             try
             {
                 if (_distance <= 0 || _totalTime <= 0)
                 {
                     throw new DivideByZeroException();
+                }
+
+                if (String.IsNullOrWhiteSpace(_name) || String.IsNullOrWhiteSpace(_description) || String.IsNullOrWhiteSpace(_report) || String.IsNullOrWhiteSpace(_vehicle))
+                {
+                    throw new InvalidOperationException();
                 }
                 Log addedLog = new Log(Guid.NewGuid(), _name, _description, _report, _vehicle, _dateTime,
                     Guid.Parse(_tourId), "name", _distance, _totalTime, _rating);
@@ -179,7 +185,14 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("Not all parameters specified");
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Log!";
-                _errorWindowFactory.GetWindow().Show();
+                try
+                {
+                    _errorWindowFactory.GetWindow().Show();
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
             }
             catch (ArgumentNullException e)
             {
@@ -191,7 +204,14 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("Distance or Time below or equal 0");
                 ErrorSingleton.GetInstance.ErrorText = "The Distance and Total Time must be above 0!";
-                _errorWindowFactory.GetWindow().Show();
+                try
+                {
+                    _errorWindowFactory.GetWindow().Show();
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
             }
         }
         public void Attach(IObserver observer)

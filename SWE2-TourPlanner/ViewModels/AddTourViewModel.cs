@@ -24,15 +24,23 @@ namespace SWE2_TourPlanner.ViewModels
         private string _end;
         private double _distance;
         private IWindowFactory _errorWindowFactory;
-        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private ILog _log;
 
         private List<IObserver> _observers = new List<IObserver>();
 
-        public AddTourViewModel(IWindowFactory errorWindowFactory)
+        public AddTourViewModel(IWindowFactory errorWindowFactory, ILog log)
         {
             ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach when created because all observers are already created
             _errorWindowFactory = errorWindowFactory;
-            log4net.Config.XmlConfigurator.Configure();
+            _log = log;
+            try
+            {
+                log4net.Config.XmlConfigurator.Configure();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
         }
 
         public ICommand SaveTourCommand => new RelayCommand(SaveTour);
@@ -101,12 +109,12 @@ namespace SWE2_TourPlanner.ViewModels
             }
         }
 
-        private void SaveTour(object sender)
+        public void SaveTour(object sender)
         {
             Tour addedTour = new Tour(Guid.NewGuid(), _name, _description, _start, _end, _distance);
             try
             {
-                if (_distance <= 0)
+                if (_distance <= 0 || String.IsNullOrWhiteSpace(_name) || String.IsNullOrWhiteSpace(_description) || String.IsNullOrWhiteSpace(_start) || String.IsNullOrWhiteSpace(_end))
                 {
                     throw new InvalidOperationException();
                 }
@@ -126,7 +134,14 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("Not all parameters specified");
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Tour!\nDistance must be more than 0!";
-                _errorWindowFactory.GetWindow().Show();
+                try
+                {
+                    _errorWindowFactory.GetWindow().Show();
+                }
+                catch (NullReferenceException exception)
+                {
+                    Console.WriteLine(exception);
+                }
             }
         }
 

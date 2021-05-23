@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using Moq;
 using NUnit.Framework;
 using SWE2_TourPlanner.Services;
@@ -13,6 +15,9 @@ namespace SWE2_TourPlanner.Test
         private TourService _tourService;
         private Mock<ITourDal> _tourDalMock;
         private List<IElement> _tourList;
+
+        private string _filename =
+            $"{ConfigurationManager.AppSettings["download_directory"]}{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.json";
 
         [SetUp]
         public void Setup()
@@ -28,6 +33,15 @@ namespace SWE2_TourPlanner.Test
         }
 
         [Test]
+        public void Test_CopyTour()
+        {
+            IElement copiedTour = _tourList[0].Copy();
+
+            Assert.AreEqual($"{_tourList[0].Name} - Copy", copiedTour.Name);
+            Assert.AreNotEqual(_tourList[0].Id, copiedTour.Id);
+        }
+
+        [Test]
         public void Test_GetTours()
         {
             _tourDalMock.Setup(s => s.GetTours()).Returns(_tourList);
@@ -38,12 +52,46 @@ namespace SWE2_TourPlanner.Test
         }
 
         [Test]
-        public void Test_CopyTour()
+        public void Test_AddTour()
         {
-            IElement copiedTour = _tourList[0].Copy();
+            Tour tour = (Tour) _tourList[0];
+            _tourDalMock.Setup(s => s.AddTour(tour));
 
-            Assert.AreEqual($"{_tourList[0].Name} - Copy", copiedTour.Name);
-            Assert.AreNotEqual(_tourList[0].Id, copiedTour.Id);
+            _tourService.AddTour(tour);
+
+            _tourDalMock.Verify(s => s.AddTour(tour), Times.Once);
+        }
+
+        [Test]
+        public void Test_EditTour()
+        {
+            Tour tour = (Tour)_tourList[0];
+            _tourDalMock.Setup(s => s.EditTour(tour));
+
+            _tourService.EditTour(tour);
+
+            _tourDalMock.Verify(s => s.EditTour(tour), Times.Once);
+        }
+
+        [Test]
+        public void Test_DeleteTour()
+        {
+            Tour tour = (Tour)_tourList[0];
+            _tourDalMock.Setup(s => s.DeleteTour(tour));
+
+            _tourService.DeleteTour(tour);
+
+            _tourDalMock.Verify(s => s.DeleteTour(tour), Times.Once);
+        }
+
+        [Test]
+        public void Test_ExportTours()
+        {
+            _tourDalMock.Setup(s => s.GetTours()).Returns(_tourList);
+
+            _tourService.ExportTours(_filename);
+
+            Assert.True(File.Exists(_filename));
         }
     }
 }
