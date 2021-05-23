@@ -24,7 +24,7 @@ namespace SWE2_TourPlanner.ViewModels
         {
             _windowFactoryResult = windowFactoryResult;
             _windowFactoryError = windowFactoryError;
-            _searchText = "Search...";
+            _searchText = "";
             log4net.Config.XmlConfigurator.Configure();
         }
 
