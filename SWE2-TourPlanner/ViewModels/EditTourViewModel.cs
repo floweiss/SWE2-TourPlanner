@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -121,7 +122,7 @@ namespace SWE2_TourPlanner.ViewModels
                 Notify();
                 ServiceLocator.GetService<ITourService>().EditTour(editedTour);
                 //ServiceLocator.GetService<IMapService>().DeleteMap(editedTour); // mao is deleted afterwards
-                ServiceLocator.GetService<IMapService>().CreateMap(editedTour);
+                ServiceLocator.GetService<IMapService>().CreateMap(editedTour, ConfigurationManager.AppSettings["mapquest_key"], ConfigurationManager.AppSettings["base_directory"]);
                 ((Window) sender).Close();
                 Notify();
             }

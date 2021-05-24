@@ -46,7 +46,7 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void GetManeuvers()
         {
-            Maneuvers = ServiceLocator.GetService<IMapService>().GetManeuvers(TourSingleton.GetInstance.ActualTour);
+            Maneuvers = ServiceLocator.GetService<IMapService>().GetManeuvers(TourSingleton.GetInstance.ActualTour, ConfigurationManager.AppSettings["mapquest_key"]);
         }
 
         private void CloseWindow(object sender)

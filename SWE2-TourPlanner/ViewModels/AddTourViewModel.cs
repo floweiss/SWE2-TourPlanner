@@ -119,7 +119,7 @@ namespace SWE2_TourPlanner.ViewModels
                     throw new InvalidOperationException();
                 }
                 ServiceLocator.GetService<ITourService>().AddTour(addedTour);
-                ServiceLocator.GetService<IMapService>().CreateMap(addedTour);
+                ServiceLocator.GetService<IMapService>().CreateMap(addedTour, ConfigurationManager.AppSettings["mapquest_key"], ConfigurationManager.AppSettings["base_directory"]);
                 TourSingleton.GetInstance.ActualTour = addedTour;
                 ((Window)sender).Close();
                 Notify();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -77,7 +78,7 @@ namespace SWE2_TourPlanner.ViewModels
                 importedTours.ForEach(tour =>
                 {
                     ServiceLocator.GetService<ITourService>().AddTour(tour);
-                    ServiceLocator.GetService<IMapService>().CreateMap(tour);
+                    ServiceLocator.GetService<IMapService>().CreateMap(tour, ConfigurationManager.AppSettings["mapquest_key"], ConfigurationManager.AppSettings["base_directory"]);
                 });
                 IsNotImporting = true;
                 ((Window)sender).Close();

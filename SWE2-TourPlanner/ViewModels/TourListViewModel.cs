@@ -152,7 +152,7 @@ namespace SWE2_TourPlanner.ViewModels
         public void Update(ISubject subject)
         {
             GetTours();
-            ServiceLocator.GetService<IMapService>().DeleteUnusedMaps(Tours);
+            ServiceLocator.GetService<IMapService>().DeleteUnusedMaps(Tours, ConfigurationManager.AppSettings["base_directory"]);
         }
 
         public void Attach(IObserver observer)

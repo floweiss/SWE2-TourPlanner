@@ -27,12 +27,10 @@ namespace SWE2_TourPlanner.Services
             log4net.Config.XmlConfigurator.Configure();
         }
 
-        public void CreateMap(Tour tour)
+        public void CreateMap(Tour tour, string key, string baseDirectory)
         {
-            _webClient.DownloadFile(ConfigurationManager.AppSettings["mapquest_base_url"] +
-                                   $"staticmap/v5/map?start={HttpUtility.UrlEncode(tour.Start)}&end={HttpUtility.UrlEncode(tour.End)}&size=800,600&key=" +
-                                   ConfigurationManager.AppSettings["mapquest_key"],
-                $"{ConfigurationManager.AppSettings["base_directory"]}{tour.Id}.jpg");
+            _webClient.DownloadFile($"https://www.mapquestapi.com/staticmap/v5/map?start={HttpUtility.UrlEncode(tour.Start)}&end={HttpUtility.UrlEncode(tour.End)}&size=800,600&key=" + key,
+                $"{baseDirectory}{tour.Id}.jpg");
         }
 
         public void CopyMap(Tour tour, Tour copiedTour)
@@ -45,9 +43,9 @@ namespace SWE2_TourPlanner.Services
             File.Delete($"{ConfigurationManager.AppSettings["base_directory"]}{deletedTour.Id}.jpg");
         }*/
 
-        public void DeleteUnusedMaps(List<IElement> currentTours)
+        public void DeleteUnusedMaps(List<IElement> currentTours, string baseDirectoty)
         {
-            string[] fileNames = Directory.GetFiles(ConfigurationManager.AppSettings["base_directory"]);
+            string[] fileNames = Directory.GetFiles(baseDirectoty);
             bool deleteFile;
             foreach (string fileName in fileNames)
             {
@@ -75,11 +73,9 @@ namespace SWE2_TourPlanner.Services
             }
         }
 
-        public List<Maneuver> GetManeuvers(Tour actualTour)
+        public List<Maneuver> GetManeuvers(Tour actualTour, string key)
         {
-            string result = _webClient.DownloadString(ConfigurationManager.AppSettings["mapquest_base_url"] +
-                                                    $"directions/v2/route?from={HttpUtility.UrlEncode(actualTour.Start)}&to={HttpUtility.UrlEncode(actualTour.End)}&key=" + 
-                                                    ConfigurationManager.AppSettings["mapquest_key"]);
+            string result = _webClient.DownloadString($"https://www.mapquestapi.com/directions/v2/route?from={HttpUtility.UrlEncode(actualTour.Start)}&to={HttpUtility.UrlEncode(actualTour.End)}&key=" + key);
             dynamic json = JObject.Parse(result)["route"]["legs"][0]["maneuvers"];
             List<Maneuver> maneuvers = new List<Maneuver>();
             foreach (var maneuver in json)

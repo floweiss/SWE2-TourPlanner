@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using log4net;
 using SWE2_TourPlanner.DAL;
 using SWE2_TourPlanner.Factory.Window;
 using SWE2_TourPlanner.Services;
@@ -18,7 +19,8 @@ namespace SWE2_TourPlanner.Factory.ViewModel
         {
             IWindowFactory windowFactoryError = new ErrorWindowFactory();
             IWindowFactory windowFactoryEdit = new EditLogWindowFactory();
-            EditDeleteLogViewModel vm = new EditDeleteLogViewModel(windowFactoryError, windowFactoryEdit);
+            ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            EditDeleteLogViewModel vm = new EditDeleteLogViewModel(windowFactoryError, windowFactoryEdit, log);
             ILogDal logDal = new LogDal(ConfigurationManager.AppSettings["connection_string"]);
             vm.ServiceLocator.RegisterService<ILogService>(new LogService(logDal));
             return vm;

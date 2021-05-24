@@ -19,13 +19,14 @@ namespace SWE2_TourPlanner.ViewModels
         private IWindowFactory _windowFactoryError;
         private IWindowFactory _windowFactoryEdit;
         private string _logId;
-        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private ILog _log;
 
-        public EditDeleteLogViewModel(IWindowFactory windowFactoryError, IWindowFactory windowFactoryEdit)
+        public EditDeleteLogViewModel(IWindowFactory windowFactoryError, IWindowFactory windowFactoryEdit, ILog log)
         {
             _windowFactoryError = windowFactoryError;
             _windowFactoryEdit = windowFactoryEdit;
             ObserverSingleton.GetInstance.LogObservers.ForEach(Attach);
+            _log = log;
             log4net.Config.XmlConfigurator.Configure();
         }
 
@@ -47,10 +48,14 @@ namespace SWE2_TourPlanner.ViewModels
 
         public List<IElement> PossibleLogs => ServiceLocator.GetService<ILogService>().GetLogs();
 
-        private void DeleteLog(object sender)
+        public void DeleteLog(object sender)
         {
             try
             {
+                if (String.IsNullOrWhiteSpace(_logId))
+                {
+                    throw new InvalidOperationException();
+                }
                 ServiceLocator.GetService<ILogService>().DeleteLog(_logId);
                 ((Window)sender).Close();
                 Notify();
@@ -58,14 +63,25 @@ namespace SWE2_TourPlanner.ViewModels
             catch (InvalidOperationException e)
             {
                 ErrorSingleton.GetInstance.ErrorText = "No Log chosen!";
-                _windowFactoryError.GetWindow().Show();
+                try
+                {
+                    _windowFactoryError.GetWindow().Show();
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
             }
         }
 
-        private void EditLog(object sender)
+        public void EditLog(object sender)
         {
             try
             {
+                if (String.IsNullOrWhiteSpace(_logId))
+                {
+                    throw new InvalidOperationException();
+                }
                 TourSingleton.GetInstance.EditLog = ServiceLocator.GetService<ILogService>().GetLogById(_logId);
                 _windowFactoryEdit.GetWindow().Show();
                 ((Window)sender).Close();
@@ -74,7 +90,14 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("No log chosen to edit");
                 ErrorSingleton.GetInstance.ErrorText = "No Log chosen!";
-                _windowFactoryError.GetWindow().Show();
+                try
+                {
+                    _windowFactoryError.GetWindow().Show();
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
             }
             catch (DivideByZeroException e)
             {
