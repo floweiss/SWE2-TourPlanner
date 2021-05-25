@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using log4net;
+using SWE2_TourPlanner.Factory.Window;
 using SWE2_TourPlanner.Models;
 using SWE2_TourPlanner.Services;
 
@@ -17,10 +18,12 @@ namespace SWE2_TourPlanner.ViewModels
     public class StartTourViewModel : BaseViewModel
     {
         private List<Maneuver> _maneuvers;
+        private IWindowFactory _windowFactoryError;
         private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public StartTourViewModel()
+        public StartTourViewModel(IWindowFactory windowFactoryError)
         {
+            _windowFactoryError = windowFactoryError;
             log4net.Config.XmlConfigurator.Configure();
         }
 
@@ -46,7 +49,16 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void GetManeuvers()
         {
-            Maneuvers = ServiceLocator.GetService<IMapService>().GetManeuvers(TourSingleton.GetInstance.ActualTour, ConfigurationManager.AppSettings["mapquest_key"]);
+            try
+            {
+                Maneuvers = ServiceLocator.GetService<IMapService>().GetManeuvers(TourSingleton.GetInstance.ActualTour, ConfigurationManager.AppSettings["mapquest_key"]);
+            }
+            catch (System.Net.WebException e)
+            {
+                _log.Error("No internet connection or missing/invalid Maquest key");
+                ErrorSingleton.GetInstance.ErrorText = "Please check your internet connection and the Mapquest API Key!";
+                _windowFactoryError.GetWindow().Show();
+            }
         }
 
         private void CloseWindow(object sender)

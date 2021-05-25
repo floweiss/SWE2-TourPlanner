@@ -35,6 +35,10 @@ namespace SWE2_TourPlanner.DAL
             }
 
             // get tour names
+            string createSqlTours = @"CREATE TABLE IF NOT EXISTS tours(tourid VARCHAR, tourname VARCHAR, description VARCHAR, tourstart VARCHAR, tourend VARCHAR, distance DOUBLE PRECISION)";
+            using NpgsqlCommand createCmdTours = new NpgsqlCommand(createSqlTours, con);
+            createCmdTours.ExecuteNonQuery();
+
             string sqlTours = "SELECT tourid, tourname FROM tours";
             using NpgsqlCommand cmdTours = new NpgsqlCommand(sqlTours, con);
 
@@ -49,6 +53,10 @@ namespace SWE2_TourPlanner.DAL
 
 
             // get logs
+            string createSql = @"CREATE TABLE IF NOT EXISTS logs(logid VARCHAR, logname VARCHAR, description VARCHAR, report VARCHAR, vehicle VARCHAR, datetime TIMESTAMP, tourid VARCHAR, distance DOUBLE PRECISION, totaltime DOUBLE PRECISION, rating VARCHAR)";
+            using NpgsqlCommand createCmd = new NpgsqlCommand(createSql, con);
+            createCmd.ExecuteNonQuery();
+
             string sql = "SELECT * FROM logs";
             using NpgsqlCommand cmd = new NpgsqlCommand(sql, con);
 
