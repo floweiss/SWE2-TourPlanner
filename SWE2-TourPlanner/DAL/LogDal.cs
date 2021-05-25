@@ -79,6 +79,44 @@ namespace SWE2_TourPlanner.DAL
             return logs;
         }
 
+
+        public List<Log> GetLogsForTour(Tour tour)
+        {
+            using NpgsqlConnection con = new NpgsqlConnection(_connectionString);
+            try
+            {
+                con.Open();
+            }
+            catch (NpgsqlException e)
+            {
+                _log.Error("No DB connection");
+                return null;
+            }
+
+            string sql = "SELECT * FROM logs";
+            using NpgsqlCommand cmd = new NpgsqlCommand(sql, con);
+
+            List<Log> logs = new List<Log>();
+            string tourId;
+            Rating rating;
+            using NpgsqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                tourId = rdr.GetString(6);
+                Enum.TryParse(rdr.GetString(9), out rating);
+                if (tourId == tour.Id.ToString())
+                {
+                    logs.Add(new Log(Guid.Parse(rdr.GetString(0)), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4),
+                        rdr.GetTimeStamp(5).ToDateTime(),
+                        Guid.Parse(tourId), tour.Name,
+                        rdr.GetDouble(7), rdr.GetDouble(8), rating));
+                }
+            }
+            rdr.Close();
+            return logs;
+        }
+
         public Log GetLogById(string logId)
         {
             using NpgsqlConnection con = new NpgsqlConnection(_connectionString);

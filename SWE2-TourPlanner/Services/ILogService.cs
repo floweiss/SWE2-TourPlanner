@@ -10,6 +10,7 @@ namespace SWE2_TourPlanner.Services
     public interface ILogService
     {
         List<IElement> GetLogs();
+        List<Log> GetLogsForTour(Tour tour);
         Log GetLogById(string logId);
         void AddLog(Log addedLog);
         void DeleteLog(string logId);

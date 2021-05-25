@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+using iText.IO.Image;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Draw;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using SWE2_TourPlanner.Models;
+
+namespace SWE2_TourPlanner.Services
+{
+    public class PdfReportService : IReportService
+    {
+        public void GenerateTourReport(Tour tour, List<Log> logs, string filename)
+        {
+            PdfWriter writer = new PdfWriter(filename);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
+
+            Paragraph header = new Paragraph(tour.Name)
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetFontSize(20)
+                .SetMarginBottom(15);
+            document.Add(header);
+
+            Image map = new Image(ImageDataFactory
+                    .Create($"{ConfigurationManager.AppSettings["base_directory"]}{tour.Id}.jpg"))
+                .SetHorizontalAlignment(HorizontalAlignment.CENTER)
+                .SetMarginBottom(15);
+            document.Add(map);
+
+            Paragraph description =
+                new Paragraph(
+                        $"Description: {tour.Description}\nStart: {tour.Start}\nEnd: {tour.End}\nDistance: {tour.Distance} km")
+                    .SetTextAlignment(TextAlignment.LEFT)
+                    .SetFontSize(14)
+                    .SetMarginBottom(15);
+            document.Add(description);
+
+            Paragraph logHeader = new Paragraph("Logs:")
+                .SetFontSize(14)
+                .SetMarginBottom(5);
+            document.Add(logHeader);
+
+            int counter = 1;
+            Paragraph row;
+            logs.ForEach((log) =>
+            {
+                row = new Paragraph(
+                    $"{counter}.) {log.Name} ({log.DateTime}): {log.Distance} km in {log.TotalTime} hours with {log.Vehicle}. Rating: {log.Rating}");
+                document.Add(row);
+                counter++;
+            });
+
+            document.Close();
+        }
+
+        public void GenerateTotalReport(List<Log> logs, string filename)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

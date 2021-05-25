@@ -19,7 +19,7 @@ namespace SWE2_TourPlanner.ViewModels
         private readonly IWindowFactory _windowFactoryEditDelete;
         public ICommand AddLogCommand => new RelayCommand(AddLog);
         public ICommand EditDeleteLogCommand => new RelayCommand(EditDeleteLog);
-        public ICommand ReportLogCommand => new RelayCommand(GenerateLogReport);
+        public ICommand TotalReportCommand => new RelayCommand(GenerateTotalReport);
 
         public LogListViewModel(IWindowFactory windowFactoryAdd, IWindowFactory windowFactoryEditDelete)
         {
@@ -59,7 +59,7 @@ namespace SWE2_TourPlanner.ViewModels
             _windowFactoryEditDelete.GetWindow().Show();
         }
 
-        private void GenerateLogReport(object sender)
+        private void GenerateTotalReport(object sender)
         {
             Debug.WriteLine("Report Log clicked");
         }

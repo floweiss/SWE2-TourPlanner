@@ -10,6 +10,7 @@ namespace SWE2_TourPlanner.DAL
     public interface ILogDal
     {
         List<IElement> GetLogs();
+        List<Log> GetLogsForTour(Tour tour);
         Log GetLogById(string logId);
         void AddLog(Log addedLog);
         void DeleteLog(string logId);

@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,7 +28,6 @@ namespace SWE2_TourPlanner.ViewModels
 
         public ICommand AddTourCommand => new RelayCommand(AddTour);
         public ICommand DeleteTourCommand => new RelayCommand(DeleteTour);
-        public ICommand TotalReportCommand => new RelayCommand(GenerateTotalReport);
         public ICommand ReportTourCommand => new RelayCommand(GenerateTourReport);
         public ICommand EditTourCommand => new RelayCommand(EditTour);
         public ICommand ShowTourCommand => new RelayCommand(ShowTour);
@@ -133,12 +133,15 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void GenerateTourReport(object sender)
         {
+            List<Log> logs = ServiceLocator.GetService<ILogService>().GetLogsForTour((Tour) sender);
+            string filename = $"{ConfigurationManager.AppSettings["download_directory"]}Reports\\{Regex.Replace(((Tour)sender).Name, @"\s+", "")}_Report_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.pdf";
+            ServiceLocator.GetService<IReportService>().GenerateTourReport((Tour)sender, logs, filename);
             Debug.WriteLine($"Report Tour: {((Tour)sender).Name} clicked");
         }
 
         private void ExportTours(object sender)
         {
-            string filename = $"{ConfigurationManager.AppSettings["download_directory"]}{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.json";
+            string filename = $"{ConfigurationManager.AppSettings["download_directory"]}Tours\\Tours_Export_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.json";
             ServiceLocator.GetService<ITourService>().ExportTours(filename);
             ErrorSingleton.GetInstance.ErrorText = $"All Tours exported and saved to file:\n{filename}";
             _windowFactoryError.GetWindow().Show();

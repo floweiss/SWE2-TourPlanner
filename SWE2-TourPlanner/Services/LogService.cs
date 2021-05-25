@@ -22,6 +22,11 @@ namespace SWE2_TourPlanner.Services
             return _logDal.GetLogs();
         }
 
+        public List<Log> GetLogsForTour(Tour tour)
+        {
+            return _logDal.GetLogsForTour(tour);
+        }
+
         public Log GetLogById(string logId)
         {
             if (logId == null)
