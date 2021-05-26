@@ -126,17 +126,13 @@ namespace SWE2_TourPlanner.ViewModels
             ObserverSingleton.GetInstance.TourObservers.ForEach(Detach);
         }
 
-        private void GenerateTotalReport(object sender)
-        {
-            Debug.WriteLine("Total Report clicked");
-        }
-
         private void GenerateTourReport(object sender)
         {
             List<Log> logs = ServiceLocator.GetService<ILogService>().GetLogsForTour((Tour) sender);
             string filename = $"{ConfigurationManager.AppSettings["download_directory"]}Reports\\{Regex.Replace(((Tour)sender).Name, @"\s+", "")}_Report_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.pdf";
             ServiceLocator.GetService<IReportService>().GenerateTourReport((Tour)sender, logs, filename);
-            Debug.WriteLine($"Report Tour: {((Tour)sender).Name} clicked");
+            ErrorSingleton.GetInstance.ErrorText = $"Tour Report generated and saved to file:\n{filename}";
+            _windowFactoryError.GetWindow().Show();
         }
 
         private void ExportTours(object sender)

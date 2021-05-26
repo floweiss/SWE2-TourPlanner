@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -17,14 +19,16 @@ namespace SWE2_TourPlanner.ViewModels
         private List<IElement> _logs;
         private readonly IWindowFactory _windowFactoryAdd;
         private readonly IWindowFactory _windowFactoryEditDelete;
+        private readonly IWindowFactory _windowFactoryError;
         public ICommand AddLogCommand => new RelayCommand(AddLog);
         public ICommand EditDeleteLogCommand => new RelayCommand(EditDeleteLog);
         public ICommand TotalReportCommand => new RelayCommand(GenerateTotalReport);
 
-        public LogListViewModel(IWindowFactory windowFactoryAdd, IWindowFactory windowFactoryEditDelete)
+        public LogListViewModel(IWindowFactory windowFactoryAdd, IWindowFactory windowFactoryEditDelete, IWindowFactory windowFactoryError)
         {
             _windowFactoryAdd = windowFactoryAdd;
             _windowFactoryEditDelete = windowFactoryEditDelete;
+            _windowFactoryError = windowFactoryError;
         }
 
         public List<IElement> Logs
@@ -61,7 +65,12 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void GenerateTotalReport(object sender)
         {
-            Debug.WriteLine("Report Log clicked");
+            List<Log> logs = new List<Log>();
+            ServiceLocator.GetService<ILogService>().GetLogs().ForEach((element) => logs.Add((Log)element));
+            string filename = $"{ConfigurationManager.AppSettings["download_directory"]}Reports\\TotalReport_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.pdf";
+            ServiceLocator.GetService<IReportService>().GenerateTotalReport(logs, filename);
+            ErrorSingleton.GetInstance.ErrorText = $"Total Report generated and saved to file:\n{filename}";
+            _windowFactoryError.GetWindow().Show();
         }
 
         public void Update(ISubject subject)

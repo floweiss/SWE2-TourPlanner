@@ -19,9 +19,11 @@ namespace SWE2_TourPlanner.Factory.ViewModel
         {
             IWindowFactory windowFactoryAdd = new AddLogWindowFactory();
             IWindowFactory windowFactoryDeleteEdit = new EditDeleteLogWindowFactory();
-            LogListViewModel vm = new LogListViewModel(windowFactoryAdd, windowFactoryDeleteEdit);
+            IWindowFactory windowFactoryError = new ErrorWindowFactory();
+            LogListViewModel vm = new LogListViewModel(windowFactoryAdd, windowFactoryDeleteEdit, windowFactoryError);
             ILogDal logDal = new LogDal(ConfigurationManager.AppSettings["connection_string"]);
             vm.ServiceLocator.RegisterService<ILogService>(new LogService(logDal));
+            vm.ServiceLocator.RegisterService<IReportService>(new PdfReportService());
             ObserverSingleton.GetInstance.LogObservers.Add(vm);
             ObserverSingleton.GetInstance.TourObservers.Add(vm);
             return vm;
