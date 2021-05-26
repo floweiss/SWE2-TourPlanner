@@ -54,7 +54,7 @@ namespace SWE2_TourPlanner.Services
             Paragraph row;
             logs.ForEach((log) =>
             {
-                row = new Paragraph($"{counter}.) {log.Name} ({log.DateTime}): {log.Distance} km in {log.TotalTime} hours with {log.Vehicle}. Rating: {log.Rating}");
+                row = new Paragraph($"{counter}.) {log.Name} ({log.DateTime}): {log.Distance} km in {log.TotalTime} hours ({log.Speed} km/h) with {log.Vehicle}. Rating: {log.Rating}");
                 document.Add(row);
                 counter++;
             });
