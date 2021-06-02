@@ -18,12 +18,10 @@ namespace SWE2_TourPlanner.ViewModels
     public class StartTourViewModel : BaseViewModel
     {
         private List<Maneuver> _maneuvers;
-        private IWindowFactory _windowFactoryError;
         private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public StartTourViewModel(IWindowFactory windowFactoryError)
+        public StartTourViewModel()
         {
-            _windowFactoryError = windowFactoryError;
             log4net.Config.XmlConfigurator.Configure();
         }
 
@@ -57,7 +55,7 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("No internet connection or missing/invalid Maquest key");
                 ErrorSingleton.GetInstance.ErrorText = "Please check your internet connection and the Mapquest API Key!";
-                _windowFactoryError.GetWindow().Show();
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -15,7 +15,6 @@ namespace SWE2_TourPlanner.Test
     {
         private AddLogViewModel _addLogViewModel;
         private Mock<ILog> _loggerMock;
-        private Mock<IWindowFactory> _errorWindowFactoryMock;
         private Mock<object> _senderMock;
 
         [SetUp]
@@ -23,8 +22,7 @@ namespace SWE2_TourPlanner.Test
         {
             _loggerMock = new Mock<ILog>();
             _senderMock = new Mock<object>();
-            _errorWindowFactoryMock = new Mock<IWindowFactory>();
-            _addLogViewModel = new AddLogViewModel(_errorWindowFactoryMock.Object, _loggerMock.Object);
+            _addLogViewModel = new AddLogViewModel(_loggerMock.Object);
 
             _addLogViewModel.Distance = 100;
             _addLogViewModel.TotalTime = 1;

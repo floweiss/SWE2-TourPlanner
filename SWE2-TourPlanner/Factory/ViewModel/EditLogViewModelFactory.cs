@@ -16,8 +16,7 @@ namespace SWE2_TourPlanner.Factory.ViewModel
     {
         public object CreateViewModel(DependencyObject sender)
         {
-            IWindowFactory errorWindowFactory = new ErrorWindowFactory();
-            EditLogViewModel vm = new EditLogViewModel(errorWindowFactory);
+            EditLogViewModel vm = new EditLogViewModel();
             ILogDal logDal = new LogDal(ConfigurationManager.AppSettings["connection_string"]);
             vm.ServiceLocator.RegisterService<ILogService>(new LogService(logDal));
             ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);

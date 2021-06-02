@@ -14,8 +14,7 @@ namespace SWE2_TourPlanner.Factory.ViewModel
     {
         public object CreateViewModel(DependencyObject sender)
         {
-            IWindowFactory windowFactoryError = new ErrorWindowFactory();
-            StartTourViewModel vm = new StartTourViewModel(windowFactoryError);
+            StartTourViewModel vm = new StartTourViewModel();
             vm.ServiceLocator.RegisterService<IMapService>(new MapquestService());
             return vm;
         }

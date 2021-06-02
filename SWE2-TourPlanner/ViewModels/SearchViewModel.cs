@@ -17,13 +17,11 @@ namespace SWE2_TourPlanner.ViewModels
     {
         private string _searchText;
         private IWindowFactory _windowFactoryResult;
-        private IWindowFactory _windowFactoryError;
         private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public SearchViewModel(IWindowFactory windowFactoryResult, IWindowFactory windowFactoryError)
+        public SearchViewModel(IWindowFactory windowFactoryResult)
         {
             _windowFactoryResult = windowFactoryResult;
-            _windowFactoryError = windowFactoryError;
             _searchText = "";
             log4net.Config.XmlConfigurator.Configure();
         }
@@ -49,7 +47,7 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("Tried to look up empty text or null");
                 ErrorSingleton.GetInstance.ErrorText = "Type in some text to search!";
-                _windowFactoryError.GetWindow().Show();
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             else
             {

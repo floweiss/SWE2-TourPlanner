@@ -21,7 +21,6 @@ namespace SWE2_TourPlanner.ViewModels
         private readonly IWindowFactory _windowFactorySave;
         private readonly IWindowFactory _windowFactoryEdit;
         private readonly IWindowFactory _windowFactoryDelete;
-        private readonly IWindowFactory _windowFactoryError;
         private readonly IWindowFactory _windowFactoryImport;
         private List<IElement> _tours;
         private List<IObserver> _observers = new List<IObserver>();
@@ -35,12 +34,11 @@ namespace SWE2_TourPlanner.ViewModels
         public ICommand ExportCommand => new RelayCommand(ExportTours);
         public ICommand ImportCommand => new RelayCommand(ImportTours);
 
-        public TourListViewModel(IWindowFactory windowFactorySave, IWindowFactory windowFactoryEdit, IWindowFactory windowFactoryDelete, IWindowFactory windowFactoryError, IWindowFactory windowFactoryImport)
+        public TourListViewModel(IWindowFactory windowFactorySave, IWindowFactory windowFactoryEdit, IWindowFactory windowFactoryDelete, IWindowFactory windowFactoryImport)
         {
             _windowFactorySave = windowFactorySave;
             _windowFactoryEdit = windowFactoryEdit;
             _windowFactoryDelete = windowFactoryDelete;
-            _windowFactoryError = windowFactoryError;
             _windowFactoryImport = windowFactoryImport;
         }
 
@@ -132,7 +130,7 @@ namespace SWE2_TourPlanner.ViewModels
             string filename = $"{ConfigurationManager.AppSettings["download_directory"]}Reports\\{Regex.Replace(((Tour)sender).Name, @"\s+", "")}_Report_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.pdf";
             ServiceLocator.GetService<IReportService>().GenerateTourReport((Tour)sender, logs, filename);
             ErrorSingleton.GetInstance.ErrorText = $"Tour Report generated and saved to file:\n{filename}";
-            _windowFactoryError.GetWindow().Show();
+            MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void ExportTours(object sender)
@@ -140,7 +138,7 @@ namespace SWE2_TourPlanner.ViewModels
             string filename = $"{ConfigurationManager.AppSettings["download_directory"]}Tours\\Tours_Export_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.json";
             ServiceLocator.GetService<ITourService>().ExportTours(filename);
             ErrorSingleton.GetInstance.ErrorText = $"All Tours exported and saved to file:\n{filename}";
-            _windowFactoryError.GetWindow().Show();
+            MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void ImportTours(object sender)

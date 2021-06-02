@@ -23,15 +23,13 @@ namespace SWE2_TourPlanner.ViewModels
         private string _start;
         private string _end;
         private double _distance;
-        private IWindowFactory _errorWindowFactory;
         private ILog _log;
 
         private List<IObserver> _observers = new List<IObserver>();
 
-        public AddTourViewModel(IWindowFactory errorWindowFactory, ILog log)
+        public AddTourViewModel(ILog log)
         {
             ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach when created because all observers are already created
-            _errorWindowFactory = errorWindowFactory;
             _log = log;
             try
             {
@@ -128,7 +126,7 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("No internet connection or missing/invalid Maquest key");
                 ErrorSingleton.GetInstance.ErrorText = "Please check your internet connection and the Mapquest API Key!";
-                _errorWindowFactory.GetWindow().Show();
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (InvalidOperationException e)
             {
@@ -136,7 +134,7 @@ namespace SWE2_TourPlanner.ViewModels
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Tour!\nDistance must be more than 0!";
                 try
                 {
-                    _errorWindowFactory.GetWindow().Show();
+                    MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (NullReferenceException exception)
                 {

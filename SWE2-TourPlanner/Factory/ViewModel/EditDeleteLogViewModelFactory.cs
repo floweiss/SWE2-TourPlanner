@@ -17,10 +17,9 @@ namespace SWE2_TourPlanner.Factory.ViewModel
     {
         public object CreateViewModel(DependencyObject sender)
         {
-            IWindowFactory windowFactoryError = new ErrorWindowFactory();
             IWindowFactory windowFactoryEdit = new EditLogWindowFactory();
             ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-            EditDeleteLogViewModel vm = new EditDeleteLogViewModel(windowFactoryError, windowFactoryEdit, log);
+            EditDeleteLogViewModel vm = new EditDeleteLogViewModel(windowFactoryEdit, log);
             ILogDal logDal = new LogDal(ConfigurationManager.AppSettings["connection_string"]);
             vm.ServiceLocator.RegisterService<ILogService>(new LogService(logDal));
             return vm;

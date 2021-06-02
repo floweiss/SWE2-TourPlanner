@@ -19,16 +19,14 @@ namespace SWE2_TourPlanner.ViewModels
         private List<IElement> _logs;
         private readonly IWindowFactory _windowFactoryAdd;
         private readonly IWindowFactory _windowFactoryEditDelete;
-        private readonly IWindowFactory _windowFactoryError;
         public ICommand AddLogCommand => new RelayCommand(AddLog);
         public ICommand EditDeleteLogCommand => new RelayCommand(EditDeleteLog);
         public ICommand TotalReportCommand => new RelayCommand(GenerateTotalReport);
 
-        public LogListViewModel(IWindowFactory windowFactoryAdd, IWindowFactory windowFactoryEditDelete, IWindowFactory windowFactoryError)
+        public LogListViewModel(IWindowFactory windowFactoryAdd, IWindowFactory windowFactoryEditDelete)
         {
             _windowFactoryAdd = windowFactoryAdd;
             _windowFactoryEditDelete = windowFactoryEditDelete;
-            _windowFactoryError = windowFactoryError;
         }
 
         public List<IElement> Logs
@@ -70,7 +68,7 @@ namespace SWE2_TourPlanner.ViewModels
             string filename = $"{ConfigurationManager.AppSettings["download_directory"]}Reports\\TotalReport_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.pdf";
             ServiceLocator.GetService<IReportService>().GenerateTotalReport(logs, filename);
             ErrorSingleton.GetInstance.ErrorText = $"Total Report generated and saved to file:\n{filename}";
-            _windowFactoryError.GetWindow().Show();
+            MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void Update(ISubject subject)

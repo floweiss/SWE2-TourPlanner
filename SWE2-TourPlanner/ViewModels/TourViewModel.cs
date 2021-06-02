@@ -20,7 +20,6 @@ namespace SWE2_TourPlanner.ViewModels
         private string _tourContent;
         private string _imageSource;
         private IWindowFactory _windowFactoryStart;
-        private IWindowFactory _windowFactoryError;
         private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public Visibility TourImageVisibility
@@ -84,7 +83,7 @@ namespace SWE2_TourPlanner.ViewModels
             }
         }
 
-        public TourViewModel(IWindowFactory windowFactoryStart, IWindowFactory windowFactoryError)
+        public TourViewModel(IWindowFactory windowFactoryStart)
         {
             TourImageVisibility = Visibility.Visible;
             TourDescriptionVisibility = Visibility.Hidden;
@@ -92,7 +91,6 @@ namespace SWE2_TourPlanner.ViewModels
             TourContent = "Click SHOW to show Tour.";
             ImageSource = ConfigurationManager.AppSettings["placeholder_pic"];
             _windowFactoryStart = windowFactoryStart;
-            _windowFactoryError = windowFactoryError;
             log4net.Config.XmlConfigurator.Configure();
         }
 
@@ -126,7 +124,7 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("No Tour chosen");
                 ErrorSingleton.GetInstance.ErrorText = "No Tour chosen!";
-                _windowFactoryError.GetWindow().Show();
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

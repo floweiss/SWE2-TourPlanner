@@ -15,7 +15,6 @@ namespace SWE2_TourPlanner.Test
     {
         private EditDeleteLogViewModel _editDeleteLogViewModel;
         private Mock<ILog> _loggerMock;
-        private Mock<IWindowFactory> _errorWindowFactoryMock;
         private Mock<IWindowFactory> _editWindowFactoryMock;
         private Mock<object> _senderMock;
 
@@ -24,9 +23,8 @@ namespace SWE2_TourPlanner.Test
         {
             _loggerMock = new Mock<ILog>();
             _senderMock = new Mock<object>();
-            _errorWindowFactoryMock = new Mock<IWindowFactory>();
             _editWindowFactoryMock = new Mock<IWindowFactory>();
-            _editDeleteLogViewModel = new EditDeleteLogViewModel(_errorWindowFactoryMock.Object, _editWindowFactoryMock.Object, _loggerMock.Object);
+            _editDeleteLogViewModel = new EditDeleteLogViewModel(_editWindowFactoryMock.Object, _loggerMock.Object);
 
             _editDeleteLogViewModel.LogId = String.Empty;
         }

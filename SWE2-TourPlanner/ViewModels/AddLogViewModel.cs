@@ -26,15 +26,13 @@ namespace SWE2_TourPlanner.ViewModels
         private double _distance;
         private double _totalTime;
         private Rating _rating;
-        private IWindowFactory _errorWindowFactory;
         private List<IObserver> _observers = new List<IObserver>();
         private ILog _log;
 
-        public AddLogViewModel(IWindowFactory errorWindowFactory, ILog log)
+        public AddLogViewModel(ILog log)
         {
             DateTime = DateTime.Now;
             ObserverSingleton.GetInstance.LogObservers.ForEach(Attach); // attach when created because all observers are already created
-            _errorWindowFactory = errorWindowFactory;
             _log = log;
             log4net.Config.XmlConfigurator.Configure();
         }
@@ -187,7 +185,7 @@ namespace SWE2_TourPlanner.ViewModels
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Log!";
                 try
                 {
-                    _errorWindowFactory.GetWindow().Show();
+                    MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception exception)
                 {
@@ -198,7 +196,7 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("Not all parameters specified");
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Log!";
-                _errorWindowFactory.GetWindow().Show();
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (DivideByZeroException e)
             {
@@ -206,7 +204,7 @@ namespace SWE2_TourPlanner.ViewModels
                 ErrorSingleton.GetInstance.ErrorText = "The Distance and Total Time must be above 0!";
                 try
                 {
-                    _errorWindowFactory.GetWindow().Show();
+                    MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception exception)
                 {

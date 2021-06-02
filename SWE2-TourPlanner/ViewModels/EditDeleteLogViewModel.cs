@@ -16,14 +16,12 @@ namespace SWE2_TourPlanner.ViewModels
     public class EditDeleteLogViewModel : BaseViewModel, ISubject
     {
         private List<IObserver> _observers = new List<IObserver>();
-        private IWindowFactory _windowFactoryError;
         private IWindowFactory _windowFactoryEdit;
         private string _logId;
         private ILog _log;
 
-        public EditDeleteLogViewModel(IWindowFactory windowFactoryError, IWindowFactory windowFactoryEdit, ILog log)
+        public EditDeleteLogViewModel(IWindowFactory windowFactoryEdit, ILog log)
         {
-            _windowFactoryError = windowFactoryError;
             _windowFactoryEdit = windowFactoryEdit;
             ObserverSingleton.GetInstance.LogObservers.ForEach(Attach);
             _log = log;
@@ -62,10 +60,11 @@ namespace SWE2_TourPlanner.ViewModels
             }
             catch (InvalidOperationException e)
             {
+                _log.Error("No log chosen");
                 ErrorSingleton.GetInstance.ErrorText = "No Log chosen!";
                 try
                 {
-                    _windowFactoryError.GetWindow().Show();
+                    MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception exception)
                 {
@@ -92,7 +91,7 @@ namespace SWE2_TourPlanner.ViewModels
                 ErrorSingleton.GetInstance.ErrorText = "No Log chosen!";
                 try
                 {
-                    _windowFactoryError.GetWindow().Show();
+                    MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 catch (Exception exception)
                 {
@@ -103,7 +102,7 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("Invalid parameters");
                 ErrorSingleton.GetInstance.ErrorText = "The Distance and Total Time must be above 0!";
-                _windowFactoryError.GetWindow().Show();
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -19,15 +19,13 @@ namespace SWE2_TourPlanner.ViewModels
     {
         private string _tours;
         private bool _isNotImporting;
-        private IWindowFactory _errorWindowFactory;
         private List<IObserver> _observers = new List<IObserver>();
         private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public ImportToursViewModel(IWindowFactory errorWindowFactory)
+        public ImportToursViewModel()
         {
             log4net.Config.XmlConfigurator.Configure();
             ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach when created because all observers are already created
-            _errorWindowFactory = errorWindowFactory;
             _isNotImporting = true;
             _tours =
                 "[\r\n  {\r\n    \"Name\": \"Kentucky to NY\",\r\n    \"Description\": \"Awesome Tour\",\r\n    \"Start\": \"Kentucky\",\r\n    \"End\": \"New York\",\r\n    \"Distance\": 200\r\n  },\r\n  {\r\n    \"Name\": \"Dallas to New Jersey\",\r\n    \"Description\": \"Super\",\r\n    \"Start\": \"Dallas\",\r\n    \"End\": \"New Jersey\",\r\n    \"Distance\": 400\r\n  }\r\n]\r\n";
@@ -88,14 +86,14 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("Invalid JSON for import");
                 ErrorSingleton.GetInstance.ErrorText = "JSON needs to be an array of Tours and\nevery Tour must include Name, Description, Start and End";
-                _errorWindowFactory.GetWindow().Show();
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 IsNotImporting = true;
             }
             catch (System.Net.WebException e)
             {
                 _log.Error("No internet connection or missing/invalid Maquest key");
                 ErrorSingleton.GetInstance.ErrorText = "Please check your internet connection and the Mapquest API Key!";
-                _errorWindowFactory.GetWindow().Show();
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 IsNotImporting = true;
             }
         }

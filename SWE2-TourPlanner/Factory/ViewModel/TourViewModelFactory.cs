@@ -14,8 +14,7 @@ namespace SWE2_TourPlanner.Factory.ViewModel
         public object CreateViewModel(DependencyObject sender)
         {
             IWindowFactory windowFactoryStart = new StartTourWindowFactory();
-            IWindowFactory windowFactoryError= new ErrorWindowFactory();
-            TourViewModel vm = new TourViewModel(windowFactoryStart, windowFactoryError);
+            TourViewModel vm = new TourViewModel(windowFactoryStart);
             ObserverSingleton.GetInstance.TourObservers.Add(vm);
             return vm;
         }

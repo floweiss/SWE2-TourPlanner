@@ -27,11 +27,10 @@ namespace SWE2_TourPlanner.ViewModels
         private double _distance;
         private double _totalTime;
         private Rating _rating;
-        private IWindowFactory _errorWindowFactory;
         private List<IObserver> _observers = new List<IObserver>();
         private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public EditLogViewModel(IWindowFactory errorWindowFactory)
+        public EditLogViewModel()
         {
             _id = TourSingleton.GetInstance.EditLog.Id;
             _name = TourSingleton.GetInstance.EditLog.Name;
@@ -44,7 +43,6 @@ namespace SWE2_TourPlanner.ViewModels
             _totalTime = TourSingleton.GetInstance.EditLog.TotalTime;
             _rating = TourSingleton.GetInstance.EditLog.Rating;
             ObserverSingleton.GetInstance.LogObservers.ForEach(Attach); // attach when created because all observers are already created
-            _errorWindowFactory = errorWindowFactory;
             log4net.Config.XmlConfigurator.Configure();
         }
 
@@ -205,13 +203,13 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("Not all parameters specified");
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Log!";
-                _errorWindowFactory.GetWindow().Show();
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ArgumentNullException e)
             {
                 _log.Error("Not all parameters specified");
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Log!";
-                _errorWindowFactory.GetWindow().Show();
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         public void Attach(IObserver observer)

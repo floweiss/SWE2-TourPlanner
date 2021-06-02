@@ -14,9 +14,8 @@ namespace SWE2_TourPlanner.Factory.ViewModel
             IWindowFactory windowFactorySave = new AddTourWindowFactory();
             IWindowFactory windowFactoryEdit = new EditTourWindowFactory();
             IWindowFactory windowFactoryDelete = new DeleteTourWindowFactory();
-            IWindowFactory windowFactoryError = new ErrorWindowFactory();
             IWindowFactory windowFactoryImport = new ImportToursWindowFactory();
-            TourListViewModel vm = new TourListViewModel(windowFactorySave, windowFactoryEdit, windowFactoryDelete, windowFactoryError, windowFactoryImport);
+            TourListViewModel vm = new TourListViewModel(windowFactorySave, windowFactoryEdit, windowFactoryDelete, windowFactoryImport);
             ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
             vm.ServiceLocator.RegisterService<ITourService>(new TourService(tourDal));
             ILogDal logDal = new LogDal(ConfigurationManager.AppSettings["connection_string"]);
