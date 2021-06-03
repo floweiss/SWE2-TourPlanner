@@ -22,15 +22,15 @@ namespace SWE2_TourPlanner.Test
         [SetUp]
         public void Setup()
         {
-            _mapquestService = new MapquestService();
             _tour = new Tour(Guid.Parse("7d3b557e-81b4-420a-a47d-e3d2a3e92dae"), "Tour", "Desc", "New York", "New Jersey", 100);
             _baseDirectory = "C:\\Tourplanner\\Images\\Test\\";
+            _mapquestService = new MapquestService(_baseDirectory);
         }
 
         [Test]
         public void Test_GetTourMap()
         {
-            _mapquestService.CreateMap(_tour, "CgYKFQAs9XGwzQWrq4AW3DQypxf0Fd10", _baseDirectory);
+            _mapquestService.CreateMap(_tour, "CgYKFQAs9XGwzQWrq4AW3DQypxf0Fd10");
 
             Assert.IsTrue(File.Exists($"{_baseDirectory}{_tour.Id}.jpg"));
         }
@@ -47,7 +47,7 @@ namespace SWE2_TourPlanner.Test
         [Test]
         public void Test_DeleteUnusedMaps()
         {
-            _mapquestService.DeleteUnusedMaps(new List<IElement>(), _baseDirectory);
+            _mapquestService.DeleteUnusedMaps(new List<IElement>());
 
             Assert.IsTrue(Directory.GetFiles(_baseDirectory).Length == 0);
         }

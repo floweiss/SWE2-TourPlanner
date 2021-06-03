@@ -113,7 +113,7 @@ namespace SWE2_TourPlanner.ViewModels
         private void GenerateTourReport(object sender)
         {
             List<Log> logs = ServiceLocator.GetService<ILogService>().GetLogsForTour((Tour) sender);
-            string filename = $"{ConfigurationManager.AppSettings["download_directory"]}Reports\\{Regex.Replace(((Tour)sender).Name, @"\s+", "")}_Report_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.pdf";
+            string filename = $"{Regex.Replace(((Tour)sender).Name, @"\s+", "")}_Report_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.pdf";
             ServiceLocator.GetService<IReportService>().GenerateTourReport((Tour)sender, logs, filename);
             ErrorSingleton.GetInstance.ErrorText = $"Tour Report generated and saved to file:\n{filename}";
             MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -121,9 +121,10 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void ExportTours(object sender)
         {
-            string filename = $"{ConfigurationManager.AppSettings["download_directory"]}Tours\\Tours_Export_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.json";
-            ServiceLocator.GetService<ITourService>().ExportTours(filename);
-            ErrorSingleton.GetInstance.ErrorText = $"All Tours exported and saved to file:\n{filename}";
+            string directory = $"{ConfigurationManager.AppSettings["download_directory"]}Tours\\";
+            string filename = $"Tours_Export_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.json";
+            ServiceLocator.GetService<ITourService>().ExportTours(directory, filename);
+            ErrorSingleton.GetInstance.ErrorText = $"All Tours exported and saved to file:\n{directory}{filename}";
             MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -135,7 +136,7 @@ namespace SWE2_TourPlanner.ViewModels
         public void Update(ISubject subject)
         {
             GetTours();
-            ServiceLocator.GetService<IMapService>().DeleteUnusedMaps(Tours, ConfigurationManager.AppSettings["base_directory"]);
+            ServiceLocator.GetService<IMapService>().DeleteUnusedMaps(Tours);
         }
 
         public void Attach(IObserver observer)

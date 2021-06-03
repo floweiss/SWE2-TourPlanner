@@ -21,7 +21,7 @@ namespace SWE2_TourPlanner.Factory.ViewModel
             AddTourViewModel vm = new AddTourViewModel(log);
             ITourDal tourDal = new TourDal(ConfigurationManager.AppSettings["connection_string"]);
             vm.ServiceLocator.RegisterService<ITourService>(new TourService(tourDal));
-            vm.ServiceLocator.RegisterService<IMapService>(new MapquestService());
+            vm.ServiceLocator.RegisterService<IMapService>(new MapquestService(ConfigurationManager.AppSettings["base_directory"]));
             return vm;
         }
     }

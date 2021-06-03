@@ -9,10 +9,10 @@ namespace SWE2_TourPlanner.Services
 {
     public interface IMapService
     {
-        void CreateMap(Tour tour, string key, string baseDirectory);
+        void CreateMap(Tour tour, string key);
         void CopyMap(Tour tour, Tour copiedTour);
         //void DeleteMap(Tour deletedTour);
-        void DeleteUnusedMaps(List<IElement> currentTours, string baseDirectory);
+        void DeleteUnusedMaps(List<IElement> currentTours);
         List<Maneuver> GetManeuvers(Tour actualTour, string key);
     }
 }

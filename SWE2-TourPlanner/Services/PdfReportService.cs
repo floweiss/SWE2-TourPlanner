@@ -19,9 +19,21 @@ namespace SWE2_TourPlanner.Services
 {
     public class PdfReportService : IReportService
     {
+        private string _baseDirectory;
+        private string _downloadDirectory;
+
+        public PdfReportService(string baseDirectory, string downloadDirectory)
+        {
+            _baseDirectory = baseDirectory;
+            _downloadDirectory = downloadDirectory;
+
+            Directory.CreateDirectory(_baseDirectory);
+            Directory.CreateDirectory(_downloadDirectory);
+        }
+
         public void GenerateTourReport(Tour tour, List<Log> logs, string filename)
         {
-            PdfWriter writer = new PdfWriter(filename);
+            PdfWriter writer = new PdfWriter(_downloadDirectory + filename);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
 
@@ -32,7 +44,7 @@ namespace SWE2_TourPlanner.Services
             document.Add(header);
 
             Image map = new Image(ImageDataFactory
-                    .Create($"{ConfigurationManager.AppSettings["base_directory"]}{tour.Id}.jpg"))
+                    .Create($"{_baseDirectory}{tour.Id}.jpg"))
                 .SetHorizontalAlignment(HorizontalAlignment.CENTER)
                 .SetMarginBottom(15);
             document.Add(map);
@@ -64,7 +76,7 @@ namespace SWE2_TourPlanner.Services
 
         public void GenerateTotalReport(List<Log> logs, string filename)
         {
-            PdfWriter writer = new PdfWriter(filename);
+            PdfWriter writer = new PdfWriter(_downloadDirectory + filename);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
 

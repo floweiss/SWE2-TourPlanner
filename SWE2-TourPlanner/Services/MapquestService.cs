@@ -19,18 +19,21 @@ namespace SWE2_TourPlanner.Services
     public class MapquestService : IMapService
     {
         private WebClient _webClient;
+        private string _baseDirectory;
         private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public MapquestService()
+        public MapquestService(string baseDirectory)
         {
             _webClient = new WebClient();
+            _baseDirectory = baseDirectory;
+            Directory.CreateDirectory(_baseDirectory);
             log4net.Config.XmlConfigurator.Configure();
         }
 
-        public void CreateMap(Tour tour, string key, string baseDirectory)
+        public void CreateMap(Tour tour, string key)
         {
             _webClient.DownloadFile($"https://www.mapquestapi.com/staticmap/v5/map?start={HttpUtility.UrlEncode(tour.Start)}&end={HttpUtility.UrlEncode(tour.End)}&size=800,600&key=" + key,
-                $"{baseDirectory}{tour.Id}.jpg");
+                $"{_baseDirectory}{tour.Id}.jpg");
         }
 
         public void CopyMap(Tour tour, Tour copiedTour)
@@ -43,9 +46,9 @@ namespace SWE2_TourPlanner.Services
             File.Delete($"{ConfigurationManager.AppSettings["base_directory"]}{deletedTour.Id}.jpg");
         }*/
 
-        public void DeleteUnusedMaps(List<IElement> currentTours, string baseDirectoty)
+        public void DeleteUnusedMaps(List<IElement> currentTours)
         {
-            string[] fileNames = Directory.GetFiles(baseDirectoty);
+            string[] fileNames = Directory.GetFiles(_baseDirectory);
             bool deleteFile;
             foreach (string fileName in fileNames)
             {

@@ -120,7 +120,7 @@ namespace SWE2_TourPlanner.ViewModels
                 Notify();
                 ServiceLocator.GetService<ITourService>().EditTour(editedTour);
                 //ServiceLocator.GetService<IMapService>().DeleteMap(editedTour); // mao is deleted afterwards
-                ServiceLocator.GetService<IMapService>().CreateMap(editedTour, ConfigurationManager.AppSettings["mapquest_key"], ConfigurationManager.AppSettings["base_directory"]);
+                ServiceLocator.GetService<IMapService>().CreateMap(editedTour, ConfigurationManager.AppSettings["mapquest_key"]);
                 ((Window) sender).Close();
                 Notify();
             }

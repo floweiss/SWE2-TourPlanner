@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace SWE2_TourPlanner.Factory.ViewModel
         public object CreateViewModel(DependencyObject sender)
         {
             StartTourViewModel vm = new StartTourViewModel();
-            vm.ServiceLocator.RegisterService<IMapService>(new MapquestService());
+            vm.ServiceLocator.RegisterService<IMapService>(new MapquestService(ConfigurationManager.AppSettings["base_directory"]));
             return vm;
         }
     }

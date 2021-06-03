@@ -16,8 +16,8 @@ namespace SWE2_TourPlanner.Test
         private Mock<ITourDal> _tourDalMock;
         private List<IElement> _tourList;
 
-        private string _filename =
-            $"{ConfigurationManager.AppSettings["download_directory"]}{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.json";
+        private string _directory = "C:\\Tourplanner\\Downloads\\Tours\\Test\\";
+        private string _filename = $"{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.json";
 
         [SetUp]
         public void Setup()
@@ -89,9 +89,9 @@ namespace SWE2_TourPlanner.Test
         {
             _tourDalMock.Setup(s => s.GetTours()).Returns(_tourList);
 
-            _tourService.ExportTours(_filename);
+            _tourService.ExportTours(_directory, _filename);
 
-            Assert.True(File.Exists(_filename));
+            Assert.True(File.Exists(_directory + _filename));
         }
     }
 }

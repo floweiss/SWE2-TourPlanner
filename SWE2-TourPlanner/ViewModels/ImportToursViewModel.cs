@@ -64,19 +64,20 @@ namespace SWE2_TourPlanner.ViewModels
             try
             {
                 IsNotImporting = false;
-                List<Tour> importedTours = JsonSerializer.Deserialize<List<Tour>>(_tours);
-                importedTours.ForEach(tour =>
+                List<ImportedTour> importedTours = JsonSerializer.Deserialize<List<ImportedTour>>(_tours);
+                List<Tour> tours = new List<Tour>();
+                importedTours.ForEach(importedTour =>
                 {
-                    if (String.IsNullOrWhiteSpace(tour.Name) || String.IsNullOrWhiteSpace(tour.Description) || String.IsNullOrWhiteSpace(tour.Start) || String.IsNullOrWhiteSpace(tour.End))
+                    if (String.IsNullOrWhiteSpace(importedTour.Name) || String.IsNullOrWhiteSpace(importedTour.Description) || String.IsNullOrWhiteSpace(importedTour.Start) || String.IsNullOrWhiteSpace(importedTour.End))
                     {
                         throw new JsonException();
                     }
-                    tour.Id = Guid.NewGuid();
+                    tours.Add(new Tour(Guid.NewGuid(), importedTour.Name, importedTour.Description, importedTour.Start, importedTour.End, importedTour.Distance));
                 });
-                importedTours.ForEach(tour =>
+                tours.ForEach(tour =>
                 {
                     ServiceLocator.GetService<ITourService>().AddTour(tour);
-                    ServiceLocator.GetService<IMapService>().CreateMap(tour, ConfigurationManager.AppSettings["mapquest_key"], ConfigurationManager.AppSettings["base_directory"]);
+                    ServiceLocator.GetService<IMapService>().CreateMap(tour, ConfigurationManager.AppSettings["mapquest_key"]);
                 });
                 IsNotImporting = true;
                 ((Window)sender).Close();

@@ -13,6 +13,6 @@ namespace SWE2_TourPlanner.Services
         public void AddTour(Tour addedTour);
         public void DeleteTour(Tour deletedTour);
         public void EditTour(Tour editedTour);
-        public void ExportTours(string filename);
+        public void ExportTours(string directory, string filename);
     }
 }

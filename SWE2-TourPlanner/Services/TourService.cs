@@ -54,8 +54,9 @@ namespace SWE2_TourPlanner.Services
             }
         }
 
-        public void ExportTours(string filename)
+        public void ExportTours(string directory, string filename)
         {
+            Directory.CreateDirectory(directory);
             List<Tour> tours = new List<Tour>();
             _tourDal.GetTours().ForEach((tour) =>
             {
@@ -66,7 +67,7 @@ namespace SWE2_TourPlanner.Services
                 WriteIndented = true
             };
             string json = JsonSerializer.Serialize(tours, options);
-            File.WriteAllText(filename, json);
+            File.WriteAllText(directory + filename, json);
         }
     }
 }

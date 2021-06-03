@@ -22,7 +22,7 @@ namespace SWE2_TourPlanner.Factory.ViewModel
             LogListViewModel vm = new LogListViewModel(windowFactoryAdd, windowFactoryDeleteEdit);
             ILogDal logDal = new LogDal(ConfigurationManager.AppSettings["connection_string"]);
             vm.ServiceLocator.RegisterService<ILogService>(new LogService(logDal));
-            vm.ServiceLocator.RegisterService<IReportService>(new PdfReportService());
+            vm.ServiceLocator.RegisterService<IReportService>(new PdfReportService(ConfigurationManager.AppSettings["base_directory"], $"{ConfigurationManager.AppSettings["download_directory"]}Reports\\")); 
             ObserverSingleton.GetInstance.LogObservers.Add(vm);
             ObserverSingleton.GetInstance.TourObservers.Add(vm);
             return vm;
