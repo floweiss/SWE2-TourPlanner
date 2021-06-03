@@ -62,14 +62,7 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("No log chosen");
                 ErrorSingleton.GetInstance.ErrorText = "No Log chosen!";
-                try
-                {
-                    MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception);
-                }
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -89,14 +82,7 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("No log chosen to edit");
                 ErrorSingleton.GetInstance.ErrorText = "No Log chosen!";
-                try
-                {
-                    MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception);
-                }
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (DivideByZeroException e)
             {

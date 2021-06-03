@@ -71,20 +71,6 @@ namespace SWE2_TourPlanner.ViewModels
 
         private void DeleteTour(object sender)
         {
-            /*if (TourSingleton.GetInstance.ActualTour != null && ((Tour)sender).Id == TourSingleton.GetInstance.ActualTour.Id)
-            {
-                *//*TourSingleton.GetInstance.ActualTour = null;
-                ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created
-                Notify();
-                ObserverSingleton.GetInstance.TourObservers.ForEach(Detach);*//*
-                Debug.WriteLine("cant delete actual tour!");
-            }
-            else
-            {
-                ServiceLocator.GetService<ITourService>().DeleteTour((Tour)sender);
-                GetTours();
-                ServiceLocator.GetService<IMapService>().DeleteMap((Tour)sender);
-            }*/
             TourSingleton.GetInstance.EditTour = (Tour)sender;
             TourSingleton.GetInstance.ActualTour = null;
             ObserverSingleton.GetInstance.TourObservers.ForEach(Attach); // attach on the fly because not all observers are created

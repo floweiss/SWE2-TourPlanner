@@ -183,14 +183,7 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("Not all parameters specified");
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Log!";
-                try
-                {
-                    MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception);
-                }
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ArgumentNullException e)
             {
@@ -202,14 +195,7 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("Distance or Time below or equal 0");
                 ErrorSingleton.GetInstance.ErrorText = "The Distance and Total Time must be above 0!";
-                try
-                {
-                    MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception);
-                }
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         public void Attach(IObserver observer)

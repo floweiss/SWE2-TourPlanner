@@ -132,14 +132,7 @@ namespace SWE2_TourPlanner.ViewModels
             {
                 _log.Error("Not all parameters specified");
                 ErrorSingleton.GetInstance.ErrorText = "You need to specify all parameters for the Tour!\nDistance must be more than 0!";
-                try
-                {
-                    MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                catch (NullReferenceException exception)
-                {
-                    Console.WriteLine(exception);
-                }
+                MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
