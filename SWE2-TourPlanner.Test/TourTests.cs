@@ -93,5 +93,14 @@ namespace SWE2_TourPlanner.Test
 
             Assert.True(File.Exists(_directory + _filename));
         }
+
+        [TearDown]
+        public void TearDown()
+        {
+            if (Directory.Exists(_directory))
+            {
+                Directory.Delete(_directory, true);
+            }
+        }
     }
 }

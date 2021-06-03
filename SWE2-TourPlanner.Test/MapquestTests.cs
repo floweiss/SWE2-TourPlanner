@@ -51,5 +51,14 @@ namespace SWE2_TourPlanner.Test
 
             Assert.IsTrue(Directory.GetFiles(_baseDirectory).Length == 0);
         }
+
+        [TearDown]
+        public void TearDown()
+        {
+            if (Directory.Exists(_baseDirectory))
+            {
+                Directory.Delete(_baseDirectory, true);
+            }
+        }
     }
 }
