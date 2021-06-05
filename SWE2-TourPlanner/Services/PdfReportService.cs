@@ -13,6 +13,7 @@ using iText.Kernel.Pdf.Canvas.Draw;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
+using log4net;
 using SWE2_TourPlanner.Models;
 
 namespace SWE2_TourPlanner.Services
@@ -21,6 +22,7 @@ namespace SWE2_TourPlanner.Services
     {
         private string _baseDirectory;
         private string _downloadDirectory;
+        private static readonly ILog _log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public PdfReportService(string baseDirectory, string downloadDirectory)
         {
@@ -29,6 +31,7 @@ namespace SWE2_TourPlanner.Services
 
             Directory.CreateDirectory(_baseDirectory);
             Directory.CreateDirectory(_downloadDirectory);
+            log4net.Config.XmlConfigurator.Configure();
         }
 
         public void GenerateTourReport(Tour tour, List<Log> logs, string filename)
@@ -71,6 +74,7 @@ namespace SWE2_TourPlanner.Services
                 counter++;
             });
 
+            _log.Info("Tour Report generated");
             document.Close();
         }
 
@@ -119,6 +123,7 @@ namespace SWE2_TourPlanner.Services
                 counter++;
             });
 
+            _log.Info("Total Report generated");
             document.Close();
         }
     }

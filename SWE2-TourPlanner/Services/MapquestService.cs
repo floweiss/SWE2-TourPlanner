@@ -34,11 +34,13 @@ namespace SWE2_TourPlanner.Services
         {
             _webClient.DownloadFile($"https://www.mapquestapi.com/staticmap/v5/map?start={HttpUtility.UrlEncode(tour.Start)}&end={HttpUtility.UrlEncode(tour.End)}&size=800,600&key=" + key,
                 $"{_baseDirectory}{tour.Id}.jpg");
+            _log.Info("Map received from Mapquest API");
         }
 
         public void CopyMap(Tour tour, Tour copiedTour)
         {
             File.Copy($"{ConfigurationManager.AppSettings["base_directory"]}{tour.Id}.jpg", $"{ConfigurationManager.AppSettings["base_directory"]}{copiedTour.Id}.jpg");
+            _log.Info("Map copied");
         }
 
         /*public void DeleteMap(Tour deletedTour)
@@ -74,6 +76,7 @@ namespace SWE2_TourPlanner.Services
                     }
                 }
             }
+            _log.Info("Unused maps deleted");
         }
 
         public List<Maneuver> GetManeuvers(Tour actualTour, string key)
@@ -85,7 +88,7 @@ namespace SWE2_TourPlanner.Services
             {
                 maneuvers.Add(new Maneuver(maneuver["iconUrl"].ToString(), maneuver["narrative"].ToString()));
             }
-
+            _log.Info("Maneuvers received from Mapquest API");
             return maneuvers;
         }
     }

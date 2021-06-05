@@ -49,6 +49,7 @@ namespace SWE2_TourPlanner.DAL
                 tours.Add(new Tour(Guid.Parse(rdr.GetString(0)), rdr.GetString(1), rdr.GetString(2), rdr.GetString(3), rdr.GetString(4), rdr.GetDouble(5)));
             }
             rdr.Close();
+            _log.Info("Tours read from DB");
             return tours;
         }
 
@@ -78,6 +79,7 @@ namespace SWE2_TourPlanner.DAL
                     cmd.Prepare();
                     cmd.ExecuteNonQuery();
                 }
+                _log.Info("Tour created on DB");
             }
             catch (InvalidOperationException e)
             {
@@ -114,6 +116,7 @@ namespace SWE2_TourPlanner.DAL
                     cmd.Prepare();
                     cmd.ExecuteNonQuery();
                 }
+                _log.Info("Tour deleted from DB");
             }
             catch (InvalidOperationException e)
             {
@@ -147,6 +150,7 @@ namespace SWE2_TourPlanner.DAL
                     cmd.Prepare();
                     cmd.ExecuteNonQuery();
                 }
+                _log.Info("Tour edited on DB");
             }
             catch (InvalidOperationException e)
             {

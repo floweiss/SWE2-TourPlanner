@@ -76,6 +76,7 @@ namespace SWE2_TourPlanner.DAL
                     rdr.GetDouble(7), rdr.GetDouble(8), rating));
             }
             rdr.Close();
+            _log.Info("Logs read from DB");
             return logs;
         }
 
@@ -114,6 +115,7 @@ namespace SWE2_TourPlanner.DAL
                 }
             }
             rdr.Close();
+            _log.Info("Logs read for one Tour from DB");
             return logs;
         }
 
@@ -168,6 +170,7 @@ namespace SWE2_TourPlanner.DAL
                 }
             }
             rdr.Close();
+            _log.Info("Log by ID read from DB");
             return log;
         }
 
@@ -202,6 +205,7 @@ namespace SWE2_TourPlanner.DAL
                     cmd.Prepare();
                     cmd.ExecuteNonQuery();
                 }
+                _log.Info("Log created on DB");
             }
             catch (InvalidOperationException e)
             {
@@ -230,6 +234,7 @@ namespace SWE2_TourPlanner.DAL
                     cmd.Prepare();
                     cmd.ExecuteNonQuery();
                 }
+                _log.Info("Log deleted from DB");
             }
             catch (InvalidOperationException e)
             {
@@ -268,6 +273,7 @@ namespace SWE2_TourPlanner.DAL
                     cmd.Prepare();
                     cmd.ExecuteNonQuery();
                 }
+                _log.Info("Log edited on DB");
             }
             catch (InvalidOperationException e)
             {
