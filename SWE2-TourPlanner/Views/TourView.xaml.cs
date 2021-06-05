@@ -18,7 +18,7 @@ namespace SWE2_TourPlanner.Views
     /// <summary>
     /// Interaction logic for TourView.xaml
     /// </summary>
-    public partial class TourView : Page
+    public partial class TourView : UserControl
     {
         public TourView()
         {

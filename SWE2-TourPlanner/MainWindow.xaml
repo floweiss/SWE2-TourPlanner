@@ -18,40 +18,26 @@
             <RowDefinition Height="10*"></RowDefinition>
             <RowDefinition Height="10*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Frame
+        
+
+        <views:SearchView
             Grid.Column="0"
             Grid.Row="0"
-            Grid.ColumnSpan="3">
-            <Frame.Content>
-                <views:SearchView />
-            </Frame.Content>
-        </Frame>
+            Grid.ColumnSpan="3"></views:SearchView>
 
-        <Frame
+        <views:TourListView
             Grid.Column="0"
             Grid.Row="1"
-            Grid.RowSpan="2">
-            <Frame.Content>
-                <views:TourListView />
-            </Frame.Content>
-        </Frame>
+            Grid.RowSpan="2"></views:TourListView>
 
-        <Frame
+        <views:TourView
             Grid.Row="1"
             Grid.Column="1"
-            Grid.ColumnSpan="2">
-            <Frame.Content>
-                <views:TourView />
-            </Frame.Content>
-        </Frame>
+            Grid.ColumnSpan="2"></views:TourView>
 
-        <Frame
+        <views:LogListView
             Grid.Row="2"
             Grid.Column="1"
-            Grid.ColumnSpan="2">
-            <Frame.Content>
-                <views:LogListView />
-            </Frame.Content>
-        </Frame>
+            Grid.ColumnSpan="2"></views:LogListView>
     </Grid>
 </Window>

@@ -1,14 +1,13 @@
-﻿<Page x:Class="SWE2_TourPlanner.Views.TourListView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:SWE2_TourPlanner.Views"
-      xmlns:factory="clr-namespace:SWE2_TourPlanner.Factory.ViewModel"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="TourListView"
-      factory:ViewModelCreator.FactoryType="{x:Type factory:TourListViewModelFactory}">
+﻿<UserControl x:Class="SWE2_TourPlanner.Views.TourListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SWE2_TourPlanner.Views"
+             xmlns:factory="clr-namespace:SWE2_TourPlanner.Factory.ViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             factory:ViewModelCreator.FactoryType="{x:Type factory:TourListViewModelFactory}">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -29,37 +28,22 @@
 
         <Button Grid.Column="1" Grid.Row="0"
                 Command="{Binding Path=DataContext.AddTourCommand, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                 CommandParameter="{Binding .}">New Tour</Button>
-
-        <!--<Button Grid.Column="2" Grid.Row="0"
-                Command="{Binding Path=DataContext.DeleteTourCommand, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
-                CommandParameter="{Binding .}">-</Button>-->
-
-        <!--<Button Grid.Column="2" Grid.Row="0"
-                Command="{Binding Path=DataContext.TotalReportCommand, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
-                CommandParameter="{Binding .}">Total Report</Button>-->
 
         <Button Grid.Column="2" Grid.Row="0"
                 Command="{Binding Path=DataContext.ExportCommand, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                 CommandParameter="{Binding .}">Export</Button>
 
         <Button Grid.Column="3" Grid.Row="0"
                 Command="{Binding Path=DataContext.ImportCommand, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                 CommandParameter="{Binding .}">Import</Button>
 
         <ListView Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1"
                   HorizontalContentAlignment="Stretch"
                   ItemsSource="{Binding Tours}">
-            <!--<ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=Name}"></GridViewColumn>
-                </GridView>
-            </ListView.View>-->
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -74,23 +58,23 @@
 
                         <Label Grid.Column="0" Content="{Binding Path=Name}"></Label>
                         <Button Grid.Column="1" Command="{Binding Path=DataContext.EditTourCommand, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                 CommandParameter="{Binding .}">Edit</Button>
                         <Button Grid.Column="2" Command="{Binding Path=DataContext.DeleteTourCommand, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                 CommandParameter="{Binding .}">Delete</Button>
                         <Button Grid.Column="3" Command="{Binding Path=DataContext.ShowTourCommand, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                 CommandParameter="{Binding .}">Show</Button>
                         <Button Grid.Column="4" Command="{Binding Path=DataContext.CopyTourCommand, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                 CommandParameter="{Binding .}">Copy</Button>
                         <Button Grid.Column="5" Command="{Binding Path=DataContext.ReportTourCommand, 
-                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Page}}}"
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
                                 CommandParameter="{Binding .}">Report</Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
     </Grid>
-</Page>
+</UserControl>

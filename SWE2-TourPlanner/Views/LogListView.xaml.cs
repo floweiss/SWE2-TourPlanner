@@ -18,7 +18,7 @@ namespace SWE2_TourPlanner.Views
     /// <summary>
     /// Interaction logic for LogListView.xaml
     /// </summary>
-    public partial class LogListView : Page
+    public partial class LogListView : UserControl
     {
         public LogListView()
         {
