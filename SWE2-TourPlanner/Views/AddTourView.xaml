@@ -62,7 +62,7 @@
         <Label
             Grid.Row="4"
             Grid.Column="0"
-            VerticalAlignment="Center">Distance</Label>
+            VerticalAlignment="Center">Distance (km)</Label>
         <TextBox
             Grid.Row="4"
             Grid.Column="1"

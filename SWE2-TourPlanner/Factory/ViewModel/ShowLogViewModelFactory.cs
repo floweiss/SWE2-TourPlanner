@@ -12,12 +12,11 @@ using SWE2_TourPlanner.ViewModels;
 
 namespace SWE2_TourPlanner.Factory.ViewModel
 {
-    public class SearchResultViewModelFactory : IViewModelFactory
+    class ShowLogViewModelFactory : IViewModelFactory
     {
         public object CreateViewModel(DependencyObject sender)
         {
-            IWindowFactory windowFactoryLog = new ShowLogWindowFactory();
-            SearchResultViewModel vm = new SearchResultViewModel(windowFactoryLog);
+            ShowLogViewModel vm = new ShowLogViewModel();
             return vm;
         }
     }

@@ -88,7 +88,7 @@
         <Label
             Grid.Row="6"
             Grid.Column="0"
-            VerticalAlignment="Center">Distance</Label>
+            VerticalAlignment="Center">Distance (km)</Label>
         <TextBox
             Grid.Row="6"
             Grid.Column="1"
@@ -97,7 +97,7 @@
         <Label
             Grid.Row="7"
             Grid.Column="0"
-            VerticalAlignment="Center">Total Time</Label>
+            VerticalAlignment="Center">Total Time (h)</Label>
         <TextBox
             Grid.Row="7"
             Grid.Column="1"

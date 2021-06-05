@@ -31,6 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Views\ShowLogView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\EditLogView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
