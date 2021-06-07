@@ -67,7 +67,7 @@ namespace SWE2_TourPlanner.ViewModels
             ServiceLocator.GetService<ILogService>().GetLogs().ForEach((element) => logs.Add((Log)element));
             string filename = $"TotalReport_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.pdf";
             ServiceLocator.GetService<IReportService>().GenerateTotalReport(logs, filename);
-            ErrorSingleton.GetInstance.ErrorText = $"Total Report generated and saved to file:\n{filename}";
+            ErrorSingleton.GetInstance.ErrorText = $"Total Report generated and saved to file:\n{ConfigurationManager.AppSettings["download_directory"]}Reports\\{filename}";
             MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 

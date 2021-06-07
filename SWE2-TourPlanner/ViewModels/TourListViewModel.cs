@@ -115,7 +115,7 @@ namespace SWE2_TourPlanner.ViewModels
             List<Log> logs = ServiceLocator.GetService<ILogService>().GetLogsForTour((Tour) sender);
             string filename = $"{Regex.Replace(((Tour)sender).Name, @"\s+", "")}_Report_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.pdf";
             ServiceLocator.GetService<IReportService>().GenerateTourReport((Tour)sender, logs, filename);
-            ErrorSingleton.GetInstance.ErrorText = $"Tour Report generated and saved to file:\n{filename}";
+            ErrorSingleton.GetInstance.ErrorText = $"Tour Report generated and saved to file:\n{ConfigurationManager.AppSettings["download_directory"]}Reports\\{filename}";
             MessageBox.Show(ErrorSingleton.GetInstance.ErrorText, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
